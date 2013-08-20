@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    package="in.co.hopin"
+    android:versionCode="13"
+    android:versionName="Hopin 2.0"   >
+    
+     <uses-sdk android:minSdkVersion="8" 
+          android:targetSdkVersion="11"
+           />
+     
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>   
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+	<uses-permission android:name="android.permission.READ_LOGS"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+     
+    <permission android:name="in.co.hopin.permission.C2D_MESSAGE"
+                android:protectionLevel="signature" />
+    <uses-permission android:name="in.co.hopin.permission.C2D_MESSAGE" />
+   <application
+        android:icon="@drawable/launchernew"
+        android:label="@string/app_name"
+        android:name="in.co.hopin.Activities.StrangerBuddy"
+        android:debuggable="false"
+        android:theme="@style/Theme.HopinTheme"
+        android:screenOrientation="portrait"
+         >
+         
+        <uses-library android:name="com.google.android.maps" />
+              
+       	<service android:name="in.co.hopin.ChatService.SBChatService" 
+			android:label="SB Chat Service">
+			  <intent-filter>
+				<action android:name="in.co.hopin.ChatService.SBChatService"></action>
+			</intent-filter>
+		</service>
+      
+        <service android:name="in.co.hopin.gcm.GCMService"
+                    android:label="GCM Service">
+            <intent-filter>
+                <action android:name="in.co.hopin.gcm.GCMService"></action>
+            </intent-filter>
+        </service>
+       
+        <activity
+            android:name="in.co.hopin.Activities.StartStrangerBuddyActivity" 
+            android:theme="@android:style/Theme.NoTitleBar" >
+              <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="in.co.hopin.Activities.Tutorial" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
+			  
+        </activity>
+        
+        <activity android:name="in.co.hopin.Activities.ReloginActivity" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
+			  
+        </activity>
+        
+        <activity android:name="in.co.hopin.Activities.OtherUserProfileActivityNew" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
+			  
+        </activity>
+        
+         <activity android:name="in.co.hopin.Activities.SelfProfileActivity" 
+             android:theme="@android:style/Theme.NoTitleBar" 
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+             >
+        </activity>
+         
+        <activity android:name="in.co.hopin.Activities.SettingsActivity" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:screenOrientation="portrait" 
+            android:launchMode="singleTop">
+              
+        </activity>
+
+       <activity android:name="in.co.hopin.Activities.MyRequestsActivity"
+                 android:theme="@android:style/Theme.NoTitleBar"
+                 android:screenOrientation="portrait"
+                 android:launchMode="singleTop">
+
+       </activity>
+
+       <activity android:name="in.co.hopin.Activities.BlockedUsersActivity"
+                 android:theme="@android:style/Theme.NoTitleBar"
+                 android:screenOrientation="portrait"
+                 android:launchMode="singleTop" />
+              
+        <activity android:name="in.co.hopin.Activities.MapListViewTabActivity"
+            android:screenOrientation="portrait"
+             android:launchMode="singleTop" >
+            <meta-data android:name="android.app.default_searchable"
+                       android:value=".Activities.SearchableActivity" />
+            
+        </activity>
+      
+        
+        <activity android:name="in.co.hopin.ChatClient.ChatWindow"            
+            android:screenOrientation="portrait" 
+            android:launchMode="singleTask" >   
+          </activity>  
+        
+        <activity android:name="in.co.hopin.Activities.NewUserDialogActivity" 
+            android:theme="@android:style/Theme.Dialog" 
+            android:screenOrientation="portrait" 
+             >
+        </activity>
+        
+         <activity android:name="in.co.hopin.Activities.FeedbackActivity" 
+            android:theme="@android:style/Theme.Dialog" 
+            android:screenOrientation="portrait" 
+             >
+        </activity>
+        
+                 
+        
+           <activity android:name="in.co.hopin.Activities.SearchInputActivityNew" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" 
+            >            
+        </activity>        
+        
+     
+        
+           
+        <activity android:name="in.co.hopin.Activities.MyChatsActivity" 
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" 
+            >            
+        </activity>
+       
+        <activity android:name="in.co.hopin.Activities.SwipeTutorialActivity" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" 
+            >            
+        </activity>    
+
+       <provider
+           android:name="in.co.hopin.provider.HistoryContentProvider"
+           android:authorities="in.co.hopin.provider.HistoryContentProvider" />
+
+       <provider
+               android:name="in.co.hopin.provider.BlockedUsersProvider"
+               android:authorities="in.co.hopin.provider.BlockedUsersProvider" />
+
+       <provider
+               android:name="in.co.hopin.provider.ChatHistoryProvider"
+               android:authorities="in.co.hopin.provider.ChatHistoryProvider" />
+
+       <provider
+               android:name="in.co.hopin.provider.ActiveChatProvider"
+               android:authorities="in.co.hopin.provider.ActiveChatProvider" />
+
+       <provider
+                android:name="in.co.hopin.provider.EventsLoggingProvider"
+                android:authorities="in.co.hopin.provider.EventsLoggingProvider" />
+
+        <receiver android:name="in.co.hopin.LocationHelpers.LocationUpdaterFromIntent"
+            android:exported="false">
+             </receiver> 
+             
+         <!-- Declaring broadcast receiver for BOOT_COMPLETED event -->
+        <receiver android:name="in.co.hopin.Platform.SBGlobalBroadcastReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+                android:name="in.co.hopin.gcm.GCMBroadcastReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+
+       <receiver android:name="in.co.hopin.service.OnAlarmReceiver" >
+       </receiver>
+
+       <service android:name="in.co.hopin.service.UploadEventService" >
+       </service>
+         
+    </application>
+    
+
+
+</manifest>
