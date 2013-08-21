@@ -5,7 +5,7 @@
     android:versionCode="13"
     android:versionName="Hopin 2.0"   >
     
-     <uses-sdk android:minSdkVersion="8" 
+     <uses-sdk android:minSdkVersion="9" 
           android:targetSdkVersion="11"
            />
      
