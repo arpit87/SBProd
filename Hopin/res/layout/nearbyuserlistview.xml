@@ -20,7 +20,8 @@
         android:layout_height="40dip"
         android:layout_marginLeft="5dip" 
         android:layout_centerVertical="true"         
-        android:scaleType="fitXY"        
+        android:scaleType="fitXY"  
+        android:src="@drawable/userpicicon"      
          />
   
     <ImageView

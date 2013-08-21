@@ -306,7 +306,7 @@
             android:paddingRight="10dip"
             android:textColor="@color/black"
           
-            android:text="*To prevent spurious requests, hopin logs on server only one daily carpool and one insta request at a time (most recent ones)" />
+            android:text="*To prevent spurious requests Hopin allows only one daily carpool and one insta request per user(most recent ones)" />
     </LinearLayout>
     
 
