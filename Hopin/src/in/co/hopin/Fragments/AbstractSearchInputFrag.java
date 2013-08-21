@@ -69,7 +69,6 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	private static final String TAG = "in.co.hopin.Activities.AbstractSearchInputFragment";
 	private static final int MAX_HISTORY_COUNT = 10;
 	private static Uri mHistoryUri = Uri.parse("content://" + HistoryContentProvider.AUTHORITY + "/history");
-	private static final int MAX_TRIES = 5;
 	private static final String GOOGLE_PLACES_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
 	private static final String API_KEY = "AIzaSyAbahSqDp47FsP_U60bwXdknL_cAUgalrw";
 
@@ -166,6 +165,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 		                 source.setSelection(0);
 		                 source.clearFocus();
 		                 sourceSet = true;
+		                 HopinTracker.sendEvent("SearchUsers","AutoCompleteClick","searchusers:"+planInstaStr+":click:source:autocompleteselect",1L);
 	                } 
 	                 else 
 	                {
@@ -191,6 +191,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	                 destination.setSelection(0);
 	                 destination.clearFocus();
 	                 destinationSet = true;
+	                 HopinTracker.sendEvent("SearchUsers","AutoCompleteClick","searchusers:"+planInstaStr+":click:destination:autocompleteselect",1L);
                 } else 
                 {
                 	destination.setText("");
@@ -397,8 +398,6 @@ public abstract class AbstractSearchInputFrag extends Fragment{
     	String mAddress = "";
     	AutoCompleteTextView mThisTextView;
     	boolean mIsSource = false;
-    	ProgressBar mThisProgressBar = null;
-    	
     	FetchAddressSuggestionsAndShowPopup(AutoCompleteTextView thisTextView,boolean isSource)
     	{
     		super();

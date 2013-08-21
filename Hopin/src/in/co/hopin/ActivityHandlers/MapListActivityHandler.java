@@ -1,5 +1,41 @@
 package in.co.hopin.ActivityHandlers;
 
+import in.co.hopin.R;
+import in.co.hopin.Activities.MapListViewTabActivity;
+import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
+import in.co.hopin.CustomViewsAndListeners.SBMapView;
+import in.co.hopin.Fragments.SBListFragment;
+import in.co.hopin.Fragments.SBMapFragment;
+import in.co.hopin.HelperClasses.BroadCastConstants;
+import in.co.hopin.HelperClasses.CommunicationHelper;
+import in.co.hopin.HelperClasses.ProgressHandler;
+import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.LocationHelpers.SBGeoPoint;
+import in.co.hopin.LocationHelpers.SBLocationManager;
+import in.co.hopin.MapHelpers.BaseItemizedOverlay;
+import in.co.hopin.MapHelpers.GourpedNearbyUsersIteamizedOverlay;
+import in.co.hopin.MapHelpers.NearbyUsersItemizedOverlay;
+import in.co.hopin.MapHelpers.ThisUserItemizedOverlay;
+import in.co.hopin.Platform.Platform;
+import in.co.hopin.Users.CurrentNearbyUsers;
+import in.co.hopin.Users.NearbyUser;
+import in.co.hopin.Users.NearbyUserGroup;
+import in.co.hopin.Users.ThisUserNew;
+import in.co.hopin.Users.UserAttributes;
+import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -10,43 +46,14 @@ import android.graphics.Point;
 import android.location.Location;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
-import in.co.hopin.R;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import in.co.hopin.Activities.MapListViewTabActivity;
-import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
-import in.co.hopin.CustomViewsAndListeners.SBMapView;
-import in.co.hopin.Fragments.FBLoginDialogFragment;
-import in.co.hopin.Fragments.SBListFragment;
-import in.co.hopin.Fragments.SBMapFragment;
-import in.co.hopin.HelperClasses.*;
-import in.co.hopin.LocationHelpers.SBGeoPoint;
-import in.co.hopin.LocationHelpers.SBLocationManager;
-import in.co.hopin.MapHelpers.BaseItemizedOverlay;
-import in.co.hopin.MapHelpers.GourpedNearbyUsersIteamizedOverlay;
-import in.co.hopin.MapHelpers.NearbyUsersItemizedOverlay;
-import in.co.hopin.MapHelpers.ThisUserItemizedOverlay;
-import in.co.hopin.Platform.Platform;
-import in.co.hopin.Users.*;
-import in.co.hopin.Util.HopinTracker;
-import in.co.hopin.Util.StringUtils;
-
-import java.util.*;
 
 public class MapListActivityHandler  extends BroadcastReceiver{
 	
@@ -62,7 +69,6 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 	private ProgressDialog progressDialog;
 	AlertDialog alertDialog ;	
 	private boolean mapInitialized = false;
-	private SBMapFragment mapFrag;
 	private SBListFragment listFrag;	
 	ViewGroup mListViewContainer;	
 	ImageView mListImageView;
@@ -103,7 +109,6 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 	}
 	
 	public void setMapFrag(SBMapFragment mapFrag) {
-		this.mapFrag = mapFrag;
 	}
 
 	private MapListActivityHandler(){super();}	

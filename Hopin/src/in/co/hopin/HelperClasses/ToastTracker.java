@@ -2,7 +2,6 @@ package in.co.hopin.HelperClasses;
 
 import in.co.hopin.Platform.Platform;
 import android.content.Context;
-import android.os.Handler;
 import android.widget.Toast;
 
 public class ToastTracker {	

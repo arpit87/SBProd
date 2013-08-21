@@ -1,16 +1,12 @@
 package in.co.hopin.MapHelpers;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.Adapter.GridViewImageAdapter;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.SBImageLoader;
-import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.LocationHelpers.SBGeoPoint;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.NearbyUser;
@@ -18,11 +14,12 @@ import in.co.hopin.Users.NearbyUserGroup;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,11 +29,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -48,7 +42,7 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 
 	protected SBMapView mMapView = null;
 	private static Context context =MapListActivityHandler.getInstance().getUnderlyingActivity();
-	protected static LayoutInflater mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+	protected static LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	private View viewOnMarkerSmall = null; 
 	private View viewOnMarkerExpanded = null;	
 	private View viewOnMarkerIndividualExpanded = null;	
@@ -110,7 +104,7 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 				@Override
 				public boolean onTouch(View arg0, MotionEvent arg1) {
 					String grpSize = Integer.toString(mUserGroup.mUsersListInGroup.size());
-					Map trackArgMap = new HashMap<String,Object>();
+					Map<String, Object> trackArgMap = new HashMap<String,Object>();
 				    trackArgMap.put(HopinTracker.GRPSIZE, grpSize);					    
 					HopinTracker.sendEvent("Map","ButtonClick","map:click:thumbnail:group",1L,trackArgMap);
 					removeSmallView();
@@ -185,9 +179,6 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 		if(viewOnMarkerIndividualExpanded!=null)
 		{
             boolean isOtherUserFbInfoAvailable = n.getUserFBInfo().FBInfoAvailable();
-            //boolean isOtherUserPhoneAvailable = n.getUserFBInfo().isPhoneAvailable();
-            boolean isThisUserFbLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN);
-
             if (!(isOtherUserFbInfoAvailable)){
                 if (chatIconImgSrc != R.drawable.chat_icon_blue_disabled) {
                     chatIcon.setImageResource(R.drawable.chat_icon_blue_disabled);
@@ -279,7 +270,7 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 				public void onClick(View view) {
 					String fbid = n.getUserFBInfo().getFbid();
 					String fbusername = n.getUserFBInfo().getFBUsername();
-					Map trackArgMap = new HashMap<String,Object>();
+					Map<String, Object> trackArgMap = new HashMap<String,Object>();
 				    trackArgMap.put(HopinTracker.FBID, fbid);	
 				    trackArgMap.put(HopinTracker.FBID, fbusername);
 					HopinTracker.sendEvent("Map","MapMiniProfile","mapminiprofile:fbprofile",1L,trackArgMap);

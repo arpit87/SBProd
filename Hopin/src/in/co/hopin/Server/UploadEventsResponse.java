@@ -1,8 +1,8 @@
 package in.co.hopin.Server;
 
 import in.co.hopin.HelperClasses.Event;
-import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
+
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
 import org.json.JSONObject;

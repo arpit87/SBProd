@@ -8,7 +8,6 @@ import java.util.Date;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 
 public class StringUtils {	
 	

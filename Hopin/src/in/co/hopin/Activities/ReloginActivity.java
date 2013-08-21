@@ -11,8 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 public class ReloginActivity extends Activity {
 	
 	FacebookConnector fbconnect;

@@ -1,7 +1,6 @@
 package in.co.hopin.ChatClient;
 
 import in.co.hopin.R;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,8 +18,7 @@ public class SBChatBroadcastReceiver extends BroadcastReceiver{
 	   
 	    @Override
 	    public void onReceive(final Context context, final Intent intent) {
-	    	ChatWindow thisChatWindow = (ChatWindow)context;
-		String intentAction = intent.getAction();
+	    	String intentAction = intent.getAction();
 		if (intentAction.equals(SBCHAT_CONNECTION_CLOSED)) {
 		    CharSequence message = intent.getCharSequenceExtra("message");
 		    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

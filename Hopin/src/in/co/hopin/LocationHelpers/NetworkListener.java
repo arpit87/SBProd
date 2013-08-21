@@ -1,7 +1,6 @@
 package in.co.hopin.LocationHelpers;
 
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
-import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.ThisUserNew;
 import android.location.Location;

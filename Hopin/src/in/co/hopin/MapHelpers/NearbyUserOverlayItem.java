@@ -1,8 +1,5 @@
 package in.co.hopin.MapHelpers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
@@ -15,6 +12,10 @@ import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
@@ -39,7 +40,7 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 
 	protected SBMapView mMapView = null;
 	private static Context context =MapListActivityHandler.getInstance().getUnderlyingActivity();
-	protected static LayoutInflater mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+	protected static LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	private View viewOnMarkerSmall = null; 
 	private View viewOnMarkerExpanded = null;	
 	private TextView expandedBalloonHeader = null;
@@ -63,8 +64,6 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 	private ScrollView fbInfoScrollView = null;
     
     private int chatIconImgSrc;
-  //private int smsIconImgSrc;
-    private int hopinIconImgSrc;
     private int facebookIconImgSrc;
 		
 	public NearbyUserOverlayItem(NearbyUser user ,SBMapView mapView) {
@@ -209,8 +208,6 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 			buttonClose = (ImageView)viewOnMarkerExpanded.findViewById(R.id.button_close_balloon_expandedview);
 			
             chatIconImgSrc = R.drawable.chat_icon_blue_selector;
-            //smsIconImgSrc = R.drawable.sms_icon;
-            hopinIconImgSrc = R.drawable.launchernewmedium;
             facebookIconImgSrc = R.drawable.fb_icon_selector;
 
 			if(!StringUtils.isBlank(mUserFBName))
@@ -228,7 +225,6 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 				facebookIcon.invalidate();
 
                 chatIconImgSrc = R.drawable.chat_icon_blue_disabled;
-                hopinIconImgSrc = R.drawable.launchernewmedium_disabled;
                 facebookIconImgSrc = R.drawable.fb_icon_disabled;
             }
 			
@@ -369,9 +365,6 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 		if(viewOnMarkerExpanded!=null)
 		{
             boolean isOtherUserFbInfoAvailable = mUserFBInfo.FBInfoAvailable();
-            //boolean isOtherUserPhoneAvailable = mNearbyUser.getUserFBInfo().isPhoneAvailable();
-            boolean isThisUserFbLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN);
-
             if (!(isOtherUserFbInfoAvailable/* && isThisUserFbLoggedIn*/)){
                 if (chatIconImgSrc != R.drawable.chat_icon_blue_disabled) {
                     chatIcon.setImageResource(R.drawable.chat_icon_blue_disabled);
@@ -425,7 +418,7 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 	{		
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {		
-			Map trackArgMap = new HashMap<String,Object>();
+			Map<String, Object> trackArgMap = new HashMap<String,Object>();
 		    trackArgMap.put(HopinTracker.OTHERUSERFBID, mUserFBID);
 		    trackArgMap.put(HopinTracker.OTHERUSERID, mUserID);
 			HopinTracker.sendEvent("Map","ButtonClick","map:click:thumbnail:other_user", 1L, trackArgMap);

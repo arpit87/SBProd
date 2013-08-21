@@ -1,6 +1,5 @@
 package in.co.hopin.HelperClasses;
 
-import android.content.Intent;
 
 public class Constants {	
 	public static final double EARTHRADIUS = 6371000;

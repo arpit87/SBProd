@@ -1,27 +1,31 @@
 package in.co.hopin.ChatService;
 
-import android.os.RemoteCallbackList;
-import android.os.RemoteException;
-import android.util.Log;
 import in.co.hopin.ChatClient.IMessageListener;
 import in.co.hopin.ChatClient.SBChatMessage;
 import in.co.hopin.HelperClasses.BlockedUser;
 import in.co.hopin.HelperClasses.ChatHistory;
-import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.HelperClasses.ToastTracker;
-import in.co.hopin.HttpClient.GetNewUserInfoAndShowPopupRequest;
-import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeSet;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 
-import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+import android.util.Log;
 
 /***
  * There is a chatAdapter for every chat which stores a list of all chat msgs

@@ -5,9 +5,6 @@ package in.co.hopin.ChatService;
 import in.co.hopin.ChatClient.SBChatMessage;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Util.StringUtils;
-
-import org.jivesoftware.smack.packet.XMPPError;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,7 +13,7 @@ import android.os.Parcelable;
 //getParticipant gives name widout ip
 public class Message implements Parcelable {
 
-	private static String TAG = "in.co.hopin.ChatService.Message";
+	//private static String TAG = "in.co.hopin.ChatService.Message";
 /** Normal message type. Theese messages are like an email, with subject. */
 public static final int MSG_TYPE_NORMAL = 100;
 

@@ -102,14 +102,14 @@ public abstract class ServerResponseBase {
 	
 	protected void logSuccess()
 	{
-		Map trackArgMap = new HashMap<String,Object>();
+		Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(HopinTracker.APIRESPONSETIME, getResponseTimeMilli());
 		HopinTracker.sendEvent("ServerResponse",getRESTAPI(),"ServerResponse:"+getRESTAPI()+":success",1L,trackArgMap);
 	}
 	
 	protected void logSuccessWithArg(String label,String value)
 	{
-		Map trackArgMap = new HashMap<String,Object>();
+		Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(HopinTracker.APIRESPONSETIME, getResponseTimeMilli());
 	    trackArgMap.put(label, value);
 		HopinTracker.sendEvent("ServerResponse",getRESTAPI(),"ServerResponse:"+getRESTAPI()+":success",1L,trackArgMap);
@@ -117,7 +117,7 @@ public abstract class ServerResponseBase {
 	
 	protected void logServererror()
 	{
-		Map trackArgMap = new HashMap<String,Object>();
+		Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(HopinTracker.APIRESPONSETIME, getResponseTimeMilli());
 		HopinTracker.sendEvent("ServerResponse",getRESTAPI(),"ServerResponse:"+getRESTAPI()+":servererror",1L,trackArgMap);
 	}

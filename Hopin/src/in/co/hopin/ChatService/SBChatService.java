@@ -1,6 +1,32 @@
 package in.co.hopin.ChatService;
 
-import android.app.*;
+import in.co.hopin.R;
+import in.co.hopin.ChatClient.ChatWindow;
+import in.co.hopin.HelperClasses.SBConnectivity;
+import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.Platform.Platform;
+import in.co.hopin.Server.ServerConstants;
+import in.co.hopin.Util.Logger;
+
+import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.Roster.SubscriptionMode;
+import org.jivesoftware.smack.SASLAuthentication;
+import org.jivesoftware.smack.SmackConfiguration;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smackx.ServiceDiscoveryManager;
+import org.jivesoftware.smackx.ping.PingManager;
+
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,33 +36,12 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
-import in.co.hopin.ChatClient.ChatWindow;
-import in.co.hopin.HelperClasses.BroadCastConstants;
-import in.co.hopin.HelperClasses.SBConnectivity;
-import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.Platform.Platform;
-import in.co.hopin.R;
-import in.co.hopin.Server.ServerConstants;
-import in.co.hopin.Users.CurrentNearbyUsers;
-import in.co.hopin.Users.NearbyUser;
-import in.co.hopin.Util.Logger;
-import org.jivesoftware.smack.*;
-import org.jivesoftware.smack.Roster.SubscriptionMode;
-import org.jivesoftware.smackx.ServiceDiscoveryManager;
-import org.jivesoftware.smackx.ping.PingManager;
-
-import java.io.File;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SBChatService extends Service {
 
     private static String TAG = "in.co.hopin.ChatService.SBChatService";
-    private static final String INTENT_ACTION = "in.co.hopin.ChatService.ConnectivityMonitor";
     private static final int POLL_FREQ = 2 * 60 * 1000;
     private XMPPConnection mXMPPConnection = null;
     NotificationManager mNotificationManager = null;

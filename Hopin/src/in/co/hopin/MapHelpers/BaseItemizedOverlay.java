@@ -1,10 +1,6 @@
 package in.co.hopin.MapHelpers;
 
-import in.co.hopin.Users.NearbyUser;
-
 import java.util.List;
-
-
 
 import android.graphics.drawable.Drawable;
 

@@ -1,28 +1,27 @@
 package in.co.hopin.ChatClient;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import in.co.hopin.R;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 
 
 public class SBChatListViewAdapter extends BaseAdapter {
 
-	private static String TAG = "in.co.hopin.ChatClient.SBChatListViewAdapter";
+	//private static String TAG = "in.co.hopin.ChatClient.SBChatListViewAdapter";
 	List<SBChatMessage> mListMessages = new ArrayList<SBChatMessage>();
 	HashMap<Long,SBChatMessage> mHashMapSentNotDeliveredMsgs = new HashMap<Long,SBChatMessage>();
 	String participantFBURL = "";

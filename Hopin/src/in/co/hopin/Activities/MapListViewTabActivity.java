@@ -2,7 +2,6 @@ package in.co.hopin.Activities;
 
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
-import in.co.hopin.CustomViewsAndListeners.SBMapView;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.Fragments.ShowActiveReqPrompt;
@@ -18,21 +17,18 @@ import in.co.hopin.Users.CurrentNearbyUsers;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -45,7 +41,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class MapListViewTabActivity extends SherlockFragmentActivity {
 	//public View mMapViewContainer;
 	
-	private static final String TAG = "in.co.hopin.Activities.MapListViewTabActivity";
+	//private static final String TAG = "in.co.hopin.Activities.MapListViewTabActivity";
 	
 	MapListActivityHandler mapListActivityHandler = MapListActivityHandler.getInstance();	
 	
@@ -104,18 +100,19 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     @Override
     public void onStart(){
         super.onStart();
+        EasyTracker.getTracker().setStartSession(true);
         //EasyTracker.getInstance().activityStart(this);
     }
 
-    private void checkIfGPSIsEnabled() {
+    /*private void checkIfGPSIsEnabled() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         }
-    }
+    }*/
 
-    private void buildAlertMessageNoGps() {
+   /* private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
                 .setCancelable(false)
@@ -131,7 +128,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
-    }
+    }*/
     
     private void buildOnExitAlertDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,19 +203,21 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	mapListActivityHandler.clearAllData();  
     	ThisUserNew.clearAllData();
     	CurrentNearbyUsers.getInstance().clearAllData();    	  
-        int count = ThisAppConfig.getInstance().getInt(ThisAppConfig.APPOPENCOUNT);     	
+        int count = ThisAppConfig.getInstance().getInt(ThisAppConfig.APPOPENCOUNT); 
+        Map<String, Object> trackArgMap = new HashMap<String,Object>();
+	    trackArgMap.put(ThisAppConfig.APPOPENCOUNT, count);
+	    trackArgMap.put(HopinTracker.USERID, ThisUserConfig.getInstance().getString(ThisUserConfig.USERID));
+        HopinTracker.sendEvent("Map","AppClose","map:closed:opencount",(long)count,trackArgMap);
      	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count++);
-     	if(count%5==0)
+     	if(count == 5)
      	{
-     		//show msg every fifth time ap is closed
+     		//show msg fifth time app is closed
      		Intent i = new Intent(Platform.getInstance().getContext(),FeedbackActivity.class);
  			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     	
  			i.putExtra("showprompt", true);
- 			Platform.getInstance().getContext().startActivity(i);
-     		
+ 			Platform.getInstance().getContext().startActivity(i);     		
      	}   
-     	EasyTracker.getTracker().setStartSession(false);
-     	EasyTracker.getInstance().dispatch(); //remove this after test
+     	EasyTracker.getTracker().setStartSession(false);     	
     }
     
 	@Override

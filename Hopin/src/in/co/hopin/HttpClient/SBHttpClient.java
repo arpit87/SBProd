@@ -5,7 +5,6 @@ import in.co.hopin.Server.ServerResponseBase;
 import in.co.hopin.Util.Logger;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 //Singleton class
 //this class will have a thread pool to its disposal
@@ -17,8 +16,6 @@ public class SBHttpClient {
 	private static SBHttpClient uniqueClient;
 	private SBHttpClient(){};
 	private ServerResponseBase response;
-	private long reqTimeStamp =  0L;	
-	
 	public static SBHttpClient getInstance()
 	{		
 		if(uniqueClient == null)
@@ -45,7 +42,7 @@ public class SBHttpClient {
 	         {
 	        	 Logger.d(TAG, "sending req:"+request[i].GetQueryURL());
 	        	 response =  request[i].execute();
-	        	 if(response.getStatus()!=ServerResponseBase.ResponseStatus.HttpStatus200)	        	   
+	        	 if(response==null || response.getStatus()!=ServerResponseBase.ResponseStatus.HttpStatus200)	        	   
 	        		 return null;
 	         }
 	         return response;

@@ -14,9 +14,7 @@ import org.json.JSONObject;
  */
 public class UserLocInfo {
 	
-	private String userID = "";	
-	private String firstName = "";	
-	private String lastName = "";	
+	
 	private String srclatitude = "";
 	private String srclongitude = "";
 	private String dstlatitude = "";

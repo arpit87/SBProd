@@ -1,11 +1,7 @@
 package in.co.hopin.Users;
 
-import in.co.hopin.Util.StringUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.android.maps.GeoPoint;
 
 public class NearbyUser {
 	

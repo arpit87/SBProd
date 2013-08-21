@@ -7,7 +7,6 @@ import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Users.UserFBInfo;
-import in.co.hopin.Util.HopinTracker;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONException;

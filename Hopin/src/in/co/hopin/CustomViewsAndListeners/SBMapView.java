@@ -1,6 +1,13 @@
 package in.co.hopin.CustomViewsAndListeners;
 
 
+import in.co.hopin.ActivityHandlers.MapListActivityHandler;
+import in.co.hopin.MapHelpers.BaseItemizedOverlay;
+import in.co.hopin.Platform.Platform;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -10,20 +17,13 @@ import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.google.android.maps.MapView;
-
-import in.co.hopin.ActivityHandlers.MapListActivityHandler;
-import in.co.hopin.MapHelpers.BaseItemizedOverlay;
-import in.co.hopin.Platform.Platform;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SBMapView extends MapView implements OnGestureListener {
 
 	private static final String TAG = "in.co.hopin.CustomViewsAndListeners.SBMapView";
     private GestureDetector gd;    
-    private OnSingleTapListener singleTapListener;
     private List<View> nearByUserViewList = new ArrayList<View>();
     private int nearbyUserMApViewListIndex = 1; //start from 1 as self view at 0 so it remains always at bottom
     private View selfView = null;
@@ -137,7 +137,6 @@ public class SBMapView extends MapView implements OnGestureListener {
 	
 	
 	public void setOnSingleTapListener(OnSingleTapListener singleTapListener) {
-		this.singleTapListener = singleTapListener;
 	}
 
 	 

@@ -1,40 +1,30 @@
 package in.co.hopin.Activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import in.co.hopin.R;
-import in.co.hopin.Activities.SelfProfileActivity.MyPageAdapter;
 import in.co.hopin.Fragments.HistoryInstaShareFragment;
 import in.co.hopin.Fragments.HistoryPlanFragment;
 import in.co.hopin.Fragments.SearchUserInstaFrag;
 import in.co.hopin.Fragments.SearchUserPlanFrag;
-import in.co.hopin.Fragments.SelfAboutMeFrag;
-import in.co.hopin.Fragments.SelfFriends;
-import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ThisAppConfig;
-import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Util.HopinTracker;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
-
-import com.google.analytics.tracking.android.EasyTracker;
 
 public class SearchInputActivityNew extends FragmentActivity{
     public static final String TAG = "in.co.hopin.Activites.SearchInputActivity";      
@@ -46,8 +36,6 @@ public class SearchInputActivityNew extends FragmentActivity{
 	private MyPageAdapter mPagerSearchAdapter;
 	private MyPageAdapter mPagerHistoryAdapter;
 	private ViewPager mPager;
-	private static final int NUM_PAGES = 2;	
-	
 	//for GA
 	private String tabTypeStr = "Insta";
 	private String history_newsearch_str = "SearchUsers";

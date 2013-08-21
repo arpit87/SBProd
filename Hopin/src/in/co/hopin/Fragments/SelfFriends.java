@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SelfFriends extends Fragment{
-	private static final String TAG = "in.co.hopin.Fragments.SelfFriends";
+	//private static final String TAG = "in.co.hopin.Fragments.SelfFriends";
 	
 	 @Override
 	    public void onCreate(Bundle savedInstanceState){

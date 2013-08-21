@@ -1,15 +1,11 @@
 package in.co.hopin.Server;
 
-import in.co.hopin.Activities.OtherUserProfileActivityNew;
 import in.co.hopin.Activities.SelfProfileActivity;
 import in.co.hopin.HelperClasses.ProgressHandler;
-import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Users.UserFBInfo;
-import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 
 import org.apache.http.HttpResponse;

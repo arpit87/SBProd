@@ -4,12 +4,6 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.Users.CurrentNearbyUsers;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.Logger;
-
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -56,8 +50,7 @@ public class Platform {
 		handler = new Handler();		
 		CurrentNearbyUsers.getInstance().clearAllData();
 		ThisUserNew.getInstance();	
-		EasyTracker.getInstance().setContext(context);
-	    EasyTracker.getTracker().setStartSession(true);	    
+		EasyTracker.getInstance().setContext(context);	        
 	}
 	
 	public int getThisAppVersion()

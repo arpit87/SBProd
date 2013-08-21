@@ -3,17 +3,14 @@ package in.co.hopin.HttpClient;
 
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Platform.Platform;
-import in.co.hopin.Server.GetOtherUserProfileResponse;
 import in.co.hopin.Server.SelfProfileResponse;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Server.ServerResponseBase;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;

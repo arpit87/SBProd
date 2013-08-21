@@ -1,5 +1,11 @@
 package in.co.hopin.Adapter;
 
+import in.co.hopin.R;
+import in.co.hopin.HelperClasses.BlockedUser;
+import in.co.hopin.HelperClasses.SBImageLoader;
+
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,21 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import in.co.hopin.R;
-
-import in.co.hopin.HelperClasses.BlockedUser;
-import in.co.hopin.HelperClasses.SBImageLoader;
-
-import java.util.List;
 
 public class BlockedUsersAdapter extends BaseAdapter {
 
-    private Activity activity;
     private List<BlockedUser> blockedUsers;
     private LayoutInflater inflater;
 
     public BlockedUsersAdapter(Activity activity, List<BlockedUser> blockedUsers){
-        this.activity = activity;
         this.blockedUsers = blockedUsers;
         this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

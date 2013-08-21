@@ -25,8 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 public class Tutorial extends FragmentActivity{
 	ImageView map1View;
 	ImageView map2View;

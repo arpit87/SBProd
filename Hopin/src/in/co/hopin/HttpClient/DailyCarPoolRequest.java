@@ -1,7 +1,15 @@
 package in.co.hopin.HttpClient;
 
-import android.util.Log;
-import org.apache.http.client.ClientProtocolException;
+import in.co.hopin.Platform.Platform;
+import in.co.hopin.Server.DailyCarPoolResponse;
+import in.co.hopin.Server.ServerConstants;
+import in.co.hopin.Server.ServerResponseBase;
+import in.co.hopin.Users.ThisUserNew;
+import in.co.hopin.Users.UserAttributes;
+import in.co.hopin.Util.HopinTracker;
+
+import java.io.UnsupportedEncodingException;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -11,16 +19,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import in.co.hopin.Platform.Platform;
-import in.co.hopin.Server.DailyCarPoolResponse;
-import in.co.hopin.Server.ServerConstants;
-import in.co.hopin.Server.ServerResponseBase;
-import in.co.hopin.Users.ThisUserNew;
-import in.co.hopin.Users.UserAttributes;
-import in.co.hopin.Util.HopinTracker;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import android.util.Log;
 
 public class DailyCarPoolRequest  extends SBHttpRequest{
 

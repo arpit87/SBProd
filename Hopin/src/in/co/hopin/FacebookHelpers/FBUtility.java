@@ -11,8 +11,6 @@ import java.util.Hashtable;
 
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -21,9 +19,6 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.provider.MediaStore;
-
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.Facebook;
 
 
 public class FBUtility {

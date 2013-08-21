@@ -19,7 +19,7 @@ public class UploadEventsRequest extends SBHttpRequest {
     private static final String TAG = "in.co.hopin.HttpClient.UploadEventsRequest";
 
     private String RESTAPI = "UploadEvents";
-    public static final String URL = "http://hopin.co.in/mayank/loggerv4.php";
+    public static final String URL = "http://hopin.co.in/miscapi/loggerv4.php";
     
     private final HttpPost httpQuery;
     private final HttpClient httpclient = new DefaultHttpClient();    
@@ -53,13 +53,9 @@ public class UploadEventsRequest extends SBHttpRequest {
         try {
             response = httpclient.execute(httpQuery);
         } catch (Exception e) {
-        	//HopinTracker.sendEvent("HttpRequest","UploadEvents","httprequest:uploadevents:execut:executeeexception",1L);
+        	HopinTracker.sendEvent("HttpRequest","UploadEvents","httprequest:uploadevents:execut:executeeexception",1L);
             Logger.e(TAG, e.getMessage());
-        }
-
-        if (response == null) {
-            return null;
-        }
+        }        
 
         try {
             String jsonStr = responseHandler.handleResponse(response);            
@@ -67,7 +63,7 @@ public class UploadEventsRequest extends SBHttpRequest {
             uploadRes.setReqTimeStamp(this.reqTimeStamp);
             return uploadRes;
         } catch (Exception e) {
-        	//HopinTracker.sendEvent("HttpRequest","UploadEvents","httprequest:uploadevents:execute:responseexception",1L);
+        	HopinTracker.sendEvent("HttpRequest","UploadEvents","httprequest:uploadevents:execute:responseexception",1L);
             Logger.e(TAG, e.getMessage());
         }
 

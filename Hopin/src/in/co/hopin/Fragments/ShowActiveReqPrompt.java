@@ -1,10 +1,10 @@
 package in.co.hopin.Fragments;
 
+import in.co.hopin.R;
 import in.co.hopin.Activities.MyChatsActivity;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.HttpClient.DailyCarPoolRequest;
 import in.co.hopin.HttpClient.InstaRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
@@ -13,20 +13,12 @@ import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import in.co.hopin.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,7 +40,7 @@ public class ShowActiveReqPrompt extends DialogFragment{
 	View carPoolActiveLayout;
 	TextView carPoolNoActiveReq;
 	TextView instaNoActiveReq;
-	private static final String TAG = "in.co.hopin.Fragments.ShowActiveReqPrompt";
+	//private static final String TAG = "in.co.hopin.Fragments.ShowActiveReqPrompt";
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

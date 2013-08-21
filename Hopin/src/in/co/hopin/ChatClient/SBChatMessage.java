@@ -1,7 +1,5 @@
 package in.co.hopin.ChatClient;
 
-import android.annotation.SuppressLint;
-import java.util.Date;
 
 /**
  * this class has message object for displaying on chat window.
@@ -17,7 +15,6 @@ public class SBChatMessage {
 	private String mTimestamp = "";
 	private String mFrom = "";
 	private String mTo = "";
-	private String mTime= "";
 	private int mStatus ;
 	private long mUniqueIdentifier;
 	//we are not using enum as its not serializable

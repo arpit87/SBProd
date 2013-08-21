@@ -2,6 +2,7 @@ package in.co.hopin.Adapter;
 
 import in.co.hopin.R;
 import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.Users.Friend;
 import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserFBInfo;
@@ -20,22 +21,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NearbyUsersListViewAdapter extends BaseAdapter{
+public class InviteFriendsListViewAdapter extends BaseAdapter{
 
-	List<NearbyUser> mNearbyUsers;
+	List<Friend> mFriendsList;
 	Activity underLyingActivity;
 	private static LayoutInflater inflater=null;
-	public NearbyUsersListViewAdapter(Activity activity,List<NearbyUser> nearbyUsers)
+	public InviteFriendsListViewAdapter(Activity activity,List<Friend> friendList)
 	{
 		underLyingActivity = activity;
-		mNearbyUsers = nearbyUsers;
+		mFriendsList = friendList;
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return mNearbyUsers.size();
+		return mFriendsList.size();
 	}
 
 	@Override
@@ -52,15 +53,15 @@ public class NearbyUsersListViewAdapter extends BaseAdapter{
 	
 	public void clear()
 	{		
-		mNearbyUsers.clear();
+		mFriendsList.clear();
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		NearbyUser thisUser = (NearbyUser) mNearbyUsers.get(position);
+		Friend thisFriend = (Friend) mFriendsList.get(position);
 		View thisUserView=convertView;
-        if( position == mNearbyUsers.size()-1)
+        if( position == mFriendsList.size()-1)
         	thisUserView = inflater.inflate(R.layout.nearbyuser_list_lastrow, null);
         else        		
         	thisUserView = inflater.inflate(R.layout.nearbyuser_list_row, null);
@@ -70,7 +71,7 @@ public class NearbyUsersListViewAdapter extends BaseAdapter{
         ImageView chatDotOffline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_offline);
         ImageView chatDotOnline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_online);
         
-        TextView userName = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_nearbyusername);
+       /* TextView userName = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_nearbyusername);
         TextView mutualFriends = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_mutualfriends);
         TextView userSource = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_source);
         TextView userDestination = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_destination);
@@ -97,7 +98,7 @@ public class NearbyUsersListViewAdapter extends BaseAdapter{
         {
         	chatDotOffline.setVisibility(View.INVISIBLE);
         	chatDotOnline.setVisibility(View.VISIBLE);
-        }
+        }*/
 		return thisUserView;
 	}	
 	

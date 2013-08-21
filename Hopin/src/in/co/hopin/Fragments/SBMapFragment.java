@@ -1,10 +1,8 @@
 package in.co.hopin.Fragments;
 
-import in.co.hopin.Activities.MapListViewTabActivity;
+import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.Platform.Platform;
-import in.co.hopin.R;
-import android.media.AudioRecord.OnRecordPositionUpdateListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.google.android.maps.MapView;
 

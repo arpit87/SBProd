@@ -4,13 +4,10 @@ import in.co.hopin.Platform.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ProgressBar;
 
 /**
@@ -25,8 +22,6 @@ public class ProgressHandler {
 	ProgressBar progressBar = null;	
 	private static ProgressDialog progressDialog = null;
 	private static AtomicBoolean isshowing = new AtomicBoolean(false);
-	private int count = 10;
-	
 	private static Activity underlying_activity = null;
 	private static String title = "";
 	private static String message = "";

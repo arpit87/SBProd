@@ -19,6 +19,8 @@ import in.co.hopin.Util.StringUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -167,8 +169,7 @@ public class FacebookConnector {
     }
     
     class ReLoginDialogListener implements DialogListener {
-	    public void onComplete(Bundle values) {
-	    	HopinTracker.sendEvent("callback_event", "callback_received", "FBReLogin_callback", 1L);
+	    public void onComplete(Bundle values) {	    	
 	    	String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
 	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
         	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
@@ -180,50 +181,50 @@ public class FacebookConnector {
 	        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);
 	        ToastTracker.showToast("Authentication succcessful");
 	        underlyingActivity.finish();
+	        Map<String, Object> trackArgMap = new HashMap<String,Object>();
+		    trackArgMap.put(HopinTracker.FBID, fbid);
+	        HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:authenticationsuccessful", 1L,trackArgMap);
 	    }
 
 		@Override
 		public void onFacebookError(FacebookError e) {
-			// TODO Auto-generated method stub
-			
+			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:authenticationfailure", 1L);			
 		}
 
 		@Override
 		public void onError(DialogError e) {
-			// TODO Auto-generated method stub
-			
+			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:error", 1L);			
 		}
 
 		@Override
 		public void onCancel() {
-			// TODO Auto-generated method stub
+			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:cancel", 1L);
 			
 		}
     }
     
     class LoginDialogListener implements DialogListener {
-	    public void onComplete(Bundle values) {
-            HopinTracker.sendEvent("callback_event", "callback_received", "FBLogin_callback", 1L);
+	    public void onComplete(Bundle values) {            
 	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
         	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
         	Logger.i(TAG, "login callback rec");
         	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..");        	
-        	requestUserData();        	
+        	requestUserData();         	
+	        HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
         }    
 	    
 
 		public void onFacebookError(FacebookError error) {
 	    	ToastTracker.showToast("Authentication with Facebook failed!");
-	    	
+	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:authenticationfailure", 1L);	    	
 	    }
 	    public void onError(DialogError error) {
 	    	ToastTracker.showToast("Authentication with Facebook failed!");
-	    	
+	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:error", 1L);	    	
 	    }
 	    public void onCancel() {
 	    	ToastTracker.showToast("Authentication with Facebook cancelled!");
-	    	
-	    }
+	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:cancelled", 1L);	    }
 	}
 
     private void sendAddFBAndChatInfoToServer(String fbid) {
@@ -236,7 +237,7 @@ public class FacebookConnector {
 	}
 		
 	private void requestUserData() {
-       
+		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);
         Bundle params = new Bundle();
         params.putString("fields", "username,first_name,last_name, picture, email, gender");
         mAsyncRunner.request("me", params, new FBUserRequestListener());
@@ -269,6 +270,10 @@ public class FacebookConnector {
                 ThisUserConfig.getInstance().putString(ThisUserConfig.USERNAME, first_name+" "+last_name);
                 ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FULLNAME, first_name+" "+last_name);
                 ThisUserConfig.getInstance().putString(ThisUserConfig.EMAIL, email);
+                Map<String, Object> trackArgMap = new HashMap<String,Object>();
+        	    trackArgMap.put(HopinTracker.FBID, id);
+        	    trackArgMap.put(HopinTracker.FBUSERNAME, username);
+                HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:success", 1L,trackArgMap);
                 if(!StringUtils.isBlank(id))
                 {
                 	ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN, true);                	

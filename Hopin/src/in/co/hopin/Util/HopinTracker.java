@@ -54,6 +54,7 @@ public class HopinTracker {
 	public static String OTHERUSERFBID = "other_fbid";
 	public static String APIRESPONSETIME = "res_time";
 	public static String NUMMATCHES = "num_match";
+	public static String FBUSERNAME = "fb_username";
 	
 	
 	public static void sendEvent(String category, String action, String label, Long value, Map<String,Object> args)
@@ -171,9 +172,7 @@ public class HopinTracker {
 		
 	}
 	
-	
-	
-	private  static String mergeJSONObjects(JSONObject[] objs)
+	/*private  static String mergeJSONObjects(JSONObject[] objs)
 	{
 		JSONObject merged = new JSONObject();		
 		for (JSONObject obj : objs) {
@@ -189,6 +188,6 @@ public class HopinTracker {
 		    }
 		}
 		return merged.toString();
-	}
+	}*/
 
 }

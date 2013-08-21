@@ -27,7 +27,6 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,8 +78,7 @@ public class ChatWindow extends SherlockFragmentActivity{
     private String mThiUserChatUserName = "";
     private String mThisUserChatPassword = "";
     private String mThisUserChatFullName =  "";
-	private ProgressDialog progressDialog;		
-    private NotificationManager notificationManager;
+	private NotificationManager notificationManager;
     private boolean mFBLoggedIn = false;
     ActionBar ab;
 
@@ -572,7 +570,7 @@ private class SBOnChatMessageListener extends IMessageListener.Stub {
     }
 }
 
-private class SBChatServiceConnAndMiscListener extends ISBChatConnAndMiscListener.Stub{
+/*private class SBChatServiceConnAndMiscListener extends ISBChatConnAndMiscListener.Stub{
 
 	@Override
 	public void loggedIn() throws RemoteException {
@@ -625,7 +623,7 @@ private class SBChatServiceConnAndMiscListener extends ISBChatConnAndMiscListene
 		
 	}
 	
-}
+}*/
 
 public boolean isFbloginPromptIsShowing() {
 	return fbloginPromptIsShowing;

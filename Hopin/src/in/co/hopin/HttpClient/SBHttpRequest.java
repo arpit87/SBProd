@@ -3,7 +3,6 @@ package in.co.hopin.HttpClient;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Server.ServerResponseBase;
-import in.co.hopin.Users.ThisUserNew;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;

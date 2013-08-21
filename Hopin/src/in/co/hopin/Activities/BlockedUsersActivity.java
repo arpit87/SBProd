@@ -1,5 +1,12 @@
 package in.co.hopin.Activities;
 
+import in.co.hopin.R;
+import in.co.hopin.Adapter.BlockedUsersAdapter;
+import in.co.hopin.HelperClasses.BlockedUser;
+import in.co.hopin.Util.HopinTracker;
+
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -7,17 +14,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
-import in.co.hopin.R;
-
-import in.co.hopin.Adapter.BlockedUsersAdapter;
-import in.co.hopin.HelperClasses.BlockedUser;
-import in.co.hopin.Util.HopinTracker;
-
-import java.util.List;
 
 public class BlockedUsersActivity extends ListActivity{
-    private static final String TAG = "in.co.hopin.Activities.BlockedUsersActivity";
+   // private static final String TAG = "in.co.hopin.Activities.BlockedUsersActivity";
 
     private List<BlockedUser> blockedUsers;
     private BlockedUsersAdapter blockedUsersAdapter;

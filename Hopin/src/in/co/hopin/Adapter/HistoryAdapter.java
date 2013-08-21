@@ -1,32 +1,25 @@
 package in.co.hopin.Adapter;
 
-import in.co.hopin.Activities.SearchInputActivityNew;
+import in.co.hopin.R;
 import in.co.hopin.Util.StringUtils;
 
 import java.util.List;
 
-import in.co.hopin.R;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class HistoryAdapter extends BaseAdapter{
 
     private List<HistoryItem> historyItemList;
     private LayoutInflater inflater;
-    private Activity underlyingActiviy = null;
-
     public HistoryAdapter(Activity activity, List<HistoryItem> historyItemList){
         this.historyItemList = historyItemList;
         this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.underlyingActiviy = activity;
     }
 
     @Override
@@ -60,7 +53,6 @@ public class HistoryAdapter extends BaseAdapter{
         TextView details = (TextView)view.findViewById(R.id.history_details);     
        // ImageView edit_button = (ImageView)view.findViewById(R.id.history_editbutton);
         TextView reqDateView = (TextView)view.findViewById(R.id.history_req_date);        
-        int type = historyItem.getPlanInstantType();//plan 0,insta 1       
         String reqdate = historyItem.getReqDate();
         source.setText(historyItem.getSource());
         destination.setText(historyItem.getDestination());

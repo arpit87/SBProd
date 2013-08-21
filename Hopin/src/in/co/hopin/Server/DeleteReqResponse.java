@@ -5,11 +5,12 @@ import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
-import in.co.hopin.Util.HopinTracker;
-import android.content.Intent;
-import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
+
+import android.content.Intent;
+import android.util.Log;
 
 public class DeleteReqResponse extends ServerResponseBase{
 	

@@ -6,16 +6,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 public class GPSListener implements LocationListener{
 
 	long minTime=0L;
 	float minDistance=0F;
 	private static final String TAG = "in.co.hopin.LocationHelpers.GPSListener";
-	private Location prevLocation = null;
 	private Location thisWindowBestLocation = null;	
-	private boolean newWindow = false;
 	public static final int OUT_OF_SERVICE = 0;	
 	public static final int TEMPORARILY_UNAVAILABLE = 1;	
 	public static final int AVAILABLE = 2;

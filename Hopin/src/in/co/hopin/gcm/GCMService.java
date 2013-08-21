@@ -1,14 +1,8 @@
 package in.co.hopin.gcm;
 
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.IBinder;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+import static in.co.hopin.HelperClasses.ThisAppConfig.PROPERTY_APP_VERSION;
+import static in.co.hopin.HelperClasses.ThisAppConfig.PROPERTY_ON_SERVER_EXPIRATION_TIME;
+import static in.co.hopin.HelperClasses.ThisAppConfig.PROPERTY_REG_ID;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HttpClient.RegisterGCMIdRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
@@ -17,9 +11,16 @@ import in.co.hopin.Util.Logger;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static in.co.hopin.HelperClasses.ThisAppConfig.*;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.IBinder;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 public class GCMService extends Service {
     private static final String TAG = "in.co.hopin.gcm.GCMService";
@@ -29,7 +30,6 @@ public class GCMService extends Service {
     private static final String SENDER_ID = "348316953611";
 
     private GoogleCloudMessaging gcm;
-    private AtomicInteger msgId = new AtomicInteger();
     private String regId;
     
     
@@ -124,7 +124,7 @@ public class GCMService extends Service {
         thisAppConfig.putLong(PROPERTY_ON_SERVER_EXPIRATION_TIME, expirationTime);
     }
 
-    private void sendMessage() {
+    /*private void sendMessage() {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -147,7 +147,7 @@ public class GCMService extends Service {
                 Logger.d(TAG, msg);
             }
         }.execute(null, null, null);
-    }
+    }*/
 }
 
 

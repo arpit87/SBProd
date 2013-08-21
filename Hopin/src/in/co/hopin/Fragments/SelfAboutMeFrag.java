@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class SelfAboutMeFrag extends Fragment{
 	
-	 private static final String TAG = "in.co.hopin.Fragments.SelfAboutMeFrag";
+	 //private static final String TAG = "in.co.hopin.Fragments.SelfAboutMeFrag";
 	 TextView nameTextView;
 	 TextView worksAtTextView;
 	 TextView homeTownTextView;
@@ -43,7 +43,6 @@ public class SelfAboutMeFrag extends Fragment{
 		 	//user is logged in 
 	        aboutMeView = (ViewGroup) inflater.inflate(
 	                R.layout.self_profile_aboutme, container, false);
-	        String name = ThisUserNew.getInstance().getUserFBInfo().getFullName();
 	        String worksat = ThisUserNew.getInstance().getUserFBInfo().getWorksAt();
 	        String hometown = ThisUserNew.getInstance().getUserFBInfo().getHometown();
 	        String education = ThisUserNew.getInstance().getUserFBInfo().getStudiedAt();

@@ -5,8 +5,6 @@ import in.co.hopin.Fragments.OtherUserMutualFriends;
 import in.co.hopin.Fragments.OtheruserAboutMeFragment;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.Platform.Platform;
-import in.co.hopin.Users.Friend;
-import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
 
@@ -17,8 +15,6 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.analytics.tracking.android.EasyTracker;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -39,7 +35,6 @@ import android.widget.Toast;
 
 public class OtherUserProfileActivityNew extends FragmentActivity{
 	
-    private static final int NUM_PAGES = 2;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private Button button1;
@@ -197,7 +192,7 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
 	    public void onStart(){
 	        super.onStart();
 	        HopinTracker.sendView("OtherUserProfile");
-	        Map trackArgMap = new HashMap<String,Object>();
+	        Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	        trackArgMap.put(HopinTracker.FBID, userFBInfo.getFbid());
 	        HopinTracker.sendEvent("Profile","ScreenOpen","userprofile:other:open",1L,trackArgMap);
 	        //EasyTracker.getInstance().activityStart(this);

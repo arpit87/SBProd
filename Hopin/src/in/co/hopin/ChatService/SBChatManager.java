@@ -1,27 +1,30 @@
 package in.co.hopin.ChatService;
 
-import android.os.RemoteCallbackList;
-import android.os.RemoteException;
-import android.util.Log;
 import in.co.hopin.ChatClient.IChatManagerListener;
 import in.co.hopin.ChatClient.IMessageListener;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Util.Logger;
 
-import org.jivesoftware.smack.*;
-import org.jivesoftware.smack.util.StringUtils;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.util.StringUtils;
+
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+import android.util.Log;
+
 public class SBChatManager extends IChatManager.Stub {
 	
 	private ChatManager mChatManager;
 	private XMPPConnection mXMPPConnection;
-	private Roster mRoster;	
 	private static final String TAG = "in.co.hopin.ChatService.SBChatManager";
     private final Map<String, ChatAdapter> mAllChats = new HashMap<String, ChatAdapter>();
     private final SBChatManagerAndInitialMsgListener mChatAndInitialMsgListener = new SBChatManagerAndInitialMsgListener();
@@ -34,7 +37,7 @@ public class SBChatManager extends IChatManager.Stub {
 		this.mXMPPConnection = xmppConnection;
 		this.mChatManager = xmppConnection.getChatManager();
 		this.mService = service;
-		this.mRoster = xmppConnection.getRoster();				
+		xmppConnection.getRoster();				
 		//this.mChatManager.addChatListener(mChatAndInitialMsgListener);
         addChatListener();
 
@@ -128,7 +131,7 @@ public class SBChatManager extends IChatManager.Stub {
 	{
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"notifying all pending queue");
 		Collection<ChatAdapter> c = mAllChats.values();		
-		Iterator it = c.iterator();
+		Iterator<ChatAdapter> it = c.iterator();
 		while(it.hasNext())
 		{			
 			ChatAdapter ca = (ChatAdapter) it.next();

@@ -5,7 +5,6 @@ import in.co.hopin.HelperClasses.JSONHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,8 +27,6 @@ public class UserFBInfo {
     private String mutual_friend_count="0";  
     private String friend_count="0"; 
     private List<Friend> mMutualFriendList = new ArrayList<Friend>();
-    private List<Friend> mFriendList = new ArrayList<Friend>();
-
     public UserFBInfo() {
         // TODO Auto-generated constructor stub
     }
@@ -122,7 +119,7 @@ public class UserFBInfo {
 	        }
 	        
 	        if(getNumberOfFriends()>0)
-	        	mFriendList = JSONHandler.GetMutualFriendsFromJSONObject(allInfo);
+				JSONHandler.GetMutualFriendsFromJSONObject(allInfo);
 	        
         }
     }

@@ -1,16 +1,12 @@
 package in.co.hopin.HelperClasses;
 
-import in.co.hopin.Platform.Platform;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.UUID;
 
-
 import android.content.Context;
-import android.content.SharedPreferences;
 
 public class ThisAppInstallation {
 	

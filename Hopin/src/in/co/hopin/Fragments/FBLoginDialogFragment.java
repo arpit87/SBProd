@@ -1,13 +1,9 @@
 package in.co.hopin.Fragments;
 
-import in.co.hopin.Activities.Tutorial;
-import in.co.hopin.ActivityHandlers.MapListActivityHandler;
+import in.co.hopin.R;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
-import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Util.HopinTracker;
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -17,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import in.co.hopin.R;
 
 
 public class FBLoginDialogFragment extends DialogFragment{

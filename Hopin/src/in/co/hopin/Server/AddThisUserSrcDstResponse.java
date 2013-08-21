@@ -9,17 +9,16 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.UserAttributes;
-import in.co.hopin.Util.HopinTracker;
-import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
+
+import android.util.Log;
 
 public class AddThisUserSrcDstResponse extends ServerResponseBase{
 
     private static final String TAG = "in.co.hopin.Server.AddUserResponse";
-    private static long TIME_INTERVAL = 1 * 60 * 1000; //1 minute
-
-	String user_id;
+    String user_id;
 		
 	public AddThisUserSrcDstResponse(HttpResponse response,String jobjStr,String api) {
 		super(response,jobjStr,api);

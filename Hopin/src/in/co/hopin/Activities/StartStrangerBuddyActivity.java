@@ -54,7 +54,6 @@ import android.widget.ProgressBar;
 public class StartStrangerBuddyActivity extends Activity {
 	public static final int UPLOAD_FREQUENCY = 30 * 60 * 1000;
 
-	private ProgressBar mProgress;
 	private static final String TAG = "in.co.hopin.Activities.StartStrangerBuddyActivity";
 	Runnable startMapActivity;
 	Intent showSBMapViewActivity;
@@ -95,7 +94,7 @@ public class StartStrangerBuddyActivity extends Activity {
 		ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,1);
 		String deviceId = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
 		ThisAppConfig.getInstance().putString(ThisAppConfig.DEVICEID,deviceId);
-		Map trackerMap = new HashMap<String, Object>();
+		Map<String, Object> trackerMap = new HashMap<String, Object>();
 		trackerMap.put(HopinTracker.APPUUID, uuid);
 		trackerMap.put(HopinTracker.DEVICEID, deviceId);
 		HopinTracker.sendEvent("HopinInstall","Appinstall","application:install",1L,trackerMap);
@@ -113,8 +112,7 @@ public class StartStrangerBuddyActivity extends Activity {
 		{
 		ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);	
 		Runnable welcomeMessage = new Runnable() {
-	          public void run() {	   
-	        	  Context c = Platform.getInstance().getContext();
+	          public void run() {	
 	        	  String admin_fbid = getResources().getString(R.string.hopin_admin_girl_fbid);
 	      		String admin_name = getResources().getString(R.string.hopin_admin_girl_name);
 	      		String admin_welcome_message = getResources().getString(R.string.hopin_admin_girl_welcomemessage);	        	  
@@ -260,7 +258,6 @@ public class StartStrangerBuddyActivity extends Activity {
 		        	Logger.d(TAG, "app upgraded, sending upgrade msg");
 		        	Runnable upgradeMessage = new Runnable() {
 		  	          public void run() {	   
-		  	        	Context c = Platform.getInstance().getContext();
 		  	        	String admin_fbid = getResources().getString(R.string.hopin_admin_girl_fbid);
 		  	      		String admin_name = getResources().getString(R.string.hopin_admin_girl_name);
 		  	      		String admin_upgrade_message = getResources().getString(R.string.hopin_admin_girl_upgrademessage);	        	  
@@ -280,7 +277,7 @@ public class StartStrangerBuddyActivity extends Activity {
         Intent intent =  new Intent(context, OnAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, 0, UPLOAD_FREQUENCY , pendingIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
     }
     
     private boolean isVersionUpgraded()

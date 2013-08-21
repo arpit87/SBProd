@@ -1,7 +1,5 @@
 package in.co.hopin.Server;
 
-import android.content.Intent;
-import android.util.Log;
 import in.co.hopin.Activities.NewUserDialogActivity;
 import in.co.hopin.HelperClasses.BlockedUser;
 import in.co.hopin.HelperClasses.ProgressHandler;
@@ -9,13 +7,15 @@ import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.UserFBInfo;
-
-import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
+
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.content.Intent;
+import android.util.Log;
 
 
 

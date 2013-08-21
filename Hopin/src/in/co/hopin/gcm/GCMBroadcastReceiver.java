@@ -1,7 +1,5 @@
 package in.co.hopin.gcm;
 
-import in.co.hopin.R;
-import in.co.hopin.Activities.StartStrangerBuddyActivity;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.GetNewUserInfoAndShowPopupRequest;
@@ -12,14 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -27,7 +20,6 @@ public class GCMBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "in.co.hopin.gcm.GCMBroadcastReceiver";
     public static final int NOTIFICATION_ID = 1;
     public static final String TYPE = "type";
-    private NotificationManager mNotificationManager;
     Context ctx;
 
     @Override
@@ -76,7 +68,7 @@ public class GCMBroadcastReceiver extends BroadcastReceiver {
     }
 
     // Put the GCM message into a notification and post it.
-    private void sendNotification(String msg) {
+   /* private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -96,5 +88,5 @@ public class GCMBroadcastReceiver extends BroadcastReceiver {
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-    }
+    }*/
 }

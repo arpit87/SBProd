@@ -1,7 +1,6 @@
 package in.co.hopin.HelperClasses;
 
 import in.co.hopin.Platform.Platform;
-import in.co.hopin.R;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -10,7 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class SBImageLoader {
 	
-	private final String TAG = "in.co.hopin.HelperClasses.SBImageLoader";
+	//private final String TAG = "in.co.hopin.HelperClasses.SBImageLoader";
 	private static  ImageLoader imageLoader;	
 	private static SBImageLoader instance = null;
 

@@ -44,7 +44,7 @@ public class Event {
         Cursor cursor = cr.query(mUriFetch, columns, null, null, null);
 
         if (cursor == null || cursor.getCount() == 0) {
-            if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "Empty result");
+            Logger.i(TAG, "Empty result");
             events = Collections.emptyList();
         } else {
             events = new ArrayList<Event>();

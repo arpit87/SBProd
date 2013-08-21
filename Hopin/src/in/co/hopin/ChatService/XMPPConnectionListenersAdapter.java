@@ -1,17 +1,14 @@
 package in.co.hopin.ChatService;
 
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.RemoteCallbackList;
-import android.os.RemoteException;
-import android.util.Log;
 import in.co.hopin.ChatClient.ISBChatConnAndMiscListener;
 import in.co.hopin.HelperClasses.SBConnectivity;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketListener;
@@ -23,7 +20,10 @@ import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import android.os.AsyncTask;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+import android.util.Log;
 
 public class XMPPConnectionListenersAdapter {
 	
@@ -39,7 +39,6 @@ public class XMPPConnectionListenersAdapter {
 	private ConnectToChatServerTask connectToServer = null;
 	private LoginToChatServerTask loginToServer = null;
 	private SBChatManager mChatManager = null;
-	private Handler handler = new Handler();
 	private final RemoteCallbackList<ISBChatConnAndMiscListener> mRemoteMiscListeners = new RemoteCallbackList<ISBChatConnAndMiscListener>();
     private AtomicBoolean wasConnectionLost = new AtomicBoolean(false);    
 

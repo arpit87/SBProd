@@ -1,24 +1,16 @@
 package in.co.hopin.Activities;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import in.co.hopin.R;
-import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.HelperClasses.CommunicationHelper;
-import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.HttpClient.DailyCarPoolRequest;
-import in.co.hopin.HttpClient.InstaRequest;
-import in.co.hopin.HttpClient.SBHttpClient;
-import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.NearbyUser;
-import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
-import in.co.hopin.Util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,15 +28,12 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 public class NewUserDialogActivity extends FragmentActivity{
 	
 	String source = "";
 	String destination = "";		
-	String userid = "";
+	String userid = "";	
 	
-	private TextView mutualFriendNum = null;
 	private TextView dialogHeaderName = null;
 	private ImageView buttonSearch = null;
 	private TextView dialogHeaderTravelInfo = null;	
@@ -101,7 +90,7 @@ public class NewUserDialogActivity extends FragmentActivity{
 		TextView hometown = null;
 		TextView gender = null;
 		TextView mutualFriends = null;
-		String name_str,worksat_str,studiedat_str,hometown_str,gender_str = "";	
+		String worksat_str,studiedat_str,hometown_str,gender_str = "";	
 		int mutual_friends = 0;
 		
 		SBImageLoader.getInstance().displayImageElseStub(thisNearbyUserFBInfo.getImageURL(), picViewExpanded,R.drawable.userpicicon);
@@ -112,9 +101,8 @@ public class NewUserDialogActivity extends FragmentActivity{
 		studied_at = (TextView)findViewById(R.id.newuserarrive_popup_expanded_education);
 		hometown = (TextView)findViewById(R.id.newuserarrive_popup_expanded_from);
 		gender = (TextView)findViewById(R.id.newuserarrive_popup_expanded_gender);
-		mutualFriends = (TextView)findViewById(R.id.newuserarrive_popup_mutualfriends);
-		
-		name_str = thisNearbyUserFBInfo.getFullName();
+		mutualFriends = (TextView)findViewById(R.id.newuserarrive_popup_mutualfriends);		
+	
 		worksat_str = thisNearbyUserFBInfo.getWorksAt();
 		studiedat_str = thisNearbyUserFBInfo.getStudiedAt();
 		hometown_str = thisNearbyUserFBInfo.getHometown();
@@ -221,9 +209,9 @@ public class NewUserDialogActivity extends FragmentActivity{
 			@Override
 			public void onClick(View v) {	
 				HopinTracker.sendEvent("NewUserDialog","ButtonClick","newuserdialog:click:searchbutton",1L,getTrackerMap());
-				Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
-		        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		        startActivity(showSBMapViewActivity);
+				Intent startSBActivity = new Intent(Platform.getInstance().getContext(), StartStrangerBuddyActivity.class);
+				startSBActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				Platform.getInstance().getContext().startActivity(startSBActivity);
 		        finish();
 			}
 		});
@@ -252,7 +240,7 @@ public class NewUserDialogActivity extends FragmentActivity{
 	
 	private Map<String,Object> getTrackerMap()
 	{
-		Map trackArgMap = new HashMap<String,Object>();
+		Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(HopinTracker.OTHERUSERFBID, thisNearbyUserFBInfo.getFbid());
 	    trackArgMap.put(HopinTracker.OTHERUSERID, thisNearbyUser.getUserOtherInfo().getUserID());
 	    return trackArgMap;

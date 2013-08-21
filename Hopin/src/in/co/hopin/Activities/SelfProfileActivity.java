@@ -1,8 +1,6 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
-import in.co.hopin.FacebookHelpers.FacebookConnector;
-import in.co.hopin.Fragments.FBLoginDialogFragment;
 import in.co.hopin.Fragments.SelfAboutMeFrag;
 import in.co.hopin.Fragments.SelfFriends;
 import in.co.hopin.HelperClasses.CommunicationHelper;
@@ -11,16 +9,11 @@ import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SelfProfileRequest;
-import in.co.hopin.LocationHelpers.SBLocationManager;
 import in.co.hopin.Users.ThisUserNew;
-import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
-import in.co.hopin.Util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONObject;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -33,26 +26,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 public class SelfProfileActivity extends FragmentActivity {
 	
-	private static String TAG = "in.co.hopin.Activities.SelfProfileActivity";
-    private static final int NUM_PAGES = 2;
-    private ViewPager mPager;
+	private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private Button button1;
-    private Button button2;
-	private String fbinfoJsonStr = "";	
-	private UserFBInfo userFBInfo = null;
-	private JSONObject fbInfoJSON;
-	private boolean fbloginPromptIsShowing = false;
+    private Button button2;	
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

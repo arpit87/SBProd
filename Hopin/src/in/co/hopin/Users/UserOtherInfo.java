@@ -1,9 +1,5 @@
 package in.co.hopin.Users;
 
-import in.co.hopin.HelperClasses.JSONHandler;
-import android.annotation.SuppressLint;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,16 +1,29 @@
 package in.co.hopin.Activities;
 
-import android.app.Application;
-import android.content.Context;
+import static org.acra.ReportField.ANDROID_VERSION;
+import static org.acra.ReportField.APP_VERSION_CODE;
+import static org.acra.ReportField.APP_VERSION_NAME;
+import static org.acra.ReportField.AVAILABLE_MEM_SIZE;
+import static org.acra.ReportField.BRAND;
+import static org.acra.ReportField.CUSTOM_DATA;
+import static org.acra.ReportField.DISPLAY;
+import static org.acra.ReportField.LOGCAT;
+import static org.acra.ReportField.PACKAGE_NAME;
+import static org.acra.ReportField.PHONE_MODEL;
+import static org.acra.ReportField.STACK_TRACE;
+import static org.acra.ReportField.TOTAL_MEM_SIZE;
+import static org.acra.ReportField.USER_APP_START_DATE;
+import static org.acra.ReportField.USER_CRASH_DATE;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
+
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-import static org.acra.ReportField.*;
+import android.app.Application;
 
 @ReportsCrashes(formKey = "dDZQYXlhUldnM192YWhpdUhmTm1MLUE6MQ" ,
 customReportContent = {APP_VERSION_NAME,
@@ -22,10 +35,8 @@ mode = ReportingInteractionMode.TOAST,
 forceCloseDialogAfterToast = false, // optional, default false
 resToastText = in.co.hopin.R.string.crash_toast_text
 ) 
-public class StrangerBuddy extends Application{
+public class StrangerBuddy extends Application{	
 	
-	private Context context;
-	private Platform platform;	
 	private static final String TAG = "in.co.hopin.Activities.StrangerBuddy";
 		
 	@Override
@@ -34,12 +45,11 @@ public class StrangerBuddy extends Application{
 		super.onCreate();
 		ACRA.init(this);
 		Logger.i(TAG,"App start");
-		context = getApplicationContext();
-		platform=Platform.getInstance();
-		platform.initialize(this);
-		platform.getInstance().startChatService();
+		getApplicationContext();		
+		Platform.getInstance().initialize(this);
+		Platform.getInstance().startChatService();
         if (!StringUtils.isEmpty(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID))) {
-            platform.getInstance().startGCMService();
+        	Platform.getInstance().startGCMService();
         }
         //else userid has not been set yet, service will be started after add user response is received.
 

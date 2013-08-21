@@ -1,5 +1,6 @@
 package in.co.hopin.MapHelpers;
 
+import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
 import in.co.hopin.Users.NearbyUser;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import in.co.hopin.R;
 import android.content.Context;
 
 
