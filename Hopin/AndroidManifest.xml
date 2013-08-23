@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.co.hopin"
-    android:versionCode="13"
-    android:versionName="Hopin 2.0"   >
+    android:versionCode="14"
+    android:versionName="Hopin 2.0.1"   >
     
      <uses-sdk android:minSdkVersion="9" 
           android:targetSdkVersion="11"
@@ -12,7 +12,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>   
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>	
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -106,7 +106,7 @@
               
         <activity android:name="in.co.hopin.Activities.MapListViewTabActivity"
             android:screenOrientation="portrait"
-             android:launchMode="singleTop" >
+             android:launchMode="singleTask" >
             <meta-data android:name="android.app.default_searchable"
                        android:value=".Activities.SearchableActivity" />
             
