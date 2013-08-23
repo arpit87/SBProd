@@ -73,6 +73,7 @@ public class SBConnectivity {
    	{
     	ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
     	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+    	if(activeNetwork!=null)
     	switch (activeNetwork.getType()) {
     	  case (ConnectivityManager.TYPE_WIFI):
     		  return "Wifi";
@@ -81,6 +82,7 @@ public class SBConnectivity {
     	  default:
     		  return "";
     	}
+    	return "";
    	}
     
     public static String getNetworkSubType()

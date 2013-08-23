@@ -52,14 +52,13 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 public class StartStrangerBuddyActivity extends Activity {
-	public static final int UPLOAD_FREQUENCY = 30 * 60 * 1000;
+	
 
 	private static final String TAG = "in.co.hopin.Activities.StartStrangerBuddyActivity";
 	Runnable startMapActivity;
 	Intent showSBMapViewActivity;
 	Timer timer;
-	AtomicBoolean mapActivityStarted = new AtomicBoolean(false);	
-	private Context platformContext;
+	AtomicBoolean mapActivityStarted = new AtomicBoolean(false);
 	boolean upGradeMsgShown = false;
 
     private static Uri mHistoryUri = Uri.parse("content://" + HistoryContentProvider.AUTHORITY + "/db_fetch_only");
@@ -83,7 +82,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);       
+        setContentView(R.layout.main);        
     }
     
     private void firstRun() {
@@ -198,8 +197,7 @@ public class StartStrangerBuddyActivity extends Activity {
 
     public void onResume()
     {   	
-    	super.onResume();
-        setAlarm(Platform.getInstance().getContext());
+    	super.onResume();        
         if (!isLocationProviderEnabled()){
             buildAlertMessageForLocationProvider();           
         }
@@ -212,19 +210,18 @@ public class StartStrangerBuddyActivity extends Activity {
 	
 	        Logger.i(TAG,"started network listening ");
 	        SBLocationManager.getInstance().StartListeningtoNetwork();
-            loadHistoryFromDB();
-	        platformContext = Platform.getInstance().getContext();
+            loadHistoryFromDB();        
 	       
 	
 	        //map activity can get started from 3 places, timer task if location found instantly
 	        //else this new runnable posted after 3 seconds
 	        //else on first run
-	        showSBMapViewActivity = new Intent(platformContext, MapListViewTabActivity.class);
+	        showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
 	        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	
 	        startMapActivity = new Runnable() {
 	            public void run() {	            	
-	                platformContext.startActivity(showSBMapViewActivity);
+	            	Platform.getInstance().getContext().startActivity(showSBMapViewActivity);
 	                finish();
 	            }};
 	
@@ -272,13 +269,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	        }
         }
         }
-
-    public void setAlarm(Context context){
-        Intent intent =  new Intent(context, OnAlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
-    }
+    
     
     private boolean isVersionUpgraded()
     {

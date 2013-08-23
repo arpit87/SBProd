@@ -44,16 +44,18 @@ public class AddUserResponse extends ServerResponseBase{
             Platform.getInstance().startGCMService();
 			ThisUserNew.getInstance().setUserID(user_id);	
 			//ToastTracker.showToast("Got user_id:"+user_id);
-			ProgressHandler.dismissDialoge();
-			tutorial_activity.finish();
+			
 			//now we will start map activity
 			final Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);	
 			showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			 Platform.getInstance().getHandler().post(new Runnable() {
 	          public void run() { 
-	              Platform.getInstance().getContext().startActivity(showSBMapViewActivity);	              
+	              Platform.getInstance().getContext().startActivity(showSBMapViewActivity);
+	              ProgressHandler.dismissDialoge();
+	 			 tutorial_activity.finish();
 	          }
 	        });
+			 
 			 //this happends on fblogin from tutorial activity direct
 			 String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
 			 if(fbid != "")

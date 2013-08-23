@@ -208,9 +208,10 @@ public class FacebookConnector {
 	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
         	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
         	Logger.i(TAG, "login callback rec");
-        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..");        	
+        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..");
+        	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
         	requestUserData();         	
-	        HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
+	        
         }    
 	    
 
@@ -294,7 +295,7 @@ public class FacebookConnector {
                             public void run() {
                             	ProgressHandler.dismissDialoge();                            	
                             	Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
-                    	        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    	        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                     	        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);                    	                          	        
                                 MapListActivityHandler.getInstance().updateUserNameInListView();
                                 MapListActivityHandler.getInstance().updateUserPicInListView();

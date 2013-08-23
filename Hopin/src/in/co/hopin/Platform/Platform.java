@@ -4,6 +4,9 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.Users.CurrentNearbyUsers;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.service.OnAlarmReceiver;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -21,6 +24,7 @@ public class Platform {
 	private Handler handler;
 	private boolean ENABLE_LOGGING = false;
 	public boolean SUPPORTS_NEWAPI = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
+	public static final int UPLOAD_FREQUENCY = 30 * 60 * 1000;
 		
 	private Platform() {
 	}
@@ -50,7 +54,8 @@ public class Platform {
 		handler = new Handler();		
 		CurrentNearbyUsers.getInstance().clearAllData();
 		ThisUserNew.getInstance();	
-		EasyTracker.getInstance().setContext(context);	        
+		EasyTracker.getInstance().setContext(context);	
+		setAlarm(context);
 	}
 	
 	public int getThisAppVersion()
@@ -98,5 +103,11 @@ public class Platform {
         context.startService(intent);
      }
     
+    public void setAlarm(Context context){
+        Intent intent =  new Intent(context, OnAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
+    }
    
 }

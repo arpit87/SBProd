@@ -52,7 +52,7 @@ public class ChatHistoryProvider extends ContentProvider {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Logger.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ".");
-            if (oldVersion == 1 && newVersion == 2) {
+            if (oldVersion == 1 && newVersion > 1) {
                 db.execSQL("ALTER TABLE chathistory ADD COLUMN fromName TEXT;");
             } else {
                 //Write your own implementation
