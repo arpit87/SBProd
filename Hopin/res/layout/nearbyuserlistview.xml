@@ -13,7 +13,8 @@
         android:paddingBottom="5dip"        
         android:background="@drawable/gradient_green"
        >
-    
+   
+         
    <ImageView
         android:id="@+id/selfthumbnail"
         android:layout_width="40dip"
@@ -21,10 +22,10 @@
         android:layout_marginLeft="5dip" 
         android:layout_centerVertical="true"         
         android:scaleType="fitXY"  
-        android:src="@drawable/userpicicon"      
+        android:background="@drawable/userpicicon"      
          />
   
-    <ImageView
+     <ImageView
         android:id="@+id/selfthumbnailframe"
         android:layout_width="41dip"
         android:layout_height="41dip"

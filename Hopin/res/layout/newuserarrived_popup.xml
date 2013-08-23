@@ -99,7 +99,7 @@
             android:id="@+id/newuserarrive_popup_travel_details_separator"
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
-               
+            android:layout_marginTop="2.0dip"   
             android:layout_marginLeft="10.0dip"
             android:layout_marginRight="5.0dip"
             android:layout_below="@id/newuserarrive_popup_travelinfo"
@@ -236,7 +236,7 @@
             android:id="@+id/newuserarrive_popup_scroll_separator"
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
-            android:layout_marginTop="107dip"   
+            android:layout_marginTop="109dip"   
             android:layout_marginLeft="5.0dip"
             android:layout_marginRight="5.0dip"
             android:layout_toRightOf="@id/newuserarrive_popup_expanded_pic"
