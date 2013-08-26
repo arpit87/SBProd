@@ -28,6 +28,69 @@
             android:layout_alignParentRight="true" 
             android:layout_marginRight="45dip"
              ></TextView>
+        
+         <ImageView
+        android:id="@+id/swipe_tap_takeride_arrowtilt" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:src="@drawable/arrowrighttilt"
+        android:layout_marginTop="240dip"     
+        android:layout_marginLeft="120dip"      
+        />
+         <TextView
+         android:id="@+id/swipe_tap_joinpoolorsharetaxi"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:text="search pool/share taxi"
+        android:textColor="@color/white"
+        android:textSize="15dip" 
+        android:layout_marginLeft="50dip"
+        android:layout_below="@id/swipe_tap_takeride_arrowtilt"
+        
+             ></TextView>
+             <TextView
+         android:id="@+id/swipe_tap_idonthavecar"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:text="(I dont have a car)"
+        android:textColor="@color/white"
+        android:textSize="15dip" 
+        android:layout_marginLeft="63dip"
+        android:layout_below="@id/swipe_tap_joinpoolorsharetaxi"
+        
+             ></TextView>
+            
+            <ImageView
+        android:id="@+id/swipe_tap_offerride_arrowtilt" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:src="@drawable/arrowlefttilt"
+        android:layout_marginTop="240dip"     
+        android:layout_marginRight="40dip"   
+        android:layout_alignParentRight="true"   
+        />
+         <TextView
+         android:id="@+id/swipe_tap_offerpool"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:text="Offer ride"
+        android:textColor="@color/white"
+        android:textSize="15dip" 
+        android:layout_marginRight="5dip"
+        android:layout_below="@id/swipe_tap_offerride_arrowtilt"
+        android:layout_alignParentRight="true"
+             ></TextView>
+         <TextView
+         android:id="@+id/swipe_tap_ihavecar"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:text="(I got a car)"
+        android:textColor="@color/white"
+        android:textSize="15dip" 
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/swipe_tap_offerpool"
+        
+             ></TextView>  
         <TextView
             android:id="@+id/swipe_tap_swipetext"
             android:layout_height="wrap_content"

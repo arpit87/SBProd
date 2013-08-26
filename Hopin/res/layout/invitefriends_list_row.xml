@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"       
+    android:orientation="horizontal"
+    android:padding="10dip"
+    android:background="@drawable/borderless_button" 
+     >
+   
+        
+     <TextView
+          android:id="@+id/invitefriend_list_row_taptoinvite"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"          
+          android:text="Tap to invite"
+          android:textColor="@color/very_dark_gray"          
+          android:textSize="20sp"            
+          android:paddingLeft="130dip"
+      	  android:layout_marginTop="40dip"             
+          android:paddingBottom="2dip"    
+          android:paddingTop="2dip"  
+          android:background="@drawable/rounded_rectangle_verylightgray_with_backgroundshadow"
+          android:clickable="true"
+           />   
+       
+  
+   <ImageView
+        android:id="@+id/invitefriend_list_row_image"
+        android:layout_width="62dp"
+        android:layout_height="62dp"             
+        android:layout_marginLeft="17dip"
+        android:layout_marginTop="5dip"  
+        android:scaleType="fitXY"
+        android:background="@drawable/userpicicon_white"
+         />  
+         
+   <ImageView
+        android:id="@+id/invitefriend_list_row_imageframe"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@drawable/icon_frame"       
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="3dip"        
+         
+         />
+    
+   <TextView
+        android:id="@+id/invitefriend_list_row_invitefriendname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="Arpit Mishra"
+        android:layout_marginLeft="8dip"      
+        android:layout_marginTop="4dip" 
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:typeface="sans"
+        android:textSize="25dip"        
+        android:textStyle="bold"  
+        android:textColor="@color/black"      
+        android:layout_toRightOf="@id/invitefriend_list_row_imageframe" 
+                
+        />  
+         
+ </RelativeLayout> 
+ 

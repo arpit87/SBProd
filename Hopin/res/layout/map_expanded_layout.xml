@@ -183,7 +183,7 @@
             android:layout_margin="5.0dip"
             android:layout_marginLeft="14dp"                       
             android:scaleType="fitXY"
-            android:background="@drawable/chat_icon_blue_selector" />
+            android:src="@drawable/chat_icon_blue_selector" />
         
         <ImageView
             android:id="@+id/hopin_icon"

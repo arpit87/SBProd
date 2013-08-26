@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal" >
+   
+    <TextView         
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"         
+         android:paddingBottom="2.0dip"
+         android:paddingTop="2.0dip"
+         android:text="Invite friends"         
+         android:textColor="@color/black"
+         android:textSize="20dip"
+         android:textStyle="bold" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_rectangle_background_gray"
+    android:layout_marginBottom="2dip"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:orientation="vertical">
+    
+     <TextView
+        android:layout_marginTop="15dip"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite friend via:"  
+        android:textStyle="bold"      
+        android:textColor="@color/very_dark_gray"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dip"
+        android:textSize="20dip"/>       
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    
+    android:gravity="center"    
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_rectangle_verylightgray_with_backgroundshadow" >
+
+        <ImageView
+            android:id="@+id/invitefriendslist_layout_smsicon"
+            android:layout_width="0dip"
+            android:layout_height="35dp"            
+            android:layout_margin="5.0dip"
+            android:layout_marginLeft="14dp"                       
+            android:scaleType="center"
+            android:layout_weight="1"
+            android:src="@drawable/sms_icon_selector" 
+            android:clickable="true"/>
+        
+        <ImageView
+            android:id="@+id/invitefriendslist_layout_emailicon"
+            android:layout_width="0dip"
+            android:layout_height="39dp"
+            android:layout_margin="5.0dip"
+            android:layout_marginLeft="14dp" 
+            android:paddingBottom="4dip"                                  
+            android:scaleType="center"
+            android:layout_weight="1"
+            android:src="@drawable/email_icon_selector" 
+            android:clickable="true"/>
+              
+        
+        <ImageView
+            android:id="@+id/invitefriendslist_layout_fb_icon"
+            android:layout_width="0dip"
+            android:layout_height="35dp"           
+            android:layout_marginRight="5dip"
+            android:layout_marginLeft="5dp"                                 
+            android:scaleType="center"
+            android:layout_weight="1"
+            android:src="@drawable/fb_icon_selector"
+            android:clickable="true" />
+        
+    <ImageView
+            android:id="@+id/invitefriendslist_layout_wtsapp_icon"
+            android:layout_width="0dip"
+            android:layout_height="35dp"           
+            android:layout_margin="5.0dip"
+            android:layout_marginLeft="14dp"                       
+            android:scaleType="center"
+            android:layout_weight="1"
+            android:src="@drawable/wtsapp_icon_selector"
+            android:clickable="true" /> 
+        
+      </LinearLayout>
+    
+    <TextView
+          android:layout_width="wrap_content"               
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal" 
+          android:layout_marginTop="8dip"     
+          android:gravity="center_horizontal"          
+          android:text="Or"
+          android:textSize="30dip"
+          android:textColor="@color/gray" />
+    
+     <TextView
+        android:layout_marginTop="2dip"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick from here:"  
+        android:textStyle="bold"      
+        android:textColor="@color/very_dark_gray"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dip"
+        android:textSize="20dip"/> 
+        
+    <FrameLayout 
+    android:id="@+id/invitefriendslist_layout_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:layout_marginTop="8dip" 
+      
+     />
+     </LinearLayout>  
+</LinearLayout>
