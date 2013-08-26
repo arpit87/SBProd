@@ -277,7 +277,7 @@ public class SBChatService extends Service {
                         return;
                 	}
                 } else {
-                    //Logger.d(TAG, "No service discovery manager found");
+                    Logger.e(TAG, "No service discovery manager found");
                     return;
                 }
             }

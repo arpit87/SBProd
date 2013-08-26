@@ -310,11 +310,11 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
          break;         
      case R.id.main_menu_shareapp: 
     	 HopinTracker.sendEvent("MainMenu","MenuClick","mainmenu:click:tellafriend",1L);
-    	 Intent sendIntent = new Intent();
-    	 sendIntent.setAction(Intent.ACTION_SEND);
-    	 sendIntent.putExtra(Intent.EXTRA_TEXT, "Very useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link));
-    	 sendIntent.setType("text/plain");
-    	 startActivity(sendIntent);
+    	 Intent inviteFriendIntent = new Intent(this,InviteFriendsActivity.class);
+    	 //sendIntent.setAction(Intent.ACTION_SEND);
+    	 //sendIntent.putExtra(Intent.EXTRA_TEXT, "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link));
+    	 //sendIntent.setType("text/plain");
+    	 startActivity(inviteFriendIntent);
     	 break;         
      
         } 

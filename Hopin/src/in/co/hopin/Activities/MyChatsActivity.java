@@ -1,7 +1,7 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
-import in.co.hopin.Fragments.SBChatListFragment;
+import in.co.hopin.Fragments.ChatListFragment;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.Util.HopinTracker;
 import android.content.Intent;
@@ -30,8 +30,7 @@ public class MyChatsActivity extends FragmentActivity {
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState){
 		 super.onCreate(savedInstanceState);
-		 setContentView(R.layout.chatlist_layout);
-		 showChatListLayout();
+		 setContentView(R.layout.chatlist_layout);		
 	 }
 	 
 	 @Override
@@ -44,7 +43,7 @@ public class MyChatsActivity extends FragmentActivity {
 	    {
 	    	if (fm != null) {
 	            FragmentTransaction fragTrans = fm.beginTransaction();
-	            fragTrans.replace(R.id.chatlist_layout_content, new SBChatListFragment());	            
+	            fragTrans.replace(R.id.chatlist_layout_content, new ChatListFragment());	            
 	            fragTrans.commit();	           
 	        }
 	    }

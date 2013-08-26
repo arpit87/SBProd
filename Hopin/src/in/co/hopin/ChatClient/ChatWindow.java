@@ -250,7 +250,7 @@ public void onResume() {
         	}
         	else
         	{	        	
-	        	ProgressHandler.showInfiniteProgressDialoge(ChatWindow.this, "Fetching user profile", "Please wait..");
+	        	ProgressHandler.showInfiniteProgressDialoge(ChatWindow.this, "Fetching user profile", "Please wait..",null);
 		    	GetOtherUserProfileAndShowPopup req = new GetOtherUserProfileAndShowPopup(mParticipantFBID);
 				SBHttpClient.getInstance().executeRequest(req);	
         	}

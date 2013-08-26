@@ -72,7 +72,7 @@ public class MyRequestsActivity extends Activity {
 			@Override
 			public void onClick(View paramView) {
 				registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.CARPOOLREQ_DELETED));
-				ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting carpool request", "Please wait");
+				ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting carpool request", "Please wait",null);
 				DeleteRequest deleteRequest = new DeleteRequest(0);
                 SBHttpClient.getInstance().executeRequest(deleteRequest);
                 
@@ -85,7 +85,7 @@ public class MyRequestsActivity extends Activity {
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:dailycarpool:delete",1L);
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:onetime:delete",1L);
 						registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.INSTAREQ_DELETED));
-						ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting insta request", "Please wait");
+						ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting insta request", "Please wait",null);
 						DeleteRequest deleteRequest = new DeleteRequest(1);
 		                SBHttpClient.getInstance().executeRequest(deleteRequest);
 		                
@@ -100,7 +100,7 @@ public class MyRequestsActivity extends Activity {
                     String carpoolReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_CARPOOL);
                     final JSONObject responseJsonObj = new JSONObject(carpoolReqJson);
                     MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching carpool matches", "Please wait");
+                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching carpool matches", "Please wait",null);
                     SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest();
                     SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
                     finish();
@@ -118,7 +118,7 @@ public class MyRequestsActivity extends Activity {
                     String instaReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_INSTA);
                     final JSONObject responseJsonObj = new JSONObject(instaReqJson);
                     MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching matches", "Please wait");
+                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching matches", "Please wait",null);
                     SBHttpRequest getNearbyUsersRequest = new InstaRequest();
                     SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
                     finish();
@@ -201,6 +201,7 @@ public class MyRequestsActivity extends Activity {
     @Override
     public void onStop(){
         super.onStop();
+        unregisterReceiver(reqHandler);
         //EasyTracker.getInstance().activityStop(this);
     }
     

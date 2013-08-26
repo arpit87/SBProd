@@ -92,6 +92,31 @@ public class JSONHandler {
 		
 	}
 	
+	public static List<Friend> GetFriendsToInviteFromJSONObject(JSONObject jObj)
+	{
+		
+		//for 0 users we are returning null and not zero size list
+		ArrayList<Friend> friendsToInvite = new ArrayList<Friend>();
+		try {			
+						
+			JSONArray allFriendsToInvite = jObj.getJSONArray("FriendsToInvite");
+			
+			for(int i=0;i<allFriendsToInvite.length();i++)
+			{
+				JSONObject thisFriend=allFriendsToInvite.getJSONObject(i);
+				Logger.d("json",thisFriend.toString());
+				Friend f = new Friend(thisFriend);
+				friendsToInvite.add((f));				
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return friendsToInvite;
+		
+	}
+	
 	public static List<Friend> GetMutualFriendsFromJSONObject(JSONObject jObj)
 	{
 		

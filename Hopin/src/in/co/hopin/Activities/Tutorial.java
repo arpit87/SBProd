@@ -2,6 +2,7 @@ package in.co.hopin.Activities;
 
 import in.co.hopin.R;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
+import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.AddUserRequest;
@@ -34,7 +35,7 @@ public class Tutorial extends FragmentActivity{
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.tutorial_layout);
         
         Intent i = getIntent();
@@ -98,7 +99,7 @@ public class Tutorial extends FragmentActivity{
                //ThisUserConfig.getInstance().putString(ThisUserConfig.MOBILE, mobile);
                SBHttpRequest request = new AddUserRequest(uuid,userNameText,Tutorial.this);		
        		   SBHttpClient.getInstance().executeRequest(request);
-       		   ProgressHandler.showInfiniteProgressDialoge(Tutorial.this, "Welcome "+userNameText+"!", "Preparing for first run");       		  
+       		   ProgressHandler.showInfiniteProgressDialoge(Tutorial.this, "Welcome "+userNameText+"!", "Preparing for first run",null);       		  
 				
 			}
 		}); 
@@ -127,7 +128,7 @@ public class Tutorial extends FragmentActivity{
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        fbconnect.authorizeCallback(requestCode, resultCode, data);
+        CommunicationHelper.getInstance().authorizeCallback(Tutorial.this,requestCode, resultCode, data);
     }
 
     @Override

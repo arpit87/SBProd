@@ -212,14 +212,14 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 
 	public void showDestinationSuggestionPopup()
 	{
-		ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching destination suggestions..", "Please wait..");
+		ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching destination suggestions..", "Please wait..",null);
 		FetchAddressSuggestionsAndShowPopup showSourceList = new FetchAddressSuggestionsAndShowPopup(destination,false);
 		showSourceList.execute(destination.getText().toString());
 	}
 	
 	public void showSourceSuggestionPopup()
 	{
-		ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching source suggestions..", "Please wait..");
+		ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching source suggestions..", "Please wait..",null);
 		FetchAddressSuggestionsAndShowPopup showSourceList = new FetchAddressSuggestionsAndShowPopup(source,true);
 		showSourceList.execute(source.getText().toString());
 	}	
@@ -260,7 +260,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 			
 			getActivity().finish();
 			if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "user destination set... querying server");
-			ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..");
+			ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",null);
 			SBHttpRequest addThisUserSrcDstRequest;
 			if(getDailyInstaType() == 0)        		
 				addThisUserSrcDstRequest = new AddThisUserScrDstCarPoolRequest();        		

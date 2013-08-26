@@ -150,6 +150,11 @@ public class StringUtils {
    		return label_span;
    	}
 	
+    public static String getFBPicURLFromFBID(String fbid)
+    {
+    	String imageurl = "http://graph.facebook.com/" + fbid + "/picture?type=small";
+    	return imageurl;
+    }
 	
 }
 

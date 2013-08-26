@@ -15,7 +15,7 @@ public class SBHttpClient {
 	private static final String TAG = "in.co.hopin.HttpClient.SBHttpClient";
 	private static SBHttpClient uniqueClient;
 	private SBHttpClient(){};
-	private ServerResponseBase response;
+	private ServerResponseBase response = null;
 	public static SBHttpClient getInstance()
 	{		
 		if(uniqueClient == null)

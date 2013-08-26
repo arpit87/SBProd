@@ -5,6 +5,7 @@ import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.CurrentNearbyUsers;
+import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Util.HopinTracker;
 
 import org.apache.http.HttpResponse;
@@ -41,7 +42,8 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 			return;
 		}		
 		
-		CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);		
+		CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);	
+		FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);
 		//MapListActivityHandler.getInstance().updateNearbyUsers();	
 		if(CurrentNearbyUsers.getInstance().usersHaveChanged())
 		{

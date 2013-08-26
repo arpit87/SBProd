@@ -3,6 +3,7 @@ package in.co.hopin.Server;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Util.HopinTracker;
 
 import org.apache.http.HttpResponse;
@@ -20,19 +21,21 @@ public abstract class ServerResponseBase {
 		HttpStatus403, // access denied
 		HttpStatus404, // not found
 		HttpStatus422, // validation error
-		
+		Unknown, // unknown error
 	}	
 	
 	JSONObject jobj;
 	JSONObject body;
 	JSONObject error;
 	String RESTAPI = "";
-	protected ResponseStatus status;
+	protected ResponseStatus status = ResponseStatus.Unknown;
 	long reqTimeStamp =0L;
 	long responseTimeStamp =System.currentTimeMillis();
+	SBHttpResponseListener mListener;
 	
 	public ServerResponseBase(HttpResponse response,String jobjStr,String RESTAPI) {
 		
+		if(response!=null)
 		switch(response.getStatusLine().getStatusCode()){
 		case 200:
 			status = ResponseStatus.HttpStatus200;
@@ -94,6 +97,16 @@ public abstract class ServerResponseBase {
 	}
 
 	public abstract void process();
+	
+
+	public SBHttpResponseListener getResponseListener() {
+		return mListener;
+	}
+
+	public void setResponseListener(SBHttpResponseListener mListener) {
+		this.mListener = mListener;
+	}
+
 	
 	private long getResponseTimeMilli()
 	{

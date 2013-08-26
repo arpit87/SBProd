@@ -1,6 +1,7 @@
 package in.co.hopin.ActivityHandlers;
 
 import in.co.hopin.R;
+import in.co.hopin.Activities.InviteFriendsActivity;
 import in.co.hopin.Activities.MapListViewTabActivity;
 import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
@@ -454,8 +455,28 @@ public void onReceive(Context context, Intent intent) {
 	{
 		//ToastTracker.showToast("update intent received");
 		updateNearbyUsersOnUsersChange();
-	}	
+		if(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()==0)
+			buildAlertMessageForNoUserAndInviteFriends();
+			
+	}
+	
 }
+
+private void buildAlertMessageForNoUserAndInviteFriends() {
+    final AlertDialog.Builder builder = new AlertDialog.Builder(underlyingActivity);
+    builder.setMessage("No match found. Please invite your friends. Greater the noumber of users higher are chances of finding match.")
+            .setCancelable(true)
+            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(final DialogInterface dialog, final int id) {
+                    Intent startInviteActivity = new Intent(underlyingActivity,InviteFriendsActivity.class);
+                    underlyingActivity.startActivity(startInviteActivity);
+                }
+            })           
+            ;
+    final AlertDialog alert = builder.create();
+    alert.show();
+}
+
 
 public ViewGroup getThisListContainerWithListView() {
     if (mListViewContainer == null) {

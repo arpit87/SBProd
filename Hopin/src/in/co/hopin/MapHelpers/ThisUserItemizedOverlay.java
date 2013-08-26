@@ -54,7 +54,9 @@ public class ThisUserItemizedOverlay extends BaseItemizedOverlay{
 	
 	public void  updateThisUser()
 	{
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updating this user,removing overlay");		
+		Logger.i(TAG,"updating this user,removing overlay");
+		if(mMapView == null)
+			return;
 		mMapView.removeSelfView();
 		if(selfOverlayItem!=null)
 		{			

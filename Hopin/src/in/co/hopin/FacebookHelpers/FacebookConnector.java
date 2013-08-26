@@ -44,8 +44,8 @@ public class FacebookConnector {
 	private static final String TAG = "in.co.hopin.FacebookHelpers.FacebookConnector";
 	
 	public static String [] FB_PERMISSIONS = {"user_about_me","user_education_history","user_hometown","user_work_history","email"};
-	public static String FB_APP_ID = "107927182711315";	
-	//public static String FB_APP_ID = "486912421326659"; //debug one
+	//public static String FB_APP_ID = "107927182711315";	
+	public static String FB_APP_ID = "486912421326659"; //debug one
 	
 	private static FacebookConnector fbconnect = null;
 	public static Facebook facebook = new Facebook(FB_APP_ID);
@@ -86,7 +86,7 @@ public class FacebookConnector {
 	        facebook.setAccessExpires(expires);
 	    }
 		if (facebook.isSessionValid()) {
-			ProgressHandler.showInfiniteProgressDialoge(underlyingActivity,"Logging out from facebook", "Wait a moment");
+			ProgressHandler.showInfiniteProgressDialoge(underlyingActivity,"Logging out from facebook", "Wait a moment",null);
 		    AsyncFacebookRunner asyncRunner = new AsyncFacebookRunner(facebook);
 		    asyncRunner.logout(underlyingActivity.getBaseContext(), new LogoutRequestListener());		    
 		} 
@@ -208,7 +208,7 @@ public class FacebookConnector {
 	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
         	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
         	Logger.i(TAG, "login callback rec");
-        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..");
+        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..",null);
         	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
         	requestUserData();         	
 	        
@@ -282,7 +282,7 @@ public class FacebookConnector {
                 	if(userId == "")
                 	{
                 		//this happens on fb login from tutorial page.
-                		ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Welcome "+first_name+" "+last_name+"!", "Preparing for first run..");
+                		ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Welcome "+first_name+" "+last_name+"!", "Preparing for first run..",null);
                 		String uuid = ThisAppConfig.getInstance().getString(ThisAppConfig.APPUUID);
                 		SBHttpRequest request = new AddUserRequest(uuid,username,underlyingActivity);		
                   		SBHttpClient.getInstance().executeRequest(request);

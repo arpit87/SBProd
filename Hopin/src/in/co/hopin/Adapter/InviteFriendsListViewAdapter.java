@@ -1,14 +1,13 @@
 package in.co.hopin.Adapter;
 
 import in.co.hopin.R;
+import in.co.hopin.Activities.Tutorial;
 import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.HttpClient.AddUserRequest;
+import in.co.hopin.HttpClient.InviteFriendRequest;
+import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Users.Friend;
-import in.co.hopin.Users.NearbyUser;
-import in.co.hopin.Users.ThisUserNew;
-import in.co.hopin.Users.UserFBInfo;
-import in.co.hopin.Users.UserLocInfo;
-import in.co.hopin.Users.UserOtherInfo;
-import in.co.hopin.Util.StringUtils;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -59,47 +59,41 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Friend thisFriend = (Friend) mFriendsList.get(position);
-		View thisUserView=convertView;
-        if( position == mFriendsList.size()-1)
-        	thisUserView = inflater.inflate(R.layout.nearbyuser_list_lastrow, null);
-        else        		
-        	thisUserView = inflater.inflate(R.layout.nearbyuser_list_row, null);
+		final Friend thisFriend = (Friend) mFriendsList.get(position);
+		View thisFriendView=convertView;
+        if(thisFriendView == null)     		
+        	thisFriendView = inflater.inflate(R.layout.invitefriends_list_row, null);
+        final boolean hasBeenInvited = thisFriend.hasBeenInvited();
+        boolean hasInstalledHopin = thisFriend.hasInstalledHopin();
         
-        ImageView userImageView = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_image);
+        ImageView userImageView = (ImageView)thisFriendView.findViewById(R.id.invitefriend_list_row_image);
+                
+        TextView userName = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_invitefriendname);
+        userName.setText(thisFriend.getName());
+        final TextView inviteTap = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_taptoinvite);
         
-        ImageView chatDotOffline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_offline);
-        ImageView chatDotOnline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_online);
-        
-       /* TextView userName = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_nearbyusername);
-        TextView mutualFriends = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_mutualfriends);
-        TextView userSource = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_source);
-        TextView userDestination = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_destination);
-        TextView userTime = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_time);        
-        SBImageLoader.getInstance().displayImageElseStub(thisUser.getUserFBInfo().getImageURL(), userImageView, R.drawable.userpicicon);
-        final UserFBInfo thisUserFBInfo = thisUser.getUserFBInfo();
-        UserLocInfo thisUserLocInfo = thisUser.getUserLocInfo();
-        UserOtherInfo thisUserOtherInfo = thisUser.getUserOtherInfo();
-        String name = thisUserFBInfo.getFullName();
-        if(StringUtils.isBlank(name))
-        	name = thisUserOtherInfo.getUserName();
-        String source = thisUserLocInfo.getUserSrcAddress();
-        String destination = thisUserLocInfo.getUserDstAddress();
-        String formattedTravelInfo = thisUserLocInfo.getFormattedTimeDetails(ThisUserNew.getInstance().get_Daily_Instant_Type());
-        userName.setText(name);
-        String mutual_friends = Integer.toString(thisUserFBInfo.getNumberOfMutualFriends());        
-        mutualFriends.setText(StringUtils.getSpannedText(mutual_friends,"mutual friends"));
-        userSource.setText(StringUtils.getSpannedTextUptoChar(",",source,2));
-        //userDestination.setText(StringUtils.getSpannedText("To:", destination));
-       // userTime.setText(StringUtils.getSpannedText("At:",formattedTravelInfo));
-        userDestination.setText(StringUtils.getSpannedTextUptoChar(",",destination,2));
-        userTime.setText(StringUtils.getSpannedTextUptoChar(",",formattedTravelInfo,1));
-        if(thisUserOtherInfo.isOnline())        	
+        SBImageLoader.getInstance().displayImageElseStub(thisFriend.getImageURL(), userImageView, R.drawable.userpicicon);
+        if(thisFriend.isInvitationJustSent())
+        	inviteTap.setText("Inviting...");
+        else if(hasBeenInvited)
+        	inviteTap.setText("Invitation sent");
+        else if(hasInstalledHopin)
+        	inviteTap.setText("Hopin installed");
+        else
         {
-        	chatDotOffline.setVisibility(View.INVISIBLE);
-        	chatDotOnline.setVisibility(View.VISIBLE);
-        }*/
-		return thisUserView;
+        	inviteTap.setText("Tap to invite");        
+	        inviteTap.setOnClickListener(new OnClickListener() {			
+				@Override
+				public void onClick(View v) {
+						inviteTap.setText("Inviting...");							
+						SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
+			       		SBHttpClient.getInstance().executeRequest(request);
+			       		thisFriend.setInvitationJustSent(true);
+					}				
+			});
+        }
+        
+		return thisFriendView;
 	}	
 	
 

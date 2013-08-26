@@ -76,8 +76,18 @@ public class UserAttributes {
 	public static String TARGETUSERID = "target_user_id";
 	
 	//friend
-	public static String FRIENDFBID = "id";
+	public static String FRIENDFBID = "fbid";
 	public static String FRIENDNAME = "name";
 	public static String INSTALLEDHOPIN = "installed_hopin";
+	public static String INVITED = "invited";
+	
+	//friendslist
+	public static String FRIENDSTOINVITE = "FriendsToInvite";
+	public static String OFFSET = "offset";
+	public static String LIMIT = "limit";
+	
+	//invitation
+	public static String INVITATIONFROM = "from";
+	public static String INVITATIONTO = "to";
 	
 }

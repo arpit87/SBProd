@@ -87,7 +87,7 @@ public class ShowActiveReqPrompt extends DialogFragment{
 							HopinTracker.sendEvent("ShowActiveReqPrompt","ButtonClick","showactivereqprompt:dailycarpool",1L);
 							try {
 								MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching carpool matches", "Please wait");
+								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching carpool matches", "Please wait",null);
 								SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest();
 						        SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
 						        dismiss(); 
@@ -139,7 +139,7 @@ public class ShowActiveReqPrompt extends DialogFragment{
 							HopinTracker.sendEvent("ShowActiveReqPrompt","ButtonClick","showactivereqprompt:onetimepool",1L);
 							try {
 								MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching  matches", "Please wait");
+								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching  matches", "Please wait",null);
 								SBHttpRequest getNearbyUsersRequest = new InstaRequest();
 						        SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
 						        dismiss(); 

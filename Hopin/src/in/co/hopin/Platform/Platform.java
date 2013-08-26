@@ -22,7 +22,7 @@ public class Platform {
 	private static Platform instance = null;
 	private Context context;	
 	private Handler handler;
-	private boolean ENABLE_LOGGING = false;
+	private boolean ENABLE_LOGGING = true;
 	public boolean SUPPORTS_NEWAPI = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
 	public static final int UPLOAD_FREQUENCY = 30 * 60 * 1000;
 		

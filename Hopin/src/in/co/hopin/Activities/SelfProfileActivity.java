@@ -53,7 +53,7 @@ public class SelfProfileActivity extends FragmentActivity {
     	 if(ThisUserNew.getInstance().getUserFBInfo()==null && ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))    		
     	{
 	    		//need to fetch data from out server
-	    		ProgressHandler.showInfiniteProgressDialoge(this, "Fetching your profile data", "Please wait..");
+	    		ProgressHandler.showInfiniteProgressDialoge(this, "Fetching your profile data", "Please wait..",null);
 	    		SelfProfileRequest req = new SelfProfileRequest();
 				SBHttpClient.getInstance().executeRequest(req);
     	}
