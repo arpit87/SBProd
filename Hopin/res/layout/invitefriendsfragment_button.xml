@@ -11,7 +11,7 @@
              android:background="@drawable/green_gradient_btn_selector"                                    
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:padding="5dip"
+             android:padding="10dip"
              android:text="Get suggestions"
              android:layout_centerInParent="true"           
              /> 

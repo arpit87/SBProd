@@ -62,8 +62,7 @@
                  android:textColor="#ff0f6cf6"
                  android:textSize="30dip" />
 
-             <ImageView
-                 android:id="@+id/scene0_scrollArrow"
+             <ImageView                 
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_gravity="center"

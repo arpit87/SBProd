@@ -33,7 +33,7 @@
         android:textStyle="bold"      
         android:textColor="@color/very_dark_gray"
         android:layout_gravity="left"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="8dip"
         android:textSize="20dip"/>       
     <LinearLayout
     android:layout_width="fill_parent"
@@ -53,6 +53,10 @@
             android:layout_weight="1"
             android:src="@drawable/sms_icon_selector" 
             android:clickable="true"/>
+        <View android:layout_width="1dip"
+            android:layout_height="30dp" 
+            android:background="@color/mediun_light_gray"
+            ></View>
         
         <ImageView
             android:id="@+id/invitefriendslist_layout_emailicon"
@@ -66,7 +70,10 @@
             android:src="@drawable/email_icon_selector" 
             android:clickable="true"/>
               
-        
+        <View android:layout_width="1dip"
+            android:layout_height="30dp" 
+            android:background="@color/mediun_light_gray"
+            ></View>
         <ImageView
             android:id="@+id/invitefriendslist_layout_fb_icon"
             android:layout_width="0dip"
@@ -77,7 +84,10 @@
             android:layout_weight="1"
             android:src="@drawable/fb_icon_selector"
             android:clickable="true" />
-        
+        <View android:layout_width="1dip"
+            android:layout_height="30dp" 
+            android:background="@color/mediun_light_gray"
+            ></View>
     <ImageView
             android:id="@+id/invitefriendslist_layout_wtsapp_icon"
             android:layout_width="0dip"
@@ -91,25 +101,23 @@
         
       </LinearLayout>
     
-    <TextView
+    <ImageView
           android:layout_width="wrap_content"               
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal" 
-          android:layout_marginTop="8dip"     
-          android:gravity="center_horizontal"          
-          android:text="Or"
-          android:textSize="30dip"
-          android:textColor="@color/gray" />
+          android:layout_marginTop="10dip"     
+          android:gravity="center_horizontal"         
+          android:src="@drawable/dotted_or"/>
     
      <TextView
-        android:layout_marginTop="2dip"        
+        android:layout_marginTop="8dip"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick from here:"  
+        android:text="Pick from list:"  
         android:textStyle="bold"      
         android:textColor="@color/very_dark_gray"
-        android:layout_gravity="left"
-        android:layout_marginLeft="10dip"
+        android:layout_gravity="left"        
+        android:layout_marginLeft="8dip"
         android:textSize="20dip"/> 
         
     <FrameLayout 
