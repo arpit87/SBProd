@@ -42,6 +42,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Point;
 import android.location.Location;
@@ -464,9 +465,15 @@ public void onReceive(Context context, Intent intent) {
 
 private void buildAlertMessageForNoUserAndInviteFriends() {
     final AlertDialog.Builder builder = new AlertDialog.Builder(underlyingActivity);
-    builder.setMessage("No match found. Please invite your friends. Greater the noumber of users higher are chances of finding match.")
+    builder.setMessage("Sorry, No match found. Please invite your friends to increase possibility of finding match")
             .setCancelable(true)
-            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            .setNegativeButton("Cancel", new OnClickListener() {				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();					
+				}
+			})
+            .setPositiveButton("Ok", new OnClickListener() {
                 public void onClick(final DialogInterface dialog, final int id) {
                     Intent startInviteActivity = new Intent(underlyingActivity,InviteFriendsActivity.class);
                     underlyingActivity.startActivity(startInviteActivity);

@@ -477,7 +477,8 @@ public abstract class AbstractSearchInputFrag extends Fragment{
         try {
             StringBuilder sb = new StringBuilder(GOOGLE_PLACES_URL);
             sb.append("?sensor=false&key=" + API_KEY);
-            sb.append("&components=country:").append(countryCodeISO);
+            if(!StringUtils.isBlank(countryCodeISO))
+            	sb.append("&components=country:").append(countryCodeISO);
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());

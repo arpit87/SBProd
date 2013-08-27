@@ -148,9 +148,10 @@ public class CommunicationHelper {
 		{		 	
 		   //we keeping a track for which all activities we are showing prompt
 		   //if already showing then blink it
-		    HopinTracker.sendEvent("FacebookLoginpromptPopup","ShowPrompt","fblogin_popup:show_on:"+underlyingActivity.getClass().toString(),1L);
+		   Logger.d(TAG, "showing fb login popup:"+show);		    
 			if(show)
-			{				
+			{
+				HopinTracker.sendEvent("FacebookLoginpromptPopup","ShowPrompt","fblogin_popup:show_on:"+underlyingActivity.getClass().toString(),1L);
 				if(!isFBPromptShowing )
 				{	
 					isFBPromptShowing = true;

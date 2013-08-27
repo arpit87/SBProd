@@ -8,11 +8,13 @@ import in.co.hopin.HttpClient.InviteFriendRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Users.Friend;
+import in.co.hopin.Util.HopinTracker;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +58,13 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 		mFriendsList.clear();
 		notifyDataSetChanged();
 	}
+	
+	public void updateContents(List<Friend> friendList)
+	{
+		mFriendsList.clear();
+		mFriendsList.addAll(friendList);
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -76,7 +85,10 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
         if(thisFriend.isInvitationJustSent())
         	inviteTap.setText("Inviting...");
         else if(hasBeenInvited)
+        {
         	inviteTap.setText("Invitation sent");
+        	inviteTap.setTypeface(null, Typeface.BOLD);
+        }
         else if(hasInstalledHopin)
         	inviteTap.setText("Hopin installed");
         else
@@ -89,6 +101,7 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 						SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
 			       		SBHttpClient.getInstance().executeRequest(request);
 			       		thisFriend.setInvitationJustSent(true);
+			       		HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:invite",1L);
 					}				
 			});
         }

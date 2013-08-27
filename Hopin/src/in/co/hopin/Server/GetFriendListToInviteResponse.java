@@ -4,6 +4,7 @@ import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HelperClasses.ToastTracker;
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Users.UserAttributes;
@@ -35,7 +36,9 @@ public class GetFriendListToInviteResponse extends ServerResponseBase{
 		try {
 			body = jobj.getJSONObject("body");			
 			FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);
-			getResponseListener().onComplete("");			
+			SBHttpResponseListener listener = getResponseListener();
+			if(listener!=null)
+				listener.onComplete("");			
 			logSuccess();
 		} catch (JSONException e) {
 			logServererror();

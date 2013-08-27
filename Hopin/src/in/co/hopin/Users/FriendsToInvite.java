@@ -33,6 +33,13 @@ public class FriendsToInvite {
 	{		
 		Logger.i(TAG,"updateFriendsToInviteFromJSON");		
 		mInviteFriendList = JSONHandler.GetFriendsToInviteFromJSONObject(body);
+		if(mInviteFriendList.size()>0)
+		{
+			for(Friend f : mInviteFriendList)
+			{
+				FBID_FriendToInviteMap.put(f.getFb_id(), f);
+			}
+		}	
 		
 	}
 

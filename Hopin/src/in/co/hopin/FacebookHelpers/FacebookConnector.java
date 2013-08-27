@@ -44,8 +44,8 @@ public class FacebookConnector {
 	private static final String TAG = "in.co.hopin.FacebookHelpers.FacebookConnector";
 	
 	public static String [] FB_PERMISSIONS = {"user_about_me","user_education_history","user_hometown","user_work_history","email"};
-	//public static String FB_APP_ID = "107927182711315";	
-	public static String FB_APP_ID = "486912421326659"; //debug one
+	public static String FB_APP_ID = "107927182711315";	
+	//public static String FB_APP_ID = "486912421326659"; //debug one
 	
 	private static FacebookConnector fbconnect = null;
 	public static Facebook facebook = new Facebook(FB_APP_ID);
@@ -375,6 +375,52 @@ public class FacebookConnector {
 		 			| Intent.FLAG_ACTIVITY_NEW_TASK);
 		   underlyingActivity.startActivity(i);
 		}	
+	
+	/*public void inviteFriends(Activity activity){
+	    // Safe programming
+	    if(friendsIds == null || friendsIds.size() == 0)        
+	        return;
+
+	    Bundle parameters = new Bundle();
+
+	    // Get the friend ids
+	    String friendsIdsInFormat = "";
+	    for(int i=0; i<friendsIds.size()-1; i++){
+	        friendsIdsInFormat = friendsIdsInFormat + friendsIds.get(i) + ", ";
+	    }
+	    friendsIdsInFormat = friendsIdsInFormat + friendsIds.get(friendsIds.size()-1).getId();
+
+	    parameters.putString("to", friendsIdsInFormat);
+	    parameters.putString( "message", "Use my app!");
+
+	    // Show dialog for invitation
+	    FacebookConnector.getInstance(activity)mFacebook.dialog(activity, "apprequests", parameters, new Facebook.DialogListener() {
+	        @Override
+	        public void onComplete(Bundle values) {
+	            // TODO Auto-generated method stub
+
+	        }
+
+	        @Override
+	        public void onFacebookError(FacebookError e) {
+	            // TODO Auto-generated method stub
+
+	        }
+
+	        @Override
+	        public void onError(DialogError e) {
+	            // TODO Auto-generated method stub
+
+	        }
+
+	        @Override
+	        public void onCancel() {
+	            // TODO Auto-generated method stub
+
+	        }
+	    });
+
+	}*/
     
 }
 	

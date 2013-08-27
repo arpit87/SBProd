@@ -9,6 +9,7 @@ import in.co.hopin.HttpClient.GetFriendListToInviteRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
+import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,12 +45,13 @@ public class InviteFriendButtonFragment extends Fragment {
 					SBHttpResponseListener listener = activity.getReqListener();
 					ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Please wait..", "Fetching friends..",listener);
 					SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(0,15, listener);
-					SBHttpClient.getInstance().executeRequest(fetchFriendsReq);
+					SBHttpClient.getInstance().executeRequest(fetchFriendsReq);					
 				}
 				else
 				{
 					CommunicationHelper.getInstance().FBLoginDialog_show(getActivity());
 				}
+				HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:getsuggestion",1L);
 			}
 		});
 		 

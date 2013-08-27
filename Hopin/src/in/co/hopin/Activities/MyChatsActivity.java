@@ -17,8 +17,8 @@ public class MyChatsActivity extends FragmentActivity {
 	  @Override
 	    public void onStart(){
 	        super.onStart();
-	        HopinTracker.sendView("MyChats");
-	        HopinTracker.sendEvent("MyChats","ScreenOpen","mychats:open",1L);	        
+	        HopinTracker.sendView("MyChat");
+	        HopinTracker.sendEvent("MyChat","ScreenOpen","mychats:open",1L);	        
 	    }
 
 	    @Override

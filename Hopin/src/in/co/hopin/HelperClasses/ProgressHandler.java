@@ -3,6 +3,7 @@ package in.co.hopin.HelperClasses;
 
 import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Util.HopinTracker;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,7 +39,8 @@ public class ProgressHandler {
 			{
 				progressDialog.setTitle("Taking too long?");
 				progressDialog.setMessage("It seems network connection is too slow,press back to cancel");				
-				progressDialog.setCancelable(true);					
+				progressDialog.setCancelable(true);		
+				HopinTracker.sendEvent("ProgressHandler","ShowDialog","progresshandler:show:cancelable:"+underlying_activity.getClass().toString(),1L);
 			}			
 		}
 	};
@@ -51,8 +53,10 @@ public class ProgressHandler {
 			progressDialog.setOnCancelListener(new OnCancelListener() {				
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					isshowing.set(false);			
-					mListener.onCancel();
+					isshowing.set(false);	
+					if(mListener!=null)
+						mListener.onCancel();
+					HopinTracker.sendEvent("ProgressHandler","ButtonClick","progresshandler:click:cancel:"+underlying_activity.getClass().toString(),1L);
 				}		
 		});
 	}};	
@@ -66,7 +70,8 @@ public class ProgressHandler {
 			ProgressHandler.underlying_activity = underlying_activity;
 			ProgressHandler.title = title;
 			ProgressHandler.message = message;
-			Platform.getInstance().getHandler().post(startRunnable);			
+			Platform.getInstance().getHandler().post(startRunnable);	
+			HopinTracker.sendEvent("ProgressHandler","ShowDialog","progresshandler:show:newdialog:"+underlying_activity.getClass().toString(),1L);
 			//set cancelable after 10 sec of delay
 			Platform.getInstance().getHandler().postDelayed(cancelableRunnable,10000);
 		}
@@ -78,6 +83,7 @@ public class ProgressHandler {
 					public void run() {
 						progressDialog.setTitle(title);
 						progressDialog.setMessage(message);
+						HopinTracker.sendEvent("ProgressHandler","ShowDialog","progresshandler:show:updateolddialog:"+underlying_activity.getClass().toString(),1L);
 				}}));
 			}
 		}
