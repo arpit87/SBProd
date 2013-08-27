@@ -1,5 +1,6 @@
 package in.co.hopin.Fragments;
 
+import android.telephony.TelephonyManager;
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.Adapter.HistoryAdapter;
@@ -102,7 +103,8 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	boolean sourceSet = false;
 	ProgressBar source_progressbar = null;
 	ProgressBar destination_progressbar = null;
-	//0 daily pool,1 instant share
+    private String countryCodeISO;
+    //0 daily pool,1 instant share
 	//0 take ,1 offer	
 	
 	public abstract SBGeoPoint getSourceGeopoint();
@@ -203,6 +205,9 @@ public abstract class AbstractSearchInputFrag extends Fragment{
         });
         destination.addTextChangedListener(new CustomTextWatcher(destination_progressbar,false));
         destination.setAdapter(destinationAutoCompleteAdapter);
+
+        TelephonyManager telephonyManager = (TelephonyManager)Platform.getInstance().getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        this.countryCodeISO = telephonyManager.getNetworkCountryIso().toLowerCase();
 	}
 	
 	@Override
@@ -471,7 +476,8 @@ public abstract class AbstractSearchInputFrag extends Fragment{
         StringBuilder jsonResults = new StringBuilder();
         try {
             StringBuilder sb = new StringBuilder(GOOGLE_PLACES_URL);
-            sb.append("?sensor=false&key=" + API_KEY);            
+            sb.append("?sensor=false&key=" + API_KEY);
+            sb.append("&components=country:").append(countryCodeISO);
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
