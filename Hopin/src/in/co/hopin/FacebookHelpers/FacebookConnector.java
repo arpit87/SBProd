@@ -181,9 +181,9 @@ Logger.i(TAG, "relogin called");
 	private void requestUserData(Session session,SessionState state) {
 		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);
 		Logger.i(TAG,"requestUserData");
-		Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+		//Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
 		Context context= Platform.getInstance().getContext();		
-		Settings.publishInstallAsync(context, context.getResources().getString(in.co.hopin.R.string.fb_app_id));
+		//Settings.publishInstallAsync(context, context.getResources().getString(in.co.hopin.R.string.fb_app_id));
 		if (state.isOpened()) {	   
 
 		    // Request user data and show the results
