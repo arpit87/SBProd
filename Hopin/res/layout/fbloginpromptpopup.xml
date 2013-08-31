@@ -31,7 +31,7 @@
 	        android:layout_height="wrap_content"
 	        android:textColor="@color/white"
 	        android:textSize="15dip"
-	        android:text="  Tap here to interact with users"
+	        android:text="  FB login required to chat with users"
 	        
 	        />
 	    </LinearLayout>

@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"  
         android:src="@drawable/arrowrighttilt"
-        android:layout_marginTop="240dip"     
+        android:layout_marginTop="260dip"     
         android:layout_marginLeft="120dip"      
         />
          <TextView
@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"  
         android:src="@drawable/arrowlefttilt"
-        android:layout_marginTop="240dip"     
+        android:layout_marginTop="260dip"     
         android:layout_marginRight="40dip"   
         android:layout_alignParentRight="true"   
         />
@@ -98,7 +98,7 @@
             android:text="Swipe"
             android:textColor="@color/white"
             android:textSize="15dip"           
-            android:layout_marginBottom="105dip" 
+            android:layout_marginBottom="95dip" 
        		android:layout_centerHorizontal="true"
        		android:layout_alignParentBottom="true"
              ></TextView>
@@ -108,8 +108,7 @@
         android:layout_height="wrap_content"  
         android:src="@drawable/finger_swipe"
         android:gravity="right" 
-        android:layout_above="@id/swipe_tap_swipetext"
-        
+        android:layout_above="@id/swipe_tap_swipetext"        
         android:layout_centerHorizontal="true"       
         />
       
@@ -119,7 +118,7 @@
         android:layout_height="wrap_content"  
         android:src="@drawable/arrowswiperight"        
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dip"
+        android:layout_marginBottom="140dip"
         android:layout_toRightOf="@id/swipe_tap_swipecentre"
         />
         
@@ -129,7 +128,7 @@
         android:layout_height="wrap_content"  
         android:src="@drawable/arrowswipeleft"      
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dip"
+        android:layout_marginBottom="140dip"
         android:layout_toLeftOf="@id/swipe_tap_swipecentre"   
         />         
          

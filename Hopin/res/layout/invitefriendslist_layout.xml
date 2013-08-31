@@ -29,16 +29,15 @@
         android:layout_marginTop="15dip"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Invite friend via:"  
+        android:text="Invite friend from below apps"  
         android:textStyle="bold"      
-        android:textColor="@color/very_dark_gray"
-        android:layout_gravity="left"
-        android:layout_marginLeft="8dip"
-        android:textSize="20dip"/>       
+        android:textColor="@color/very_dark_gray"                
+        android:textSize="20dip"
+        android:layout_gravity="center_horizontal"/>       
     <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    
+    android:layout_marginTop="5dip"
     android:gravity="center"    
     android:orientation="horizontal"
     android:background="@drawable/rounded_rectangle_verylightgray_with_backgroundshadow" >
@@ -113,10 +112,10 @@
         android:layout_marginTop="8dip"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick from list:"  
+        android:text="Select from list and send"  
         android:textStyle="bold"      
         android:textColor="@color/very_dark_gray"
-        android:layout_gravity="left"        
+        android:layout_gravity="center_horizontal"        
         android:layout_marginLeft="8dip"
         android:textSize="20dip"/> 
         

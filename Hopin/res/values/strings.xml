@@ -5,7 +5,7 @@
     <string name="title1">Hopin</string>
     <color name="white">#ffffffff</color>
     <color name="dark_gray">#808080</color>
-    <string name="slogan">Lets move, together</string>
+    <string name="slogan">Lets commute, together</string>
     <string name="buttonlogin">Login</string>
     <string name="buttoncarpool">Pool search</string>
     <string name="buttonhirenow">Hire Now</string>
@@ -26,9 +26,6 @@
     <string name="AcceptContactRequest">%s has just added you to his/her buddy list.</string>
 	<string name="AcceptContactRequestFrom">Authorize %s to contact you.</string>
     <color name="black">#ff000000</color>
-    <string name="sloganl1">Share,</string>
-    <string name="sloganl2">right now,</string><string name="stranger">Stranger</string>
-    <string name="buddy">Buddy</string>
     <color name="red">#ffff0000</color>
     <color name="yellow">#ffffff00</color>
     
@@ -74,4 +71,6 @@
 	<string name="hopin_admin_girl_upgrademessage">team Hopin is continously striving to build better and better product. I would love to hear from you. Feel free to contact for any suggestion</string>
 	<string name="http_app_link">http://play.google.com/store/apps/details?id=in.co.hopin</string>
 	<string name="http_tiny_app_link">http://goo.gl/9ODUkv</string>
+	<string name="fb_app_id">107927182711315</string>
+	<string name="fb_app_id_debug">486912421326659</string>
 </resources>
