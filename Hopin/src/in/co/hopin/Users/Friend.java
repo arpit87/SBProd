@@ -7,10 +7,11 @@ public class Friend {
 	
 	private String fb_id = "";
 	private String name = "";
+	private String username = "";
 	JSONObject allInfo = null;
 	private String installed_hopin = "0";
-	private String invited = "0";
-	private boolean invitationJustSent = false;
+	private String invited = "0";	
+	private boolean selected = false;
 	
 	
 	
@@ -36,6 +37,11 @@ public class Friend {
         
         try {
         	invited = allInfo.getString(UserAttributes.INVITED);
+        } catch (JSONException e) {
+        }
+        
+        try {
+        	username = allInfo.getString(UserAttributes.FRIENDFBUSERNAME);
         } catch (JSONException e) {
         }
 	}
@@ -67,19 +73,17 @@ public class Friend {
 		else 
 			return false;		
 	}
+
+	public boolean isSelected() {
+		return selected;
+	}
 	
-	public boolean isInvitationJustSent() {
-		return invitationJustSent;
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
-	public void setInvitationJustSent(boolean invitationJustSent) {
-		this.invitationJustSent = invitationJustSent;
-	}
-	
-	public void invitationSentSuccessfully()
+	public String getFBUserName()
 	{
-		invited = "1";
-		invitationJustSent = false;
+		return username;
 	}
-
 }

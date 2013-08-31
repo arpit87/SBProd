@@ -38,11 +38,10 @@ public class AddThisUserScrDstCarPoolRequest extends SBHttpRequest {
 		//we will post 2 requests here
 		//1)addrequest to add source and destination
 		//2) getUsersRequest to get users
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 		jsonobjAddRequest = GetServerAuthenticatedJSON();
-		httpQueryAddRequest = new HttpPost(URL);
-		URLStr = URL;
+		httpQueryAddRequest = new HttpPost(URL);		
 		try {
 			populateEntityObject();
 		} catch (JSONException e) {

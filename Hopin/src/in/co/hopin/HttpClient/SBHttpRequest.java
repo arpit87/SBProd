@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 public abstract class SBHttpRequest {
 	
+	
 	public enum QueryMethod {
 		Get,
 		Post,
@@ -21,6 +22,7 @@ public abstract class SBHttpRequest {
 	
 	QueryMethod queryMethod = null;
 	String URLStr = "";
+	String API = "";
 	HttpResponse response = null;
 	long reqTimeStamp = System.currentTimeMillis();
 	// Create a response handler
@@ -28,10 +30,22 @@ public abstract class SBHttpRequest {
     	
 	public abstract ServerResponseBase execute();	
 	
+	public SBHttpRequest(String URL,String RESTAPI)
+	{
+		URLStr = URL;
+		API = RESTAPI;
+	}
+	
 	public String GetQueryURL()
 	{
 		return URLStr;
 	}
+	
+	public String GetAPI()
+	{
+		return API;
+	}
+	
 	//do not add this to initial add user request
 	public JSONObject GetServerAuthenticatedJSON()
 	{

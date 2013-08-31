@@ -4,11 +4,13 @@ import in.co.hopin.HelperClasses.JSONHandler;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
 
 import org.json.JSONObject;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +65,38 @@ public class FriendsToInvite {
 		return n;
 	}
 	
+	public List<String> getAllSelectedFriendEmails()
+	{
+		List<String> emaillist = new ArrayList<String>();
+		if(mInviteFriendList.size()>0)
+		{
+			for(Friend f : mInviteFriendList)
+			{
+				if(f.isSelected())
+					emaillist.add(f.getFBUserName() + "@facebook.com");
+			}
+		}	
+		return emaillist;		
+	}
+	
+	public String getAllSelectedFriendCommaSeparatedIDs()
+	{
+		String ids ="";
+		if(mInviteFriendList.size()>0)
+		{
+			for(Friend f : mInviteFriendList)
+			{
+				if(f.isSelected())
+				{
+					if(ids.equals(""))
+						ids = f.getFb_id();
+					else
+						ids= ids+","+f.getFb_id();
+				}
+			}
+		}	
+		return ids;		
+	}
 	
 	public void clearAllData()
 	{

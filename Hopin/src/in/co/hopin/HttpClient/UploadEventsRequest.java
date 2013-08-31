@@ -18,7 +18,7 @@ import java.util.List;
 public class UploadEventsRequest extends SBHttpRequest {
     private static final String TAG = "in.co.hopin.HttpClient.UploadEventsRequest";
 
-    private String RESTAPI = "UploadEvents";
+    private static String RESTAPI = "UploadEvents";
     public static final String URL = "http://hopin.co.in/miscapi/loggerv4.php";
     
     private final HttpPost httpQuery;
@@ -26,10 +26,10 @@ public class UploadEventsRequest extends SBHttpRequest {
     private long lastTimeStamp;
 
     public UploadEventsRequest(String logsJson, long lastTimeStamp) {
+    	super(URL,RESTAPI);
         this.lastTimeStamp = lastTimeStamp;
         queryMethod = QueryMethod.Post;
-        httpQuery =  new HttpPost(URL);
-        URLStr = URL;
+        httpQuery =  new HttpPost(URL);       
 
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);

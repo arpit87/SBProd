@@ -34,9 +34,9 @@ public class InstaRequest extends SBHttpRequest{
 	public InstaRequest()
 	{
 		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
-		URLStr = URL;		
+				
 		//prepare getnearby request		
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();;

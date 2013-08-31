@@ -36,13 +36,13 @@ public class SelfProfileRequest extends SBHttpRequest{
 	
 	public SelfProfileRequest()
 	{		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 				
 		//prepare getnearby request		
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();	
-		URLStr = URL;
+		
 		try {				
 			String userid = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
 			jsonobj.put(UserAttributes.USERID, userid);

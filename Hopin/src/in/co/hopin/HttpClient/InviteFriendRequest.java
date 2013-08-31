@@ -33,18 +33,18 @@ public class InviteFriendRequest extends SBHttpRequest{
 	HttpClient httpclient = new DefaultHttpClient();
 	InviteFriendResponse inviteResponse;
 	String jsonStr;
-	public InviteFriendRequest(String friendFBID)
+	public InviteFriendRequest(String friendFBIDs)
 	{
 		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
-		URLStr = URL;		
+				
 		//prepare getnearby request		
 		httpQueryInviteFriend = new HttpPost(URL);
 		jsonobjInviteFriend = GetServerAuthenticatedJSON();;
 		try {						
 			jsonobjInviteFriend.put(UserAttributes.INVITATIONFROM, ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID));
-			jsonobjInviteFriend.put(UserAttributes.INVITATIONTO, friendFBID);
+			jsonobjInviteFriend.put(UserAttributes.INVITATIONTO, friendFBIDs);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

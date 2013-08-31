@@ -2,16 +2,18 @@ package in.co.hopin.Activities;
 
 import in.co.hopin.R;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
+import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.Util.HopinTracker;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class ReloginActivity extends Activity {
+public class ReloginActivity extends FragmentActivity {
 	
 	FacebookConnector fbconnect;
 	
@@ -21,11 +23,13 @@ public class ReloginActivity extends Activity {
         setContentView(R.layout.refblogin_layout);
         
         Button faceBookLoginbutton = (Button) findViewById(R.id.refblogin_signInViaFacebook);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.refblogin_progressbar);
         faceBookLoginbutton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-                HopinTracker.sendEvent("ui_action", "button_press", "FbReLogin_button", 1L);
+                HopinTracker.sendEvent("FBRelogin", "ButtonClick", "facebook:click:relogin", 1L);
+                progressBar.setVisibility(View.VISIBLE);
 				Toast.makeText(ReloginActivity.this, "Logging...please wait..", Toast.LENGTH_SHORT).show();
 				fbconnect = FacebookConnector.getInstance(ReloginActivity.this);
 				fbconnect.reloginToFB();
@@ -41,7 +45,7 @@ public class ReloginActivity extends Activity {
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        fbconnect.authorizeCallback(requestCode, resultCode, data);
+        CommunicationHelper.getInstance().authorizeCallback(ReloginActivity.this, requestCode, resultCode, data);
     }
 
 	 @Override

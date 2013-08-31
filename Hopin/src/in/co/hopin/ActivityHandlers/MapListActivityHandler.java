@@ -25,6 +25,7 @@ import in.co.hopin.Users.NearbyUserGroup;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
 
 import java.util.ArrayList;
@@ -374,21 +375,24 @@ public void centreMapToPlusLilUp(SBGeoPoint centrePoint)
 	public void updateThisUserMapOverlay()
 	{		
 		//be careful here..do we have location yet?
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"update this user called");	
-		if(thisUserOverlay == null)	
-		{			
-			thisUserOverlay = new ThisUserItemizedOverlay(mMapView);
-			thisUserOverlay.updateThisUser();	    
-		    mMapView.getOverlays().add(thisUserOverlay);		   
-		}
-		else
+		Logger.i(TAG,"update this user called");
+		if(mMapViewContainer!=null)
 		{
-		    thisUserOverlay.updateThisUser();
-		    if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"this user map overlay updated");
+			if(thisUserOverlay == null)	
+			{			
+				thisUserOverlay = new ThisUserItemizedOverlay(mMapView);
+				thisUserOverlay.updateThisUser();	    
+			    mMapView.getOverlays().add(thisUserOverlay);		   
+			}
+			else
+			{
+			    thisUserOverlay.updateThisUser();
+			    if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"this user map overlay updated");
+			}
+		    mMapView.postInvalidate();	    
+		    //dont centre here else on every automatic update it centres
+		    //mapcontroller.animateTo(ThisUser.getInstance().getSourceGeoPoint());
 		}
-	    mMapView.postInvalidate();	    
-	    //dont centre here else on every automatic update it centres
-	    //mapcontroller.animateTo(ThisUser.getInstance().getSourceGeoPoint());		
 	}	
 	
 		

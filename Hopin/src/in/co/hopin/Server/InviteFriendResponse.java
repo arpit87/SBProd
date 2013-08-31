@@ -31,7 +31,7 @@ public class InviteFriendResponse extends ServerResponseBase{
 		try {
 			body = jobj.getJSONObject("body");
 			
-			Intent notifyInvitationSentintent = new Intent();
+			/*Intent notifyInvitationSentintent = new Intent();
 			
 			notifyInvitationSentintent.setAction(BroadCastConstants.FRIEND_INVITATION_SENT);
 			//we will get fbidback in success
@@ -44,11 +44,11 @@ public class InviteFriendResponse extends ServerResponseBase{
 				invited_friend.invitationSentSuccessfully();
 			}
 			//this broadcast is for my active req page to update itself to no active req
-			Platform.getInstance().getContext().sendBroadcast(notifyInvitationSentintent);
+			//Platform.getInstance().getContext().sendBroadcast(notifyInvitationSentintent);*/
 			logSuccess();
 		} catch (JSONException e) {
 			logServererror();
-			ToastTracker.showToast("Some error occured in invite friend request");
+			//ToastTracker.showToast("Some error occured in invite friend request");
 			e.printStackTrace();
 		}
 	}

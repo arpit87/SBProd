@@ -33,7 +33,7 @@ public class SelfAboutMeFrag extends Fragment{
 			 aboutMeView = (ViewGroup) inflater.inflate(
 		                R.layout.nodata_layout, container, false);			 
 			 TextView nodataTextView = (TextView) aboutMeView.findViewById(R.id.nodata_layout_textview);
-			 nodataTextView.setText("No Data, please login");     			
+			 nodataTextView.setText("Please login to populate profile");     			
 			//Logger.i(TAG,"self profile click but not fb logged in");			
 			//CommunicationHelper.getInstance().FBLoginpromptPopup_show((FBLoggableFragmentActivity)getActivity(), true) ;
 				

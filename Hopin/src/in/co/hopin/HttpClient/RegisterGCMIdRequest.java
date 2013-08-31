@@ -22,6 +22,7 @@ public class RegisterGCMIdRequest extends SBHttpRequest {
     String jsonStr;
 
     public RegisterGCMIdRequest() {
+    	super(URL,RESTAPI);
         String userId = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
         String uuid = ThisAppConfig.getInstance().getString(ThisAppConfig.APPUUID);
         String regId = ThisAppConfig.getInstance().getString(ThisAppConfig.PROPERTY_REG_ID);

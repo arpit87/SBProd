@@ -1,22 +1,15 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
-import in.co.hopin.ActivityHandlers.InviteFriendsActivityHandler;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.Fragments.InviteFriendButtonFragment;
 import in.co.hopin.Fragments.InviteFriendListFragment;
-import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Util.HopinTracker;
-
-import java.util.ArrayList;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,11 +18,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 
 public class InviteFriendsActivity extends FragmentActivity {
 	
@@ -40,7 +28,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	ImageView fbIcon;
 	ImageView wtsappIcon;
 	InviteFriendListFragment mInviteFriendListFragment = null;
-	InviteFriendsActivityHandler inviteHandler = null;
+	//InviteFriendsActivityHandler inviteHandler = null;
 	
 
 	@Override
@@ -53,7 +41,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	    @Override
 	    public void onStop(){
 	        super.onStop();
-	        unregisterReceiver(inviteHandler);
+	        //unregisterReceiver(inviteHandler);
 	        //EasyTracker.getInstance().activityStop(this);
 	    }
     
@@ -65,7 +53,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 		 emailIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_emailicon);
 		 fbIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_fb_icon);
 		 wtsappIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_wtsapp_icon);
-		 inviteHandler = new InviteFriendsActivityHandler(this);		
+		// inviteHandler = new InviteFriendsActivityHandler(this);		
 		 smsIcon.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -99,8 +87,15 @@ public class InviteFriendsActivity extends FragmentActivity {
 				
 				@Override
 				public void onClick(View v) {
-					FacebookConnector.getInstance(InviteFriendsActivity.this).openFacebookPage("", "");
-					HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:facebookicon",1L);
+					if(FacebookConnector.isSessionValid())
+					{
+						FacebookConnector.getInstance(InviteFriendsActivity.this).inviteFriends("");
+						HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:facebookicon",1L);
+					}
+					else
+					{
+						CommunicationHelper.getInstance().FBLoginDialog_show(InviteFriendsActivity.this);
+					}
 					
 				}
 			});
@@ -132,7 +127,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	 @Override
 	    public void onResume(){
 	        super.onResume();
-	        registerReceiver(inviteHandler, new IntentFilter(BroadCastConstants.FRIEND_INVITATION_SENT));
+	       // registerReceiver(inviteHandler, new IntentFilter(BroadCastConstants.FRIEND_INVITATION_SENT));
 	        if(FriendsToInvite.getInstance().getAllFriends().isEmpty())
 	        	showInviteFriendButtonLayout();
 	        else

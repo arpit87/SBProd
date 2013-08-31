@@ -9,6 +9,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -56,6 +57,7 @@ public class Platform {
 		ThisUserNew.getInstance();	
 		EasyTracker.getInstance().setContext(context);	
 		setAlarm(context);
+		ENABLE_LOGGING = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 	}
 	
 	public int getThisAppVersion()

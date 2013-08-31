@@ -1,13 +1,12 @@
 package in.co.hopin.Fragments;
 
 import in.co.hopin.R;
-import in.co.hopin.Activities.InviteFriendsActivity;
 import in.co.hopin.Adapter.InviteFriendsListViewAdapter;
-import in.co.hopin.HelperClasses.ActiveChat;
-import in.co.hopin.HelperClasses.CommunicationHelper;
+import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.GetFriendListToInviteRequest;
+import in.co.hopin.HttpClient.InviteFriendRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
@@ -19,6 +18,7 @@ import in.co.hopin.Util.Logger;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -27,16 +27,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class InviteFriendListFragment extends ListFragment implements android.widget.AbsListView.OnScrollListener{
 	
 	private static final String TAG = "in.co.hopin.Fragments.InviteFriendListFragment";
 	private ViewGroup mListViewContainer;
 	private List<Friend> inviteFriendlist = null;
+	Button sendMail = null;
+	Button sendFbInvite = null;
 	InviteFriendsListViewAdapter mAdapter;
 	boolean userIsLoggedIn = false;
 	boolean loadingMoreFriends = false;
@@ -64,7 +63,40 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView( inflater, container, savedInstanceState );
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"oncreateview chatlistview");		
-		mListViewContainer = (ViewGroup) inflater.inflate(R.layout.invitefriendfragment_listview, null);		
+		mListViewContainer = (ViewGroup) inflater.inflate(R.layout.invitefriendfragment_listview, null);	
+		sendMail = (Button)mListViewContainer.findViewById(R.id.inviteFriends_listFrag_viaemail);
+		sendFbInvite = (Button)mListViewContainer.findViewById(R.id.inviteFriends_listFrag_viafbl);
+		sendMail.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(Intent.ACTION_SEND);
+				i.setType("message/rfc822");					
+				i.putExtra(Intent.EXTRA_SUBJECT, "Check out this android carpool application");
+				String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
+				i.putExtra(Intent.EXTRA_TEXT, text);
+				List<String> emailList = FriendsToInvite.getInstance().getAllSelectedFriendEmails();
+				String [] emailArray = emailList.toArray(new String[emailList.size()]);
+				i.putExtra(android.content.Intent.EXTRA_EMAIL,emailArray );
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(i);			
+				SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
+	       		SBHttpClient.getInstance().executeRequest(request);
+				HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendemailtolist",1L);
+			}
+		});
+		
+		sendFbInvite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String commaSeparatedFriendIDs = FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs();
+				FacebookConnector.getInstance(getActivity()).inviteFriends(commaSeparatedFriendIDs);
+				SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
+	       		SBHttpClient.getInstance().executeRequest(request);
+				HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendfbinvitetolist",1L);			
+			}
+		});
 		return mListViewContainer;
 	}
 

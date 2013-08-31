@@ -16,27 +16,31 @@ import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
+import com.facebook.AccessToken;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.WebDialog;
+import com.facebook.widget.WebDialog.Builder;
+import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class FacebookConnector {
@@ -44,21 +48,14 @@ public class FacebookConnector {
 	private static final String TAG = "in.co.hopin.FacebookHelpers.FacebookConnector";
 	
 	public static String [] FB_PERMISSIONS = {"user_about_me","user_education_history","user_hometown","user_work_history","email"};
-	public static String FB_APP_ID = "107927182711315";	
+	//public static String FB_APP_ID = "107927182711315";	
 	//public static String FB_APP_ID = "486912421326659"; //debug one
 	
-	private static FacebookConnector fbconnect = null;
-	public static Facebook facebook = new Facebook(FB_APP_ID);
-	public static AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
-    private String [] permissions ;
+	private static FacebookConnector fbconnect = null;	
     Activity underlyingActivity = null;
-    
-    
-    private FacebookConnector()
-    {
-    	permissions = FB_PERMISSIONS;
-    }
-    
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
+    private Session.StatusCallback reloginstatusCallback = new SessionStatusReloginCallback();
+       
     private void setActivity(Activity underlying_activity)
     {
     	underlyingActivity =  underlying_activity; 
@@ -75,158 +72,68 @@ public class FacebookConnector {
     
     public void logoutFromFB()
     { 
-    	String access_token = ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN);
-	    long expires = ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES);
-	 
-	    if (access_token != "") {
-	        facebook.setAccessToken(access_token);
-	    }
-	 
-	    if (expires != -1 && expires != 0) {
-	        facebook.setAccessExpires(expires);
-	    }
-		if (facebook.isSessionValid()) {
-			ProgressHandler.showInfiniteProgressDialoge(underlyingActivity,"Logging out from facebook", "Wait a moment",null);
-		    AsyncFacebookRunner asyncRunner = new AsyncFacebookRunner(facebook);
-		    asyncRunner.logout(underlyingActivity.getBaseContext(), new LogoutRequestListener());		    
-		} 
-		else
-		{		
-			ToastTracker.showToast("Fb session already expired");
-		}
+    	Session session = Session.getActiveSession();
+    	session.closeAndClearTokenInformation();
+    	eraseUserFBData();
+    	
     }
     
     public static boolean isSessionValid()
     {
-    	String access_token = ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN);
- 	    long expires = ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES);
- 	   //access_token = "BAABiKMFjGhMBAJaZBFz0G9ZCHmAOw5OF2mogxOsNFaRM3ZCZC9ZCY4waMCq39OSoy55CCBfEqWhQf4PxTG4mNzG7cPWVMzK9cvdGwsnx6WnnfGZBzbZCNcA2ICY7KZBmnRcZD";
- 	   //expires = 1374324192176L;
- 	  //ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES,expires);
- 	    if (access_token != "") {
- 	        facebook.setAccessToken(access_token);
- 	    }
- 	 
- 	    if (expires != 0 &&  expires != -1) {
- 	        facebook.setAccessExpires(expires);
- 	    }
-     	
-     	 if (facebook.isSessionValid())      		 
-     		 return true;
-     	 else
-     		 return false;
-     	 
+    	Session session = Session.openActiveSessionFromCache(Platform.getInstance().getContext());
+    	if(session == null)
+    		return false;
+    	else
+    		return true;
+    	
     }
     
     public void loginToFB()
     { 	
+    	
     	//facebook.authorize(underlying_activity, permissions, new LoginDialogListener());
     	Logger.i(TAG, "login called");
-	    String access_token = ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN);
-	    long expires = ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES);
-	 
-	    if (access_token != "") {
-	        facebook.setAccessToken(access_token);
-	    }
-	 
-	    if (expires != 0 &&  expires != -1) {
-	        facebook.setAccessExpires(expires);
-	    }
     	
-    	 if (!facebook.isSessionValid()) {
-    		 ProgressHandler.dismissDialoge();
-    		 Logger.i(TAG, "login called,session in valid , trying login");
-    		 facebook.authorize(underlyingActivity, permissions, new LoginDialogListener());
-    	 }else
-    		 ToastTracker.showToast("Already logged in");
+    	Session session = Session.getActiveSession();
+    	
+    	if (session == null) {
+            session = new Session.Builder(underlyingActivity).build();
+            Session.setActiveSession(session);            
+        }
+    	
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(underlyingActivity).setPermissions(FB_PERMISSIONS).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(underlyingActivity, true, statusCallback);
+        }
+ 
     }  
     
     public void reloginToFB()
-    { 	
-    	//facebook.authorize(underlying_activity, permissions, new LoginDialogListener());
+    { 	    	    	 
     	
-	    String access_token = ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN);
-	    long expires = ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES);
-	 
-	    if (access_token != "") {
-	        facebook.setAccessToken(access_token);
-	    }
-	 
-	    if (expires != 0 &&  expires != -1) {
-	        facebook.setAccessExpires(expires);
-	    }
+Logger.i(TAG, "relogin called");
     	
-    	 if (!facebook.isSessionValid()) {
-    		 ProgressHandler.dismissDialoge();
-    		 facebook.authorize(underlyingActivity, permissions, new ReLoginDialogListener());
-    	 }else
-    		 ToastTracker.showToast("Already logged in");
+		Session session = Session.getActiveSession();
+    	
+    	if (session == null) {
+            session = new Session(underlyingActivity);
+            Session.setActiveSession(session);            
+        }
+    	
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(underlyingActivity).setPermissions(FB_PERMISSIONS).setCallback(reloginstatusCallback));
+        } else {
+            Session.openActiveSession(underlyingActivity, true, reloginstatusCallback);
+        }    	
     } 
     
     public void authorizeCallback(int requestCode, int resultCode,Intent data)
     {
-    	facebook.authorizeCallback(requestCode, resultCode, data);
+    	Session.getActiveSession().onActivityResult(underlyingActivity, requestCode, resultCode, data);
     }
     
-    class ReLoginDialogListener implements DialogListener {
-	    public void onComplete(Bundle values) {	    	
-	    	String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
-	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
-        	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
-	    	SBHttpRequest sendFBInfoRequest = new SaveFBInfoRequest(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID),fbid , ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
-			SBHttpClient.getInstance().executeRequest(sendFBInfoRequest);
-			ThisUserConfig.getInstance().putBool(ThisUserConfig.FBRELOGINREQUIRED, false);
-			Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
-	        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-	        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);
-	        ToastTracker.showToast("Authentication succcessful");
-	        underlyingActivity.finish();
-	        Map<String, Object> trackArgMap = new HashMap<String,Object>();
-		    trackArgMap.put(HopinTracker.FBID, fbid);
-	        HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:authenticationsuccessful", 1L,trackArgMap);
-	    }
-
-		@Override
-		public void onFacebookError(FacebookError e) {
-			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:authenticationfailure", 1L);			
-		}
-
-		@Override
-		public void onError(DialogError e) {
-			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:error", 1L);			
-		}
-
-		@Override
-		public void onCancel() {
-			HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:cancel", 1L);
-			
-		}
-    }
-    
-    class LoginDialogListener implements DialogListener {
-	    public void onComplete(Bundle values) {            
-	    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, facebook.getAccessToken());
-        	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, facebook.getAccessExpires());
-        	Logger.i(TAG, "login callback rec");
-        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..",null);
-        	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
-        	requestUserData();         	
-	        
-        }    
-	    
-
-		public void onFacebookError(FacebookError error) {
-	    	ToastTracker.showToast("Authentication with Facebook failed!");
-	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:authenticationfailure", 1L);	    	
-	    }
-	    public void onError(DialogError error) {
-	    	ToastTracker.showToast("Authentication with Facebook failed!");
-	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:error", 1L);	    	
-	    }
-	    public void onCancel() {
-	    	ToastTracker.showToast("Authentication with Facebook cancelled!");
-	    	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:cancelled", 1L);	    }
-	}
+       
 
     private void sendAddFBAndChatInfoToServer(String fbid) {
     	//this should only be called from fbpostloginlistener to ensure we have fbid
@@ -236,131 +143,165 @@ public class FacebookConnector {
 		SBHttpRequest sendFBInfoRequest = new SaveFBInfoRequest(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID), fbid, ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
 		SBHttpClient.getInstance().executeRequest(sendFBInfoRequest);			
 	}
-		
-	private void requestUserData() {
-		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);
-        Bundle params = new Bundle();
-        params.putString("fields", "username,first_name,last_name, picture, email, gender");
-        mAsyncRunner.request("me", params, new FBUserRequestListener());
-    }
-	
-	/*
-	 * Callback for fetching current user's name, picture, uid.
-	 */
+    
+    private void eraseUserFBData()
+    {
+    	
+	  //remove all fb info of this user	
+	  
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, "");
+	  ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES,-1);
+	  ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN,false);			  
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, "");
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, "");
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, "");
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_LASTNAME, "");
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID, "");	
+	  
+	  //erase chat info too
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.CHATUSERID,"");
+	  ThisUserConfig.getInstance().putString(ThisUserConfig.CHATPASSWORD,"");			  
+	  ProgressHandler.dismissDialoge();
+	  
+	  //refresh user pic to silhutte
+	  Platform.getInstance().getHandler().post(new Runnable(){
 
-	public class FBUserRequestListener extends FBBaseRequestListener {	     
-	    public void onComplete(final String response, final Object state) {
-	        JSONObject jsonObject;
-	        try {
-	            jsonObject = new JSONObject(response);	  
-	            if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"got my fbinfo:"+jsonObject.toString());
-	            String picurl,username,first_name,last_name,id,gender,email;
-	            id = jsonObject.getString("id");
-	            username = jsonObject.getString("username");
-	            first_name  = jsonObject.getString("first_name");
-	            last_name = jsonObject.getString("last_name");
-	            gender = jsonObject.getString("gender");
-	            email = jsonObject.getString("email");
-	            picurl = "http://graph.facebook.com/" + id + "/picture?type=small";
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID,id );
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, picurl);
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, username);
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.GENDER, gender);
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, first_name);
-	            ThisUserConfig.getInstance().putString(ThisUserConfig.FB_LASTNAME, last_name);
-                ThisUserConfig.getInstance().putString(ThisUserConfig.USERNAME, first_name+" "+last_name);
-                ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FULLNAME, first_name+" "+last_name);
-                ThisUserConfig.getInstance().putString(ThisUserConfig.EMAIL, email);
-                Map<String, Object> trackArgMap = new HashMap<String,Object>();
-        	    trackArgMap.put(HopinTracker.FBID, id);
-        	    trackArgMap.put(HopinTracker.FBUSERNAME, username);
-                HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:success", 1L,trackArgMap);
-                if(!StringUtils.isBlank(id))
-                {
-                	ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN, true);                	
-                	String userId = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
-                	if(userId == "")
-                	{
-                		//this happens on fb login from tutorial page.
-                		ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Welcome "+first_name+" "+last_name+"!", "Preparing for first run..",null);
-                		String uuid = ThisAppConfig.getInstance().getString(ThisAppConfig.APPUUID);
-                		SBHttpRequest request = new AddUserRequest(uuid,username,underlyingActivity);		
-                  		SBHttpClient.getInstance().executeRequest(request);
-                	}
-                	else
-                	{
-                		sendAddFBAndChatInfoToServer(id);
-                		Platform.getInstance().getHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                            	ProgressHandler.dismissDialoge();                            	
-                            	Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
-                    	        showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    	        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);                    	                          	        
-                                MapListActivityHandler.getInstance().updateUserNameInListView();
-                                MapListActivityHandler.getInstance().updateUserPicInListView();
-                                MapListActivityHandler.getInstance().updateThisUserMapOverlay();
-                                if(!underlyingActivity.equals(MapListActivityHandler.getInstance().getUnderlyingActivity()))
-                    	        	underlyingActivity.finish();
-                            }
-                        });
-                	}
-                }
-	            //id getting delayed in writing to file and not getting picked in call to server so pass as argument	           
-	            
-	            	           
-	            //Bitmap bmp = FBUtility.getBitmap(ThisUserConfig.getInstance().getString(ThisUserConfig.FBPICURL));
-	            //Store.getInstance().saveBitmapToFile(bmp,ThisUserConfig.FBPICFILENAME);
-                
-	        } catch (JSONException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
-	    }
+		@Override
+		public void run() {
+			 //MapListActivityHandler.getInstance().updateThisUserMapOverlay();
+			 //MapListActivityHandler.getInstance().updateUserPicInListView();
+			underlyingActivity.finish();
+			 ToastTracker.showToast("Successfully logged out");					
+		}			 		
+	  });
+			 
+		 
+    }
+    
+	private void requestUserData(Session session,SessionState state) {
+		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);
+		Logger.i(TAG,"requestUserData");
+		Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+		Context context= Platform.getInstance().getContext();		
+		Settings.publishInstallAsync(context, context.getResources().getString(in.co.hopin.R.string.fb_app_id));
+		if (state.isOpened()) {	   
+
+		    // Request user data and show the results
+		   Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+		        @Override
+		        public void onCompleted(GraphUser user, Response response) {
+		            if (user != null) {	
+		            	     	              
+		     	            Logger.i(TAG,"got my fbinfo:"+user.getInnerJSONObject().toString());
+		     	            String picurl,username,first_name,last_name,id,gender,email;
+		     	            id = user.getId();//jsonObject.getString("id");
+		     	            username = user.getUsername();//jsonObject.getString("username");
+		     	            first_name  =user.getFirstName();//jsonObject.getString("first_name");
+		     	            last_name = user.getLastName();// jsonObject.getString("last_name");
+		     	            gender = (String) user.getProperty("gender");
+		     	            email = (String) user.getProperty("email");
+		     	            picurl = "http://graph.facebook.com/" + id + "/picture?type=small";
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID,id );
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, picurl);
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, username);
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.GENDER, gender);
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, first_name);
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FB_LASTNAME, last_name);
+		                    ThisUserConfig.getInstance().putString(ThisUserConfig.USERNAME, first_name+" "+last_name);
+		                    ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FULLNAME, first_name+" "+last_name);
+		                    ThisUserConfig.getInstance().putString(ThisUserConfig.EMAIL, email);
+		                    Map<String, Object> trackArgMap = new HashMap<String,Object>();
+		             	    trackArgMap.put(HopinTracker.FBID, id);
+		             	    trackArgMap.put(HopinTracker.FBUSERNAME, username);
+		                     HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:success", 1L,trackArgMap);
+		                     if(!StringUtils.isBlank(id))
+		                     {
+		                     	ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN, true);                	
+		                     	String userId = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
+		                     	if(userId == "")
+		                     	{
+		                     		//this happens on fb login from tutorial page.
+		                     		ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Welcome "+first_name+" "+last_name+"!", "Preparing for first run..",null);
+		                     		String uuid = ThisAppConfig.getInstance().getString(ThisAppConfig.APPUUID);
+		                     		SBHttpRequest request = new AddUserRequest(uuid,username,underlyingActivity);		
+		                       		SBHttpClient.getInstance().executeRequest(request);
+		                     	}
+		                     	else
+		                     	{
+		                     		sendAddFBAndChatInfoToServer(id);
+		                     		Platform.getInstance().getHandler().post(new Runnable() {
+		                                 @Override
+		                                 public void run() {
+		                                 	ProgressHandler.dismissDialoge();                            	
+		                                 	Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
+		                                 	showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		                         	        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);                    	                          	        
+		                                    MapListActivityHandler.getInstance().updateUserNameInListView();
+		                                    MapListActivityHandler.getInstance().updateUserPicInListView();
+		                                    MapListActivityHandler.getInstance().updateThisUserMapOverlay();
+		                                    if(!underlyingActivity.equals(MapListActivityHandler.getInstance().getUnderlyingActivity()))
+		                         	        	underlyingActivity.finish();
+		                                 }
+		                             });
+		                     	}
+		                     }
+		            	
+		            }
+		            else
+		            {
+		            	Logger.d(TAG, "user is null in facebook");		            	
+		            	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:failure", 1L);
+		            }
+		        }		        
+		    }).executeAsync();		    
+		    	   
+    }
 	}
 	
-	class LogoutRequestListener implements RequestListener {
-		  public void onComplete(String response, Object state) {
-			  //remove all fb info of this user	
-			  
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, "");
-			  ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES,-1);
-			  ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN,false);			  
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, "");
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, "");
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, "");
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_LASTNAME, "");
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID, "");	
-			  
-			  //erase chat info too
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.CHATUSERID,"");
-			  ThisUserConfig.getInstance().putString(ThisUserConfig.CHATPASSWORD,"");			  
-			  ProgressHandler.dismissDialoge();
-			  
-			  //refresh user pic to silhutte
-			  Platform.getInstance().getHandler().post(new Runnable(){
-
-				@Override
-				public void run() {
-					 //MapListActivityHandler.getInstance().updateThisUserMapOverlay();
-					 //MapListActivityHandler.getInstance().updateUserPicInListView();
-					underlyingActivity.finish();
-					 ToastTracker.showToast("Successfully logged out");					
-				}			 		
-			  });
-			 
-		  }
-		  
-		  public void onIOException(IOException e, Object state) {}
-		  
-		  public void onFileNotFoundException(FileNotFoundException e,
-		        Object state) {}
-		  
-		  public void onMalformedURLException(MalformedURLException e,
-		        Object state) {}
-		  
-		  public void onFacebookError(FacebookError e, Object state) {}
-		}
+	private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {        	
+    			if (session.isOpened()) {
+    				ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, Session.getActiveSession().getAccessToken());
+    	        	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, Session.getActiveSession().getExpirationDate().getTime());    	        
+    	        	Logger.i(TAG, "login callback rec");
+    	        	ProgressHandler.showInfiniteProgressDialoge(underlyingActivity, "Authentication successsful", "Please wait..",null);
+    	        	HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:callbackreceived", 1L);
+    	        	requestUserData(session,state);
+    			}			
+    		}        
+      
+        }
+	
+	 class SessionStatusReloginCallback implements Session.StatusCallback {
+		   
+			@Override
+			public void call(Session session, SessionState state,
+					Exception exception) {
+				if(session.isOpened())
+				{
+					String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+			    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, session.getAccessToken());
+		        	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, session.getExpirationDate().getTime());
+			    	SBHttpRequest sendFBInfoRequest = new SaveFBInfoRequest(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID),fbid , ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
+					SBHttpClient.getInstance().executeRequest(sendFBInfoRequest);
+					ThisUserConfig.getInstance().putBool(ThisUserConfig.FBRELOGINREQUIRED, false);
+					Intent showSBMapViewActivity = new Intent(Platform.getInstance().getContext(), MapListViewTabActivity.class);
+					showSBMapViewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			        Platform.getInstance().getContext().startActivity(showSBMapViewActivity);
+			        ToastTracker.showToast("Authentication succcessful");			        
+			        underlyingActivity.finish();
+			        Map<String, Object> trackArgMap = new HashMap<String,Object>();
+				    trackArgMap.put(HopinTracker.FBID, fbid);
+			        HopinTracker.sendEvent("FacebookLogin", "relogin", "facebook:relogin:authenticationsuccessful", 1L,trackArgMap);
+			        
+				}
+				
+			}
+			
+	    }
+	
 	
 	public void openFacebookPage(String fbid,String username) {
 		Intent i;
@@ -376,51 +317,43 @@ public class FacebookConnector {
 		   underlyingActivity.startActivity(i);
 		}	
 	
-	/*public void inviteFriends(Activity activity){
-	    // Safe programming
-	    if(friendsIds == null || friendsIds.size() == 0)        
-	        return;
+	public void inviteFriends(String to)
+	{
+		Bundle parameters = new Bundle();
+		parameters.putString("message", "Take a look at this usefull application");
 
-	    Bundle parameters = new Bundle();
+		WebDialog.RequestsDialogBuilder requestDialog = new WebDialog.RequestsDialogBuilder(underlyingActivity, Session.getActiveSession(),
+		                                 parameters);
+		if(!StringUtils.isBlank(to))
+			requestDialog.setTo(to);
 
-	    // Get the friend ids
-	    String friendsIdsInFormat = "";
-	    for(int i=0; i<friendsIds.size()-1; i++){
-	        friendsIdsInFormat = friendsIdsInFormat + friendsIds.get(i) + ", ";
-	    }
-	    friendsIdsInFormat = friendsIdsInFormat + friendsIds.get(friendsIds.size()-1).getId();
+		requestDialog.setOnCompleteListener(new OnCompleteListener() {
 
-	    parameters.putString("to", friendsIdsInFormat);
-	    parameters.putString( "message", "Use my app!");
+		    @Override
+		    public void onComplete(Bundle values, FacebookException error) {
+		        if (error != null){
+		            if (error instanceof FacebookOperationCanceledException){
+		                Toast.makeText(underlyingActivity,"Request cancelled",Toast.LENGTH_SHORT).show();
+		            }
+		            else{
+		                Toast.makeText(underlyingActivity,"Network Error",Toast.LENGTH_SHORT).show();
+		            }
+		        }
+		        else{
 
-	    // Show dialog for invitation
-	    FacebookConnector.getInstance(activity)mFacebook.dialog(activity, "apprequests", parameters, new Facebook.DialogListener() {
-	        @Override
-	        public void onComplete(Bundle values) {
-	            // TODO Auto-generated method stub
+		            final String requestId = values.getString("request");
+		            if (requestId != null) {
+		                Toast.makeText(underlyingActivity,"Request sent",Toast.LENGTH_SHORT).show();
+		            } 
+		            else {
+		                Toast.makeText(underlyingActivity,"Request cancelled",Toast.LENGTH_SHORT).show();
+		            }
+		        }                       
+		    }
+		}).build().show();		
+		
+	}
 
-	        }
-
-	        @Override
-	        public void onFacebookError(FacebookError e) {
-	            // TODO Auto-generated method stub
-
-	        }
-
-	        @Override
-	        public void onError(DialogError e) {
-	            // TODO Auto-generated method stub
-
-	        }
-
-	        @Override
-	        public void onCancel() {
-	            // TODO Auto-generated method stub
-
-	        }
-	    });
-
-	}*/
     
 }
 	

@@ -33,13 +33,13 @@ public class DailyCarPoolRequest  extends SBHttpRequest{
 	String jsonStr;
 	public DailyCarPoolRequest()
 	{		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 				
 		//prepare getnearby request		
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();
-		URLStr = URL;
+		
 		try {
 			jsonobjGetNearbyUsers.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
 		} catch (JSONException e) {

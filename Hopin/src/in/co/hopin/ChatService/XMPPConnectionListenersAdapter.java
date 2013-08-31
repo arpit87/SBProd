@@ -231,6 +231,7 @@ private class SBChatConnectionListener implements ConnectionListener {
 		@Override
 		public void connectionClosedOnError(Exception exception) {
 		    if (Platform.getInstance().isLoggingEnabled()) Log.d(TAG, "connectionClosedOnError,should try reconnect");
+		    
 		    //ToastTracker.showToast("Chat server connection closed on error,should try reconnect");		   
 		    //Intent intent = new Intent(BeemBroadcastReceiver.BEEM_CONNECTION_CLOSED);
 		    //intent.putExtra("message", exception.getMessage());

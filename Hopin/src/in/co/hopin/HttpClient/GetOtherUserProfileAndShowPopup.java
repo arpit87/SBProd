@@ -35,13 +35,13 @@ public class GetOtherUserProfileAndShowPopup extends SBHttpRequest{
 	
 	public GetOtherUserProfileAndShowPopup(String fbid)
 	{		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 				
 		//prepare getnearby request		
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();	
-		URLStr = URL;
+	
 		try {				
 			jsonobj.put(UserAttributes.FBID, fbid);
 		} catch (JSONException e) {

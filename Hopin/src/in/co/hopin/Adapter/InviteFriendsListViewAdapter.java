@@ -10,10 +10,12 @@ import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Users.Friend;
 import in.co.hopin.Util.HopinTracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,7 @@ import android.widget.TextView;
 
 public class InviteFriendsListViewAdapter extends BaseAdapter{
 
-	List<Friend> mFriendsList;
+	List<Friend> mFriendsList = new ArrayList<Friend>();	
 	Activity underLyingActivity;
 	private static LayoutInflater inflater=null;
 	public InviteFriendsListViewAdapter(Activity activity,List<Friend> friendList)
@@ -82,8 +84,11 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
         final TextView inviteTap = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_taptoinvite);
         
         SBImageLoader.getInstance().displayImageElseStub(thisFriend.getImageURL(), userImageView, R.drawable.userpicicon);
-        if(thisFriend.isInvitationJustSent())
-        	inviteTap.setText("Inviting...");
+        if(thisFriend.isSelected())
+        {
+        	inviteTap.setText("   Selected");
+        	inviteTap.setTypeface(null,Typeface.BOLD_ITALIC);
+        }
         else if(hasBeenInvited)
         {
         	inviteTap.setText("Invitation sent");
@@ -93,15 +98,17 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
         	inviteTap.setText("Hopin installed");
         else
         {
-        	inviteTap.setText("Tap to invite");        
+        	inviteTap.setText("Tap to select");    
+        	inviteTap.setTypeface(null,Typeface.NORMAL);
 	        inviteTap.setOnClickListener(new OnClickListener() {			
 				@Override
 				public void onClick(View v) {
-						inviteTap.setText("Inviting...");							
-						SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
-			       		SBHttpClient.getInstance().executeRequest(request);
-			       		thisFriend.setInvitationJustSent(true);
-			       		HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:invite",1L);
+						inviteTap.setText("   Selected");	
+						inviteTap.setTypeface(null,Typeface.BOLD_ITALIC);						
+						thisFriend.setSelected(true);
+						//SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
+			       		//SBHttpClient.getInstance().executeRequest(request);			       		
+			       		HopinTracker.sendEvent("InviteFriends","ListClick","invitefriends:listclick:selectfriend",1L);
 					}				
 			});
         }

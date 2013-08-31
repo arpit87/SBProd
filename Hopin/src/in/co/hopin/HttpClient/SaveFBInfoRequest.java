@@ -34,13 +34,13 @@ public class SaveFBInfoRequest extends SBHttpRequest{
 	
 	public SaveFBInfoRequest(String user_id,String fbid,String fbToken)
 	{		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 				
 		//prepare getnearby request		
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();
-		URLStr = URL;
+	
 		try {
 			jsonobj.put(UserAttributes.USERID, user_id);	
 			jsonobj.put(UserAttributes.FBID, fbid);

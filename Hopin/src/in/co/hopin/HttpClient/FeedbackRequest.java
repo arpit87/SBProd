@@ -34,11 +34,11 @@ public class FeedbackRequest extends SBHttpRequest{
 	
 	public FeedbackRequest(String feedback)
 	{
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Get;		
         httpQuery =  new HttpPost(URL);               
         jsonobj=GetServerAuthenticatedJSON();		
-        URLStr = URL;
+       
 		try {
 			jsonobj.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
 			jsonobj.put(UserAttributes.USERNAME, ThisUserConfig.getInstance().getString(ThisUserConfig.FBUSERNAME));

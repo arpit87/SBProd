@@ -33,9 +33,9 @@ public class GetFriendListToInviteRequest extends SBHttpRequest{
 	public GetFriendListToInviteRequest(int offset,int limit,SBHttpResponseListener listener)
 	{
 		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
-		URLStr = URL;		
+		
 		mListener = listener;
 		//prepare getnearby request		
 		httpQueryGetFriendList = new HttpPost(URL);

@@ -2,6 +2,7 @@ package in.co.hopin.HttpClient;
 
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerResponseBase;
+import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -42,8 +43,11 @@ public class SBHttpClient {
 	         {
 	        	 Logger.d(TAG, "sending req:"+request[i].GetQueryURL());
 	        	 response =  request[i].execute();
-	        	 if(response==null || response.getStatus()!=ServerResponseBase.ResponseStatus.HttpStatus200)	        	   
+	        	 if(response==null || response.getStatus()!=ServerResponseBase.ResponseStatus.HttpStatus200)	 
+	        	 {
+	        		 HopinTracker.sendEvent("HttpRequest",request[i].GetAPI(),"httprequest:"+request[i].GetAPI()+":execute:responsenull",1L);
 	        		 return null;
+	        	 }
 	         }
 	         return response;
 		}

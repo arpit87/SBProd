@@ -33,13 +33,12 @@ public class DeleteRequest extends SBHttpRequest{
 	int daily_insta_type = 0;
 	public DeleteRequest(int daily_insta_type)
 	{
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Get;		
         httpQuery =  new HttpPost(URL);
         this.daily_insta_type = daily_insta_type;        
         jsonobj = GetServerAuthenticatedJSON();	
-        URLStr = URL;
-		
+        
 		try {
 			jsonobj.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
 			jsonobj.put(UserAttributes.DELETEDAILYINSTATYPE, daily_insta_type);

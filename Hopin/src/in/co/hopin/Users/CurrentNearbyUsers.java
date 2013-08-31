@@ -38,8 +38,8 @@ public class CurrentNearbyUsers {
 		mNewNearbyUserList = JSONHandler.GetNearbyUsersInfoFromJSONObject(body);	
 		if(mNewNearbyUserList.size()>0)
 			ToastTracker.showToast(mNewNearbyUserList.size()+" match found");
-		else
-			ToastTracker.showToast("sorry no match found");
+		//else
+		//	ToastTracker.showToast("sorry no match found");
 		
 	}
 

@@ -38,10 +38,10 @@ public class ChatServiceCreateUser extends SBHttpRequest{
 			//we will post 2 requests here
 			//1)addrequest to add source and destination
 			//2) getUsersRequest to get users
-			super();
+			super(URL,RESTAPI);
 			queryMethod = QueryMethod.Post;
 			httpQueryAddRequest =  new HttpPost(URL);
-			URLStr = URL;
+			
 			try {
 				//sometime fb id not written to file yet bfr this call happens so passing in as argument!!
 				jsonobjAddRequest.put(UserAttributes.CHATUSERID, ThisUserConfig.getInstance().getString(ThisUserConfig.USERID));

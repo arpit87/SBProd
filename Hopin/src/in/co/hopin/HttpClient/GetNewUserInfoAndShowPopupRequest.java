@@ -38,14 +38,14 @@ public class GetNewUserInfoAndShowPopupRequest extends SBHttpRequest{
 	
 	public GetNewUserInfoAndShowPopupRequest(String target_user_id,int daily_insta_type)
 	{		
-		super();
+		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
 		this.daily_insta_type = daily_insta_type;		
 		//prepare getnearby request		
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();		
 		this.targetUserId = target_user_id;
-		URLStr = URL;
+	
 		try {				
 			jsonobj.put(UserAttributes.TARGETUSERID, targetUserId);		
 			jsonobj.put(UserAttributes.DAILYINSTATYPE, daily_insta_type);	

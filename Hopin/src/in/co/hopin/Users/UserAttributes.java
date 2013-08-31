@@ -80,6 +80,7 @@ public class UserAttributes {
 	public static String FRIENDNAME = "name";
 	public static String INSTALLEDHOPIN = "installed_hopin";
 	public static String INVITED = "invited";
+	public static String FRIENDFBUSERNAME = "username";
 	
 	//friendslist
 	public static String FRIENDSTOINVITE = "FriendsToInvite";
