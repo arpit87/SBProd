@@ -93,7 +93,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	String time = "";
 	String date = "";
 	String planInstaStr = "";
-	Button cancelFindUsers = null;
+	//Button cancelFindUsers = null;
 	Button takeRideButton = null;
 	Button offerRideButton = null;
 	AutoCompleteTextView source = null;
@@ -125,15 +125,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
         if(getPlanInstaTabType() == 1)
         	planInstaStr = "insta";
         else 
-        	planInstaStr = "plan";
-        cancelFindUsers.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				HopinTracker.sendEvent("SearchUsers","ButtonClick","searchusers:"+planInstaStr+":click:cancel",1L);
-				getActivity().finish();				
-			}
-		});
+        	planInstaStr = "plan";     
         
         takeRideButton.setOnClickListener(new OnClickListener() {
 			

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -57,7 +58,7 @@ public class SearchUserPlanFrag extends AbstractSearchInputFrag implements SeekB
             destination = (AutoCompleteTextView) mPlanViewContainer.findViewById(R.id.search_user_plan_destination);
             takeRideButton = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_takeride);
             offerRideButton = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_offerride);
-            cancelFindUsers = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_cancelfindusers);
+           // cancelFindUsers = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_cancelfindusers);
             timeSeekbar = (SeekBar) mPlanViewContainer.findViewById(R.id.search_user_plan_timeseekBar);
             am_pm_toggle = (ToggleButton)mPlanViewContainer.findViewById(R.id.search_user_plan_btn_am_pm_toggle);
             timeView = (TextView)mPlanViewContainer.findViewById(R.id.search_user_plan_time);
@@ -104,7 +105,7 @@ public class SearchUserPlanFrag extends AbstractSearchInputFrag implements SeekB
             destination = (AutoCompleteTextView) mPlanViewContainer.findViewById(R.id.search_user_plan_destination);
             takeRideButton = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_takeride);
             offerRideButton = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_offerride);
-            cancelFindUsers = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_cancelfindusers);
+            //cancelFindUsers = (Button)mPlanViewContainer.findViewById(R.id.search_user_plan_cancelfindusers);
             timeSeekbar = (SeekBar) mPlanViewContainer.findViewById(R.id.search_user_plan_timeseekBar);
             destination_progressbar = (ProgressBar)mPlanViewContainer.findViewById(R.id.search_user_plan_destinationprogress);
             source_progressbar = (ProgressBar)mPlanViewContainer.findViewById(R.id.search_user_plan_sourceprogress);
@@ -235,7 +236,7 @@ public class SearchUserPlanFrag extends AbstractSearchInputFrag implements SeekB
 		}	
     }
 	
-	public class SBDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {     
+	@SuppressLint("ValidFragment") public class SBDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {     
 	// Use the current date as the default date in the picker
 	Calendar c = Calendar.getInstance();
 	int myear = c.get(Calendar.YEAR);

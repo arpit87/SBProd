@@ -1,32 +1,47 @@
 package in.co.hopin.Activities;
 
+import java.util.List;
+
 import in.co.hopin.R;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.Fragments.InviteFriendButtonFragment;
 import in.co.hopin.Fragments.InviteFriendListFragment;
 import in.co.hopin.HelperClasses.CommunicationHelper;
+import in.co.hopin.HelperClasses.ProgressHandler;
+import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HelperClasses.ToastTracker;
+import in.co.hopin.HttpClient.GetFriendListToInviteRequest;
+import in.co.hopin.HttpClient.InviteFriendRequest;
+import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Util.HopinTracker;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 public class InviteFriendsActivity extends FragmentActivity {
 	
 	FragmentManager fm = this.getSupportFragmentManager();	
 	GetFriendsListListener mGetFriendsListener = null;
-	ImageView smsIcon;
-	ImageView emailIcon;
-	ImageView fbIcon;
-	ImageView wtsappIcon;
+	
+	ImageView shareIcon;
+	Button sendFbInvite;
+	Button sendMail;
 	InviteFriendListFragment mInviteFriendListFragment = null;
 	//InviteFriendsActivityHandler inviteHandler = null;
 	
@@ -35,7 +50,8 @@ public class InviteFriendsActivity extends FragmentActivity {
 	    public void onStart(){
 	        super.onStart();
 	        HopinTracker.sendView("InviteFriends");
-	        HopinTracker.sendEvent("InviteFriends","ScreenOpen","invitefriends:open",1L);	        
+	        HopinTracker.sendEvent("InviteFriends","ScreenOpen","invitefriends:open",1L);
+	       
 	    }
 
 	    @Override
@@ -49,26 +65,17 @@ public class InviteFriendsActivity extends FragmentActivity {
 	    protected void onCreate(Bundle savedInstanceState){
 		 super.onCreate(null);
 		 setContentView(R.layout.invitefriendslist_layout);	
-		 smsIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_smsicon);
-		 emailIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_emailicon);
-		 fbIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_fb_icon);
-		 wtsappIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_wtsapp_icon);
-		// inviteHandler = new InviteFriendsActivityHandler(this);		
-		 smsIcon.setOnClickListener(new OnClickListener() {
+		 sendMail = (Button) findViewById(R.id.invitefriendslist_layout_viaemail);
+		 sendFbInvite = (Button) findViewById(R.id.invitefriendslist_layout_viafbl);
+		 shareIcon = (ImageView) findViewById(R.id.invitefriendslist_layout_shareicon);		
+		 shareIcon.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Uri uri = Uri.parse("smsto:");
-			    Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-			    String text = "Check out this ride share application, looks useful: " + '\n' + getResources().getString(R.string.http_tiny_app_link);
-			    intent.putExtra("sms_body", text);  
-			    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			    startActivity(intent);
-			    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:smsicon",1L);
+				showPopupMenu(v);				
 			}
 		});
-		 
-		 emailIcon.setOnClickListener(new OnClickListener() {
+			sendMail.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -77,61 +84,140 @@ public class InviteFriendsActivity extends FragmentActivity {
 					i.putExtra(Intent.EXTRA_SUBJECT, "Check out this android carpool application");
 					String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
 					i.putExtra(Intent.EXTRA_TEXT, text);
+					List<String> emailList = FriendsToInvite.getInstance().getAllSelectedFriendEmails();
+					String [] emailArray = emailList.toArray(new String[emailList.size()]);
+					i.putExtra(android.content.Intent.EXTRA_EMAIL,emailArray );
 					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(i);
-					HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:emailicon",1L);
+					startActivity(i);			
+					SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
+		       		SBHttpClient.getInstance().executeRequest(request);
+					HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendemailtolist",1L);
 				}
 			});
-		 
-		 fbIcon.setOnClickListener(new OnClickListener() {
+			
+			sendFbInvite.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					if(FacebookConnector.isSessionValid())
-					{
-						FacebookConnector.getInstance(InviteFriendsActivity.this).inviteFriends("");
-						HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:facebookicon",1L);
-					}
-					else
-					{
-						CommunicationHelper.getInstance().FBLoginDialog_show(InviteFriendsActivity.this);
-					}
-					
+					String commaSeparatedFriendIDs = FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs();
+					FacebookConnector.getInstance(InviteFriendsActivity.this).inviteFriends(commaSeparatedFriendIDs);
+					SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
+		       		SBHttpClient.getInstance().executeRequest(request);
+					HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendfbinvitetolist",1L);			
 				}
 			});
 		 
-		 wtsappIcon.setOnClickListener(new OnClickListener() {
+			shareIcon.post(new Runnable() {
 				
 				@Override
-				public void onClick(View v) {
-					//sendIntent.setAction(Intent.ACTION_SEND);
-			    	 //sendIntent.putExtra(Intent.EXTRA_TEXT, "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link));
-			    	 //sendIntent.setType("text/plain");
-					 Intent waIntent = new Intent(Intent.ACTION_SEND);
-					    waIntent.setType("text/plain");
-					    String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
-					    waIntent.setPackage("com.whatsapp");
-					    if (waIntent != null) {
-					        waIntent.putExtra(Intent.EXTRA_TEXT, text);//
-					        startActivity(Intent.createChooser(waIntent, "Share with"));
-					    } else {
-					        ToastTracker.showToast("Wtsapp not installed");
-					    }
-					    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:wtsappicon",1L);
-					
+				public void run() {
+					showPopupMenu(shareIcon);					
 				}
 			});
-		 
 	 }
+	 
+	 
+	 
+	 private void showPopupMenu(View v)
+	 { 
+	 	LayoutInflater inflater = getLayoutInflater();
+	 	View layout = inflater.inflate(R.layout.invitefriends_share_popup, null);	
+	 	PopupWindow popUpMenu = new PopupWindow(layout,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);	
+	 	popUpMenu.setFocusable(true);
+	 	popUpMenu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+	 	popUpMenu.showAsDropDown(v);
+	 	Button wtsapp = (Button) layout.findViewById(R.id.invitefriends_share_popup_wtsapp);
+	 	final String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
+	 	
+	 	wtsapp.setOnClickListener(new OnClickListener() {		
+	 		@Override
+	 		public void onClick(View v) {	 
+	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+	 		 	shareIntent.setType("text/plain");
+	 			shareIntent.setPackage("com.whatsapp");
+			    if (shareIntent != null) {
+			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
+			        startActivity(Intent.createChooser(shareIntent, "Share with"));
+			    } else {
+			        ToastTracker.showToast("Whatsapp not installed");
+			    }
+			    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:wtsappicon",1L);
+	 		}
+	 	});
+	 	
+	 	Button wechat = (Button) layout.findViewById(R.id.invitefriends_share_popup_wechat);
+	 	wechat.setOnClickListener(new OnClickListener() {		
+	 		@Override
+	 		public void onClick(View v) {
+	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+	 		 	shareIntent.setType("text/plain");
+	 			shareIntent.setPackage("com.wechat");
+			    if (shareIntent != null) {
+			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
+			        startActivity(Intent.createChooser(shareIntent, "Share with"));
+			    } else {
+			        ToastTracker.showToast("WeChat not installed");
+			    }
+			    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:wechaticon",1L);
+	 		}
+	 		
+	 	});
+	 	
+	 	Button line = (Button) layout.findViewById(R.id.invitefriends_share_popup_line);
+	 	line.setOnClickListener(new OnClickListener() {		
+	 		@Override
+	 		public void onClick(View v) {
+	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+	 		 	shareIntent.setType("text/plain");
+	 			shareIntent.setPackage("com.line");
+			    if (shareIntent != null) {
+			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
+			        startActivity(Intent.createChooser(shareIntent, "Share with"));
+			    } else {
+			        ToastTracker.showToast("Line messenger not installed");
+			    }
+			    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:lineicon",1L);
+	 		
+	 		}
+	 	});
+	 	
+	 	Button viber = (Button) layout.findViewById(R.id.invitefriends_share_popup_viber);
+	 	viber.setOnClickListener(new OnClickListener() {		
+	 		@Override
+	 		public void onClick(View v) {
+	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+	 		 	shareIntent.setType("text/plain");
+	 			shareIntent.setPackage("com.viber");
+			    if (shareIntent != null) {
+			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
+			        startActivity(Intent.createChooser(shareIntent, "Share with"));
+			    } else {
+			        ToastTracker.showToast("Viber not installed");
+			    }
+			    HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:vibericon",1L);
+	 		
+	 		}
+	 	});
+	 	
+	 	
+	 }	
 	 
 	 @Override
 	    public void onResume(){
 	        super.onResume();
 	       // registerReceiver(inviteHandler, new IntentFilter(BroadCastConstants.FRIEND_INVITATION_SENT));
-	        if(FriendsToInvite.getInstance().getAllFriends().isEmpty())
+	        if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))
 	        	showInviteFriendButtonLayout();
-	        else
+	        else if(!FriendsToInvite.getInstance().getAllFriends().isEmpty())
+	        {
 	        	showInviteFriendListLayout();
+	        }	        
+	        else
+			{			
+				ProgressHandler.showInfiniteProgressDialoge(this, "Please wait..", "Fetching friends..",getReqListener());
+				SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(0,15, getReqListener());
+				SBHttpClient.getInstance().executeRequest(fetchFriendsReq);					
+			}
 	 }
 	 
 	 public void showInviteFriendListLayout()

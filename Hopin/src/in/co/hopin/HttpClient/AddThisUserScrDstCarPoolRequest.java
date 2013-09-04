@@ -61,8 +61,7 @@ public class AddThisUserScrDstCarPoolRequest extends SBHttpRequest {
 
 	private void populateEntityObject() throws JSONException {    	
 		SBGeoPoint sourceGeoPoint =  ThisUserNew.getInstance().getSourceGeoPoint();
-		SBGeoPoint destinationGeoPoint =  ThisUserNew.getInstance().getDestinationGeoPoint();
-		jsonobjAddRequest.put(UserAttributes.SHAREOFFERTYPE, ThisUserNew.getInstance().get_Take_Offer_Type());
+		SBGeoPoint destinationGeoPoint =  ThisUserNew.getInstance().getDestinationGeoPoint();		
 		if (sourceGeoPoint != null) {
 			jsonobjAddRequest.put(UserAttributes.SRCLATITUDE, ThisUserNew.getInstance().getSourceGeoPoint().getLatitude());
 			jsonobjAddRequest.put(UserAttributes.SRCLONGITUDE, ThisUserNew.getInstance().getSourceGeoPoint().getLongitude());
@@ -73,7 +72,8 @@ public class AddThisUserScrDstCarPoolRequest extends SBHttpRequest {
 		}
 		jsonobjAddRequest.put(UserAttributes.SRCADDRESS, ThisUserNew.getInstance().getSourceFullAddress());
 		jsonobjAddRequest.put(UserAttributes.DSTADDRESS, ThisUserNew.getInstance().getDestinationFullAddress());       
-		jsonobjAddRequest.put(UserAttributes.DATETIME, ThisUserNew.getInstance().getDateAndTimeOfTravel());
+		jsonobjAddRequest.put(UserAttributes.DATETIME, ThisUserNew.getInstance().getDateAndTimeOfTravel());	
+		jsonobjAddRequest.put(UserAttributes.SHAREOFFERTYPE, ThisUserNew.getInstance().get_Take_Offer_Type());
 		if(ThisAppConfig.getInstance().getBool(ThisAppConfig.WOMANFILTER))
 			jsonobjAddRequest.put(UserAttributes.WOMENFLTER, 1);
 		if(ThisAppConfig.getInstance().getBool(ThisAppConfig.FBFRIENDONLYFILTER))

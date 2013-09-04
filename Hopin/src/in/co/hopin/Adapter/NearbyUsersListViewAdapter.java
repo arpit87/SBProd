@@ -70,6 +70,9 @@ public class NearbyUsersListViewAdapter extends BaseAdapter{
         ImageView chatDotOffline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_offline);
         ImageView chatDotOnline = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_chatstatus_online);
         
+        ImageView offerRideSymbol = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_offerridesymbol);
+        ImageView takeRideSymbol = (ImageView)thisUserView.findViewById(R.id.nearbyuser_list_row_takeridesymbol);
+        
         TextView userName = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_nearbyusername);
         TextView mutualFriends = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_mutualfriends);
         TextView userSource = (TextView)thisUserView.findViewById(R.id.nearbyuser_list_row_source);
@@ -98,6 +101,11 @@ public class NearbyUsersListViewAdapter extends BaseAdapter{
         	chatDotOffline.setVisibility(View.INVISIBLE);
         	chatDotOnline.setVisibility(View.VISIBLE);
         }
+        if(thisUserOtherInfo.isOfferingRide())
+        	offerRideSymbol.setVisibility(View.VISIBLE);
+        else
+        	takeRideSymbol.setVisibility(View.VISIBLE);
+        	
 		return thisUserView;
 	}	
 	

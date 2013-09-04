@@ -63,40 +63,8 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView( inflater, container, savedInstanceState );
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"oncreateview chatlistview");		
-		mListViewContainer = (ViewGroup) inflater.inflate(R.layout.invitefriendfragment_listview, null);	
-		sendMail = (Button)mListViewContainer.findViewById(R.id.inviteFriends_listFrag_viaemail);
-		sendFbInvite = (Button)mListViewContainer.findViewById(R.id.inviteFriends_listFrag_viafbl);
-		sendMail.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_SEND);
-				i.setType("message/rfc822");					
-				i.putExtra(Intent.EXTRA_SUBJECT, "Check out this android carpool application");
-				String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
-				i.putExtra(Intent.EXTRA_TEXT, text);
-				List<String> emailList = FriendsToInvite.getInstance().getAllSelectedFriendEmails();
-				String [] emailArray = emailList.toArray(new String[emailList.size()]);
-				i.putExtra(android.content.Intent.EXTRA_EMAIL,emailArray );
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(i);			
-				SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
-	       		SBHttpClient.getInstance().executeRequest(request);
-				HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendemailtolist",1L);
-			}
-		});
+		mListViewContainer = (ViewGroup) inflater.inflate(R.layout.invitefriendfragment_listview, null);
 		
-		sendFbInvite.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				String commaSeparatedFriendIDs = FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs();
-				FacebookConnector.getInstance(getActivity()).inviteFriends(commaSeparatedFriendIDs);
-				SBHttpRequest request = new InviteFriendRequest(FriendsToInvite.getInstance().getAllSelectedFriendCommaSeparatedIDs());		
-	       		SBHttpClient.getInstance().executeRequest(request);
-				HopinTracker.sendEvent("InviteFriends","ButtonClick","invitefriends:click:sendfbinvitetolist",1L);			
-			}
-		});
 		return mListViewContainer;
 	}
 

@@ -47,7 +47,7 @@ public class ThisUserNew {
         destiantionLocality = "";
         timeOfRequest = "";
         dateOfRequest = "";
-        take_offer_type = 0;
+        take_offer_type = -1;
         daily_instant_type = 0;
         plan_instant_type = 0;
         selected_radio_button_id = 0;

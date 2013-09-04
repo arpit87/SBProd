@@ -52,7 +52,8 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 	boolean isVisibleExpandedIndividual = false;	
 	private TextView textViewNumberOfUSers = null;
 	private ScrollView fbInfoScrollView = null;
-	
+	private ImageView offerRideSymbol = null;
+	private ImageView takeRideSymbol = null;
 	private NearbyUserGroup mUserGroup = null;
 	private ImageView picViewExpanded = null ;		
 	private TextView expandedBalloonHeader = null;
@@ -306,7 +307,8 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
 		 picViewExpanded = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.expanded_pic);		
 		 expandedBalloonHeader = (TextView)viewOnMarkerIndividualExpanded.findViewById(R.id.expanded_balloon_header);		
 		 chatIcon = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.chat_icon_view);
-		 //smsIcon = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.sms_icon);
+		 offerRideSymbol = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.expanded_balloon_header_offercarsymbol);
+		 takeRideSymbol = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.expanded_balloon_header_takeridesymbol);
 		 hopinIcon = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.hopin_icon);
 		 facebookIcon = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.fb_icon_view);
 		 buttonClose = (ImageView)viewOnMarkerIndividualExpanded.findViewById(R.id.button_close_balloon_expandedview);
@@ -344,13 +346,10 @@ public class GroupedNearbyUsersOverlayItem extends BaseOverlayItem{
             hopinIconImgSrc = R.drawable.launchernewmedium_disabled;
 		}
 		
-		/*if(!n.getUserFBInfo().isPhoneAvailable())
-		{				
-			smsIcon.setImageResource(R.drawable.sms_icon_disabled);
-			smsIcon.invalidate();
-            smsIconImgSrc = R.drawable.sms_icon_disabled;
-          
-		}*/
+		if(n.getUserOtherInfo().isOfferingRide())
+			offerRideSymbol.setVisibility(View.VISIBLE);
+		else
+			takeRideSymbol.setVisibility(View.VISIBLE);
 					
 		buttonClose.setOnClickListener(new OnClickListener() {				
 			@Override

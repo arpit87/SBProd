@@ -32,7 +32,7 @@ public class SearchUserInstaFrag extends AbstractSearchInputFrag{
         	mInstaViewContainer = inflater.inflate(R.layout.search_users_insta_frag, null); 
         	destination = (AutoCompleteTextView) mInstaViewContainer.findViewById(R.id.search_user_insta_destination);
          	radio_group_time = (RadioGroup)mInstaViewContainer.findViewById(R.id.search_user_insta_radio_group);
-         	cancelFindUsers = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_cancelfindusers);
+         	//cancelFindUsers = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_cancelfindusers);
             offerRideButton = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_offerride);
             takeRideButton = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_takeride);
             destination_progressbar = (ProgressBar)mInstaViewContainer.findViewById(R.id.search_users_insta_destinationprogress);
@@ -51,9 +51,9 @@ public class SearchUserInstaFrag extends AbstractSearchInputFrag{
         	mInstaViewContainer = inflater.inflate(R.layout.search_users_insta_frag, null); 
         	destination = (AutoCompleteTextView) mInstaViewContainer.findViewById(R.id.search_user_insta_destination);
          	radio_group_time = (RadioGroup)mInstaViewContainer.findViewById(R.id.search_user_insta_radio_group);
-         	takeRideButton = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_cancelfindusers);
+         	takeRideButton = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_takeride);
             offerRideButton = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_offerride);
-            cancelFindUsers = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_takeride);
+           // cancelFindUsers = (Button)mInstaViewContainer.findViewById(R.id.search_usersinsta_btn_takeride);
             destination_progressbar = (ProgressBar)mInstaViewContainer.findViewById(R.id.search_users_insta_destinationprogress);
             radio_group_time.check(R.id.search_user_insta_radiobutton_5min);
         } 

@@ -47,7 +47,8 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 	private ImageView picViewSmall = null;
 	private ImageView picViewExpanded = null;
 	private ImageView chatIcon = null;
-	//private ImageView smsIcon = null;
+	private ImageView offerRideSymbol = null;
+	private ImageView takeRideSymbol = null;
 	private ImageView hopinIcon = null;
 	private ImageView facebookIcon = null;
 	private ImageView buttonClose = null;
@@ -99,9 +100,9 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 		if(viewOnMarkerSmall==null)
 		{	
 			if(mNearbyUser.getUserOtherInfo().isOfferingRide())
-				viewOnMarkerSmall = mInflater.inflate(R.layout.map_frame_layout_green, null);
-			else
 				viewOnMarkerSmall = mInflater.inflate(R.layout.map_frame_layout_blue, null);
+			else
+				viewOnMarkerSmall = mInflater.inflate(R.layout.map_frame_layout_green, null);
 			
 			picViewSmall = (ImageView)viewOnMarkerSmall.findViewById(R.id.userpic);	
 			
@@ -202,7 +203,8 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
 			picViewExpanded = (ImageView)viewOnMarkerExpanded.findViewById(R.id.expanded_pic);		
 			expandedBalloonHeader = (TextView)viewOnMarkerExpanded.findViewById(R.id.expanded_balloon_header);
 			chatIcon = (ImageView)viewOnMarkerExpanded.findViewById(R.id.chat_icon_view);
-			//smsIcon = (ImageView)viewOnMarkerExpanded.findViewById(R.id.sms_icon);
+			offerRideSymbol = (ImageView)viewOnMarkerExpanded.findViewById(R.id.expanded_balloon_header_offercarsymbol);
+			takeRideSymbol = (ImageView)viewOnMarkerExpanded.findViewById(R.id.expanded_balloon_header_takeridesymbol);
 			hopinIcon = (ImageView)viewOnMarkerExpanded.findViewById(R.id.hopin_icon);
 			facebookIcon = (ImageView)viewOnMarkerExpanded.findViewById(R.id.fb_icon_view);
 			buttonClose = (ImageView)viewOnMarkerExpanded.findViewById(R.id.button_close_balloon_expandedview);
@@ -229,12 +231,10 @@ public class NearbyUserOverlayItem extends BaseOverlayItem{
             }
 			
 			
-			/*if(!mNearbyUser.getUserFBInfo().isPhoneAvailable())
-			{				
-				smsIcon.setImageResource(R.drawable.sms_icon_disabled);
-				smsIcon.invalidate();
-                smsIconImgSrc = R.drawable.sms_icon_disabled;
-			}*/
+			if(mNearbyUser.getUserOtherInfo().isOfferingRide())
+				offerRideSymbol.setVisibility(View.VISIBLE);
+			else
+				takeRideSymbol.setVisibility(View.VISIBLE);
 			
 			buttonClose.setOnClickListener(new OnClickListener() {				
 				@Override
