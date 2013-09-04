@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:gravity="center"
+    android:background="@color/black">
+ <Button
+     android:id="@+id/invitefriends_share_popup_wtsapp"     
+     android:text="  WhatsApp"
+     android:textColor="@color/black_75"
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:background="@drawable/border_button_white"
+     android:textSize="20sp"
+     android:padding="5dip"         
+     android:drawableLeft="@drawable/wtsapp"
+    />
+  
+  <Button
+     android:id="@+id/invitefriends_share_popup_wechat"
+     android:soundEffectsEnabled="true"       
+     android:text="WeChat"
+     android:background="@drawable/border_button_white"
+     android:textColor="@color/black_75"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:textSize="20sp"
+     android:padding="5dip"   
+     android:drawableLeft="@drawable/wechat" 
+     />
+    <Button
+     android:id="@+id/invitefriends_share_popup_line"
+     android:soundEffectsEnabled="true"       
+     android:text="Line"
+     android:background="@drawable/border_button_white"
+     android:textColor="@color/black_75"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:textSize="20sp"
+     android:padding="5dip"     
+     android:drawableLeft="@drawable/linemessenger"
+     />
+     
+  <Button
+     android:id="@+id/invitefriends_share_popup_viber"
+     android:soundEffectsEnabled="true"       
+     android:text="Viber"
+     android:background="@drawable/border_button_white"
+     android:textColor="@color/black_75"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:textSize="20sp"
+     android:padding="5dip"    
+     android:drawableLeft="@drawable/viber" 
+     /> 
+</LinearLayout>

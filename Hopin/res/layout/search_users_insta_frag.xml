@@ -108,7 +108,7 @@
         
         android:layout_marginTop="15dip">
 
-        <Button
+    <!--     <Button
             android:id="@+id/search_usersinsta_btn_cancelfindusers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,36 +116,41 @@
             android:layout_margin="5dip"
             android:layout_weight="1"
             android:background="@drawable/custom_button_grey"
-            android:text="Cancel"
-            android:paddingTop="10dip"
-            android:paddingBottom="10dip"
-            android:textColor="@color/black" />        
+            android:text="Cancel search"
+            android:padding="4dip"            
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/cancel_black" />  -->       
 
         <Button
             android:id="@+id/search_usersinsta_btn_takeride"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dip"
             android:layout_gravity="center"
             android:layout_margin="5dip"
             android:layout_weight="1"
             android:background="@drawable/custom_button_green"
             android:text="Take ride"
-            android:paddingTop="10dip"
-            android:paddingBottom="10dip"
-            android:textColor="@color/black" />
+             android:padding="8dip"  
+             android:textStyle="bold"
+             android:textSize="20dip"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/takeridethumb"
+             />
         
          <Button
             android:id="@+id/search_usersinsta_btn_offerride"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dip"
             android:layout_gravity="center"
             android:layout_margin="5dip"
             android:layout_weight="1"
             android:background="@drawable/custom_button_blue"
             android:text="Offer ride"
-            android:paddingTop="10dip"
-            android:paddingBottom="10dip"
-            android:textColor="@color/black" />
+            android:padding="8dip"  
+             android:textStyle="bold"
+             android:textSize="20dip" 
+            android:textColor="@color/black" 
+            android:drawableLeft="@drawable/offerridecar"/>
 
     </LinearLayout>
     

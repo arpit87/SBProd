@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"  
         android:src="@drawable/arrowrighttilt"
         android:layout_marginTop="260dip"     
-        android:layout_marginLeft="120dip"      
+        android:layout_marginLeft="60dip" 
+        android:layout_alignParentLeft="true"     
         />
          <TextView
          android:id="@+id/swipe_tap_joinpoolorsharetaxi"
@@ -44,7 +45,8 @@
         android:text="search pool/share taxi"
         android:textColor="@color/white"
         android:textSize="15dip" 
-        android:layout_marginLeft="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="2dip" 
         android:layout_below="@id/swipe_tap_takeride_arrowtilt"
         
              ></TextView>
@@ -55,7 +57,8 @@
         android:text="(I dont have a car)"
         android:textColor="@color/white"
         android:textSize="15dip" 
-        android:layout_marginLeft="63dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dip" 
         android:layout_below="@id/swipe_tap_joinpoolorsharetaxi"
         
              ></TextView>

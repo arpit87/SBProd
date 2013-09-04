@@ -17,11 +17,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:textSize="20dip"                       
-            android:layout_marginLeft="1.0dip"            
-            android:layout_marginRight="1.0dip" 
+            android:layout_marginLeft="1.0dip" 
             android:layout_centerVertical="true" 
-            android:textColor="@color/white"           
+            android:textColor="@color/white"  
+            android:text="Arpit Mishra" 
+            android:layout_alignParentLeft="true"        
              />
+            
+            <ImageView 
+                android:id="@+id/expanded_balloon_header_offercarsymbol"
+                android:layout_width="24.0dip" 
+                android:layout_height="20.0dip" 
+                android:src="@drawable/offerridecar_white"
+                android:visibility="gone"
+                android:layout_centerVertical="true" 
+                android:layout_marginLeft="4.0dip" 
+                android:layout_toRightOf="@id/expanded_balloon_header"/>
+            
+             <ImageView 
+                 android:id="@+id/expanded_balloon_header_takeridesymbol"
+                 android:layout_width="19.0dip" 
+                android:layout_height="22.0dip" 
+                android:src="@drawable/takeridethumb_white"
+                android:visibility="gone"                
+                android:layout_centerVertical="true" 
+                android:layout_marginLeft="4.0dip" 
+                android:layout_toRightOf="@id/expanded_balloon_header" />
             
         <ImageView
             android:id="@+id/button_close_balloon_expandedview"
