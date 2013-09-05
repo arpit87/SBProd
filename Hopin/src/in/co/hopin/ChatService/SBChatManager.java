@@ -1,25 +1,23 @@
 package in.co.hopin.ChatService;
 
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+import android.util.Log;
 import in.co.hopin.ChatClient.IChatManagerListener;
 import in.co.hopin.ChatClient.IMessageListener;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Util.Logger;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.util.StringUtils;
 
-import android.os.RemoteCallbackList;
-import android.os.RemoteException;
-import android.util.Log;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class SBChatManager extends IChatManager.Stub {
 	
@@ -42,6 +40,10 @@ public class SBChatManager extends IChatManager.Stub {
         addChatListener();
 
 	}
+
+    public XMPPConnection getXMPPConnection () {
+        return mXMPPConnection;
+    }
 
     private void resetChatManager() {
         mChatManager = mXMPPConnection.getChatManager();
