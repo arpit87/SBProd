@@ -37,8 +37,8 @@ public class ProgressHandler {
 		public void run() {
 			if(progressDialog!=null && isshowing.get())
 			{
-				progressDialog.setTitle("Taking too long?");
-				progressDialog.setMessage("It seems network connection is too slow,hold on for some time or press back to cancel");				
+				progressDialog.setTitle("Slow connection?");
+				progressDialog.setMessage("Hold on for some time or press back to cancel");				
 				progressDialog.setCancelable(true);		
 				HopinTracker.sendEvent("ProgressHandler","ShowDialog","progresshandler:show:cancelable:"+underlying_activity.getClass().toString(),1L);
 			}			
