@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class BlockedUsersActivity extends ListActivity{
-   // private static final String TAG = "in.co.hopin.Activities.BlockedUsersActivity";
+    private static final String TAG = "in.co.hopin.Activities.BlockedUsersActivity";
 
     private List<BlockedUser> blockedUsers;
     private BlockedUsersAdapter blockedUsersAdapter;

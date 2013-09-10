@@ -152,9 +152,22 @@ public class StringUtils {
 	
     public static String getFBPicURLFromFBID(String fbid)
     {
-    	String imageurl = "http://graph.facebook.com/" + fbid + "/picture?type=small";
+    	String imageurl = "https://graph.facebook.com/" + fbid + "/picture?type=small";
     	return imageurl;
     }
+    
+    public static String getLargeFBPicURLFromFBID(String fbid)
+    {
+    	String imageurl = "https://graph.facebook.com/" + fbid + "/picture?type=large";
+    	return imageurl;
+    }
+    
+    public static String getFBCoverPicGraphPathFromFBID(String fbid)
+    {
+    	String imageurl = "https://graph.facebook.com/" + fbid + "?fields=cover";
+    	return imageurl;
+    }
+    
 	
 }
 

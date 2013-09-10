@@ -59,6 +59,7 @@ public class UserAttributes {
 	public static String  EMAIL = "email";
 	public static String  MUTUALFRIENDSCOUNT = "mutual_friends_count";
 	public static String  FRIENDSCOUNT = "friends_count";
+	public static String  EMAILVERIFICATION = "email_verification";
 
 	//chat 
 	public static String  CHATUSERID = "user_id";

@@ -2,6 +2,7 @@ package in.co.hopin.Activities;
 
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
+import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.Fragments.ShowActiveReqPrompt;
@@ -87,7 +88,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         String instaReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_INSTA);
         String carpoolReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_CARPOOL);
         if(!StringUtils.isBlank(instaReqJson) || !StringUtils.isBlank(carpoolReqJson))
-        {
+        {        	
         	ShowActiveReqPrompt activereq_dialog = new ShowActiveReqPrompt();
        		activereq_dialog.show(getSupportFragmentManager(), "active_req_prompt");
         }
@@ -277,7 +278,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 			break;
         case R.id.main_menu_logout:
         	//logout from chat server?
-			FacebookConnector fbconnect = new FacebookConnector(MapListViewTabActivity.this);
+			FacebookConnector fbconnect = FacebookConnector.getInstance(MapListViewTabActivity.this);
         	fbconnect.logoutFromFB();
         	break;*/
         case R.id.main_menu_settings:

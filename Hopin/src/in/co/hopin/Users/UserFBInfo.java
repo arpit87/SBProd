@@ -26,6 +26,7 @@ public class UserFBInfo {
     private String email = "";
     private String mutual_friend_count="0";  
     private String friend_count="0"; 
+    private String email_verified="0"; 
     private List<Friend> mMutualFriendList = new ArrayList<Friend>();
     public UserFBInfo() {
         // TODO Auto-generated constructor stub
@@ -118,9 +119,11 @@ public class UserFBInfo {
 	        } catch (JSONException e) {
 	        }
 	        
-	        if(getNumberOfFriends()>0)
-				JSONHandler.GetMutualFriendsFromJSONObject(allInfo);
-	        
+	            
+	        try {
+	            email_verified = allInfo.getString(UserAttributes.EMAILVERIFICATION);
+	        } catch (JSONException e) {
+	        }
         }
     }
 	
@@ -186,6 +189,13 @@ public class UserFBInfo {
     		return "Unknown";
     	else			
     		return hometown;
+    }
+    
+    public String getEmailVerificationStatus() {
+    	if(email_verified.equals("0"))
+    		return "Not Verified";
+    	else			
+    		return "Verified";
     }
     
     public String getFBUsername() {

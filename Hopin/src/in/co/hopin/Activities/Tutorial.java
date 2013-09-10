@@ -1,5 +1,7 @@
 package in.co.hopin.Activities;
 
+import com.facebook.Session.StatusCallback;
+
 import in.co.hopin.R;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.HelperClasses.CommunicationHelper;
@@ -32,6 +34,7 @@ public class Tutorial extends FragmentActivity{
 	TextView tapFrameTextView;
 	FacebookConnector fbconnect;
 	ScrollView mScrollView; 
+	private StatusCallback skipLoginCallback;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class Tutorial extends FragmentActivity{
                ThisUserConfig.getInstance().putString(ThisUserConfig.USERNAME, userNameText);
                //ThisUserConfig.getInstance().putString(ThisUserConfig.MOBILE, mobile);
                SBHttpRequest request = new AddUserRequest(uuid,userNameText,Tutorial.this);		
-       		   SBHttpClient.getInstance().executeRequest(request);
+       		   SBHttpClient.getInstance().executeRequest(request);       		
        		   ProgressHandler.showInfiniteProgressDialoge(Tutorial.this, "Welcome "+userNameText+"!", "Preparing for first run",null);       		  
 				
 			}

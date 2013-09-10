@@ -232,7 +232,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	        {
 	            firstRun();
 	        }
-	        else if (ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN) && !FacebookConnector.isSessionValid())
+	        else if (ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN) && !FacebookConnector.getInstance(this).isSessionValid())
 	        {	
 	        	// if user had atleast once logged in then we want to enter here on expiry of session
 	        	Logger.d(TAG, "FB session is not valid");
@@ -245,8 +245,12 @@ public class StartStrangerBuddyActivity extends Activity {
 	        else
 	        {
 	            ThisUserNew.getInstance().setUserID(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID));
-	            timer = new Timer();
-	            timer.scheduleAtFixedRate(new GetNetworkLocationFixTask(), 500, 500);
+	            //timer = new Timer();
+	            //timer.scheduleAtFixedRate(new GetNetworkLocationFixTask(), 500, 500);
+	            if(!mapActivityStarted.getAndSet(true))
+	        	  {
+	            	Platform.getInstance().getHandler().postDelayed(startMapActivity,2000);
+	        	  }
 	            
 	            //send upgrade msg
 	            if(isVersionUpgraded() && !upGradeMsgShown)

@@ -33,8 +33,8 @@ public class SelfProfileRequest extends SBHttpRequest{
 	SelfProfileResponse getSelfProfileAndShowProfileActivity;
 	JSONObject jsonobj;
 	String jsonStr;	   
-	
-	public SelfProfileRequest()
+	SBHttpResponseListener mListener;
+	public SelfProfileRequest(SBHttpResponseListener listener)
 	{		
 		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
@@ -42,7 +42,7 @@ public class SelfProfileRequest extends SBHttpRequest{
 		//prepare getnearby request		
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();	
-		
+		mListener = listener;
 		try {				
 			String userid = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
 			jsonobj.put(UserAttributes.USERID, userid);
@@ -65,6 +65,7 @@ public class SelfProfileRequest extends SBHttpRequest{
 	}
 	
 	
+	
 	public ServerResponseBase execute() {
 		HopinTracker.sendEvent("HttpRequest",RESTAPI,"httprequest:"+RESTAPI+":execute",1L);
 			try {
@@ -83,6 +84,7 @@ public class SelfProfileRequest extends SBHttpRequest{
 			
 			getSelfProfileAndShowProfileActivity = new SelfProfileResponse(response,jsonStr,RESTAPI);
 			getSelfProfileAndShowProfileActivity.setReqTimeStamp(this.reqTimeStamp);
+			getSelfProfileAndShowProfileActivity.setResponseListener(mListener);
 			return getSelfProfileAndShowProfileActivity;
 		
 	}

@@ -19,7 +19,9 @@ import in.co.hopin.Util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.R;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,18 +30,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
-import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
-import com.facebook.Settings;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
-import com.facebook.widget.WebDialog.Builder;
 import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -53,6 +52,7 @@ public class FacebookConnector {
 	
 	private static FacebookConnector fbconnect = null;	
     Activity underlyingActivity = null;
+       
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
     private Session.StatusCallback reloginstatusCallback = new SessionStatusReloginCallback();
        
@@ -69,7 +69,7 @@ public class FacebookConnector {
     	fbconnect.setActivity(underlying_activity); 
     	return fbconnect;
     }
-    
+        
     public void logoutFromFB()
     { 
     	Session session = Session.getActiveSession();
@@ -78,14 +78,41 @@ public class FacebookConnector {
     	
     }
     
-    public static boolean isSessionValid()
+    public boolean isSessionValid()
     {
-    	Session session = Session.openActiveSessionFromCache(Platform.getInstance().getContext());
-    	if(session == null)
-    		return false;
-    	else
-    		return true;
-    	
+    	 Session session = Session.getActiveSession();    	 
+         Logger.i(TAG, "session null");
+             if (session == null) {
+                 session = new Session(underlyingActivity);
+             }
+             Session.setActiveSession(session);
+             String access_token = session.getAccessToken();
+        	 Logger.d(TAG, "expiry after is session valid"+session.getExpirationDate());
+        	 Logger.d(TAG, "access token in issesson valid:"+access_token);
+             Logger.d(TAG, "session state issesson valid:"+session.getState());
+             if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+            	 session.openForRead(null);
+            	 if(session.isOpened())
+            	 {
+            		 Logger.d(TAG, "session state issesson valid afr open:"+session.getState());
+            		 return true;
+            	 }
+            	 else
+            	 {
+            		 Logger.d(TAG, "session state issesson valid aftr open:"+session.getState());
+            		 return false;
+            	 }
+             }
+             else if(session.getState().equals(SessionState.OPENED))
+            	 return true;
+             else if(session.getState().equals(SessionState.OPENED_TOKEN_UPDATED))
+             {
+            	 reloginstatusCallback.call(session, session.getState(), null);
+            	 return true;
+             }
+             else            	          
+            	 return false;
+            	
     }
     
     public void loginToFB()
@@ -106,26 +133,38 @@ public class FacebookConnector {
         } else {
             Session.openActiveSession(underlyingActivity, true, statusCallback);
         }
+        String access_token = session.getAccessToken();
+        Logger.d(TAG, "expiry after login"+session.getExpirationDate());
+   	 Logger.d(TAG, "access token in login:"+access_token);
+   	Logger.d(TAG, "session state in login:"+session.getState());
  
     }  
     
     public void reloginToFB()
     { 	    	    	 
     	
-Logger.i(TAG, "relogin called");
+    	Logger.i(TAG, "relogin called");
     	
 		Session session = Session.getActiveSession();
     	
     	if (session == null) {
+    		Logger.i(TAG, "relogin session null..cerating new");
             session = new Session(underlyingActivity);
             Session.setActiveSession(session);            
         }
     	
         if (!session.isOpened() && !session.isClosed()) {
+        	Logger.i(TAG, "relogin opening session for read");
             session.openForRead(new Session.OpenRequest(underlyingActivity).setPermissions(FB_PERMISSIONS).setCallback(reloginstatusCallback));
         } else {
-            Session.openActiveSession(underlyingActivity, true, reloginstatusCallback);
+        	Logger.i(TAG, "relogin opening active session");
+            Session.openActiveSession(underlyingActivity, false, reloginstatusCallback);
         }    	
+        
+        String access_token = session.getAccessToken();
+    	Logger.d(TAG, "expiry after relogin:"+session.getExpirationDate());
+   	 	Logger.d(TAG, "access token after relogin:"+access_token);
+   	 Logger.d(TAG, "session state in relogin:"+session.getState());
     } 
     
     public void authorizeCallback(int requestCode, int resultCode,Intent data)
@@ -176,7 +215,8 @@ Logger.i(TAG, "relogin called");
 	  });
 			 
 		 
-    }
+    }  
+   
     
 	private void requestUserData(Session session,SessionState state) {
 		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);

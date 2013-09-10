@@ -2,6 +2,7 @@ package in.co.hopin.Server;
 
 import in.co.hopin.Activities.SelfProfileActivity;
 import in.co.hopin.HelperClasses.ProgressHandler;
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserAttributes;
@@ -34,9 +35,21 @@ public class SelfProfileResponse extends ServerResponseBase{
 			//status = body.getString("Status");			
 			JSONObject selfFbInfo =  body.getJSONObject(UserAttributes.FBINFO);	
 			ThisUserNew.getInstance().setUserFBInfo(new UserFBInfo(selfFbInfo));
-			Intent hopinSelfProfile = new Intent(Platform.getInstance().getContext(),SelfProfileActivity.class);
-			hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);			
-	    	Platform.getInstance().getContext().startActivity(hopinSelfProfile);
+			SBHttpResponseListener listener = getResponseListener();
+			//if call from activity itself then we passing listener
+			if(listener!=null) 
+			{
+				Logger.i(TAG,"istener found ");
+				listener.onComplete("");
+			}
+			else
+			{
+				Logger.i(TAG,"no l;istener found ");
+				//else we start new task activity
+				//Intent hopinSelfProfile = new Intent(Platform.getInstance().getContext(),SelfProfileActivity.class);
+				//hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);			
+		    	//Platform.getInstance().getContext().startActivity(hopinSelfProfile);
+			}
 	    	logSuccess();
 			ProgressHandler.dismissDialoge();
 			//ToastTracker.showToast("fb save:"+status);

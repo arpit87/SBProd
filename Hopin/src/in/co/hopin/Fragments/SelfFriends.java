@@ -27,7 +27,7 @@ public class SelfFriends extends Fragment{
 			 friendsView = (ViewGroup) inflater.inflate(
 		                R.layout.nodata_layout, container, false);
 			 TextView nodataTextView = (TextView) friendsView.findViewById(R.id.nodata_layout_textview);
-			 nodataTextView.setText("No Data, please login");
+			 nodataTextView.setText("You need to login to see friends");
 			 //Logger.i(TAG,"self profile click but not fb logged in");			
 			 //CommunicationHelper.getInstance().FBLoginpromptPopup_show((FBLoggableFragmentActivity)getActivity(), true) ;
 			 return friendsView;

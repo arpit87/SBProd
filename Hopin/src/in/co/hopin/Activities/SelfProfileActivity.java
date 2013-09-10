@@ -1,6 +1,7 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
+import in.co.hopin.Fragments.ImageViewerDialog;
 import in.co.hopin.Fragments.SelfAboutMeFrag;
 import in.co.hopin.Fragments.SelfFriends;
 import in.co.hopin.HelperClasses.CommunicationHelper;
@@ -8,9 +9,12 @@ import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.HttpClient.SelfProfileRequest;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,89 +37,110 @@ import android.widget.TextView;
 
 public class SelfProfileActivity extends FragmentActivity {
 	
+	private static final String TAG = "in.co.hopin.Activities.SelfProfileActivity";
 	private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private Button button1;
     private Button button2;	
+    private boolean mFetchingData = false;
+    private GetSelfProfileListListener mGetSelfProfileListListener = new GetSelfProfileListListener();
+    private ImageView thumbnailView = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.self_profile); 
-        setInfoOnWindow();        
+        setContentView(R.layout.self_profile_new); 
+        setInfoOnWindow();
+        if(ThisUserNew.getInstance().getUserFBInfo()==null && ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))    		
+    	{
+    		//need to fetch data from out server
+		    if(!mFetchingData)
+		    {
+		    	Logger.i(TAG,"fetching self profile ");
+    		 	mFetchingData = true;
+	    		ProgressHandler.showInfiniteProgressDialoge(this, "Fetching your profile data", "Please wait..",mGetSelfProfileListListener);
+	    		SelfProfileRequest req = new SelfProfileRequest(mGetSelfProfileListListener);
+				SBHttpClient.getInstance().executeRequest(req);
+		    }
+		    
+    	}
+    	else
+    	{	
+    		Logger.i(TAG,"instantiating view pager ");
+    		instantiateViewPager();        	        
+	        aboutSelected(); // initially select "about" view
+	        mPager.setCurrentItem(0);
+	       
+    	}
+    }
+    
+    @Override
+    public void onNewIntent(Intent i)
+    {
+    	Logger.d(TAG, "self profile on new intent ");
     }
     
     @Override
     public void onResume()
     {
     	super.onResume();    	
+    	Logger.i(TAG,"on resumne self profile ");    	
     	
-    	 if(ThisUserNew.getInstance().getUserFBInfo()==null && ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))    		
-    	{
-	    		//need to fetch data from out server
-	    		ProgressHandler.showInfiniteProgressDialoge(this, "Fetching your profile data", "Please wait..",null);
-	    		SelfProfileRequest req = new SelfProfileRequest();
-				SBHttpClient.getInstance().executeRequest(req);
-    	}
-    	else
-    	{
-	        // Instantiate a ViewPager and a PagerAdapter.
-	        mPager = (ViewPager) findViewById(R.id.self_profile_viewpager);
-	        List<Fragment> fragments = getFragments();       
-	        mPagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);      
-	        mPager.setAdapter(mPagerAdapter);        
-	        
-	        // Watch for button clicks.
-	        button1 = (Button)findViewById(R.id.self_profile_abountme);
-	        button2 = (Button)findViewById(R.id.self_profile_friendtab);
-	        button1.setOnClickListener(new OnClickListener() {
-	            public void onClick(View v) {
-	            	aboutSelected();
-	            	mPager.setCurrentItem(0);
-	            }
-	        });        
-	        
-	        button2.setOnClickListener(new OnClickListener() {
-	            public void onClick(View v) {
-	            	FriendsSelected();
-	            	mPager.setCurrentItem(1);
-	            }
-	        });
-	        
-	        mPager.setOnPageChangeListener(new OnPageChangeListener() {
-	            @Override
-	            public void onPageSelected(int position) {
-	            	switch(position)
-	        		{
-	        			case 0: //about button selected
-	        				aboutSelected();
-	        			break;
-	        			case 1:
-	        				FriendsSelected();
-	        			break;
-	        			default:
-	        				aboutSelected();    		
-	        		}
-	            }
-	
-				@Override
-				public void onPageScrollStateChanged(int arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-	
-				@Override
-				public void onPageScrolled(int arg0, float arg1, int arg2) {
-					// TODO Auto-generated method stub
-					
-				}
-	        });
-	        
-	        aboutSelected(); // initially select "about" view
-	        mPager.setCurrentItem(0);
-	       
-    	}
-    	
+    }
+    
+    private void instantiateViewPager()
+    {
+    	// Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.self_profile_new_viewpager);
+        List<Fragment> fragments = getFragments();       
+        mPagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);      
+        mPager.setAdapter(mPagerAdapter);        
+        
+        // Watch for button clicks.
+        button1 = (Button)findViewById(R.id.self_profile_new_abountme);
+        button2 = (Button)findViewById(R.id.self_profile_new_friendtab);
+        button1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	aboutSelected();
+            	mPager.setCurrentItem(0);
+            }
+        });        
+        
+        button2.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	FriendsSelected();
+            	mPager.setCurrentItem(1);
+            }
+        });
+        
+        mPager.setOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+            	switch(position)
+        		{
+        			case 0: //about button selected
+        				aboutSelected();
+        			break;
+        			case 1:
+        				FriendsSelected();
+        			break;
+        			default:
+        				aboutSelected();    		
+        		}
+            }
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
     }
     
     private List<Fragment> getFragments() {
@@ -165,36 +190,58 @@ public class SelfProfileActivity extends FragmentActivity {
 	
 	private void setInfoOnWindow()
 	{
-		ImageView userPic;  
+		ImageView userPic,coverPic;  
 		TextView userNameView;
-		ImageView maleIcon,femaleIcon; 
-		userPic = (ImageView) findViewById(R.id.self_profile_thumbnail);
-		userNameView = (TextView) findViewById(R.id.self_profile_name);
-		maleIcon = (ImageView) findViewById(R.id.self_profile_maleicon);	
-		femaleIcon = (ImageView) findViewById(R.id.self_profile_femaleicon);
+		//TextView loadingCoverView;
+		//ImageView maleIcon,femaleIcon; 
+		userPic = (ImageView) findViewById(R.id.self_profile_new_image);
+		coverPic = (ImageView) findViewById(R.id.self_profile_new_cover);
+		userNameView = (TextView) findViewById(R.id.self_profile_new_nearbyusername);
+		//loadingCoverView = (TextView) findViewById(R.id.self_profile_new_coverloadingtext);
+		//maleIcon = (ImageView) findViewById(R.id.self_profile_new_maleicon);	
+		//femaleIcon = (ImageView) findViewById(R.id.self_profile_new_femaleicon);
 		if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))
 		{
 			String userName = ThisUserConfig.getInstance().getString(ThisUserConfig.USERNAME);
 			userNameView.setText(userName);
-			maleIcon.setVisibility(View.GONE);
-			userPic.setImageDrawable(getResources().getDrawable(R.drawable.userpicicon));
+			//loadingCoverView.setVisibility(View.GONE);			
 		}		
 		else
 		{
-			String imageURL = ThisUserConfig.getInstance().getString(ThisUserConfig.FBPICURL); 
+			final String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+			String imageURL =  StringUtils.getFBPicURLFromFBID(fbid);
 			SBImageLoader.getInstance().displayImageElseStub(imageURL, userPic, R.drawable.nearbyusericon);
+			SBImageLoader.getInstance().displayCoverImage(fbid, coverPic,null);
 			String userName = ThisUserConfig.getInstance().getString(ThisUserConfig.FB_FULLNAME);
 			userNameView.setText(userName);
-			if("female".equalsIgnoreCase(ThisUserConfig.getInstance().getString(ThisUserConfig.GENDER)))
-			{
-				maleIcon.setVisibility(View.GONE);
+			userPic.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String imgUrl = StringUtils.getLargeFBPicURLFromFBID(fbid);
+					showImage(imgUrl);
+					
+				}
+			});
+			/*if("female".equalsIgnoreCase(ThisUserConfig.getInstance().getString(ThisUserConfig.GENDER)))
+			{				
 				femaleIcon.setVisibility(View.VISIBLE);
 			}
+			else
+			{
+				maleIcon.setVisibility(View.VISIBLE);
+			}*/
 			
 		}
 			
 				
 	}
+	
+	private void showImage(String imgURL)
+    {
+    	ImageViewerDialog imgviewer_dialog =  ImageViewerDialog.newInstance(imgURL);
+    	imgviewer_dialog.show(getSupportFragmentManager(), "show_img");
+    }
 
 	 @Override
 	    public void onStart(){
@@ -240,5 +287,32 @@ public class SelfProfileActivity extends FragmentActivity {
     	}
     
     	}
+    
+    class GetSelfProfileListListener extends SBHttpResponseListener
+	{
+
+		@Override
+		public void onComplete(String response) {
+			if(!hasBeenCancelled)
+			{
+				mFetchingData = false;
+				instantiateViewPager(); 
+				aboutSelected(); // initially select "about" view
+		        mPager.setCurrentItem(0);			
+			}
+		}
+		
+		@Override
+		public void onCancel() {
+			super.onCancel();
+			mFetchingData = false;
+		}
+		
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    //No call for super(). Bug on API Level > 11.
+	}
 
 }

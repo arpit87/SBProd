@@ -29,7 +29,7 @@ public class SBMapView extends MapView implements OnGestureListener {
     private View selfView = null;
 	private int oldZoomLevel = -1;
 
-	public SBMapView(Context context, AttributeSet attrs) {
+	public SBMapView(Context context, AttributeSet attrs) {		
         super(context, attrs);
         setupGestures();        
     }

@@ -151,7 +151,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	 		public void onClick(View v) {
 	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
 	 		 	shareIntent.setType("text/plain");
-	 			shareIntent.setPackage("com.wechat");
+	 			shareIntent.setPackage("com.tencent.mm");
 			    if (shareIntent != null) {
 			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 			        startActivity(Intent.createChooser(shareIntent, "Share with"));
@@ -169,7 +169,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	 		public void onClick(View v) {
 	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
 	 		 	shareIntent.setType("text/plain");
-	 			shareIntent.setPackage("com.line");
+	 			shareIntent.setPackage("jp.naver.line.android");
 			    if (shareIntent != null) {
 			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 			        startActivity(Intent.createChooser(shareIntent, "Share with"));
@@ -187,7 +187,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	 		public void onClick(View v) {
 	 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
 	 		 	shareIntent.setType("text/plain");
-	 			shareIntent.setPackage("com.viber");
+	 			shareIntent.setPackage("com.viber.voip");
 			    if (shareIntent != null) {
 			    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 			        startActivity(Intent.createChooser(shareIntent, "Share with"));

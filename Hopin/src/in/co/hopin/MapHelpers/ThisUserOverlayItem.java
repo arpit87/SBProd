@@ -9,6 +9,7 @@ import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.LocationHelpers.SBGeoPoint;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.Logger;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -125,10 +126,11 @@ public class ThisUserOverlayItem extends BaseOverlayItem{
 	{		
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {	
+			Logger.d(TAG, "self profile map touch opened");
 			HopinTracker.sendEvent("Map","ButtonClick","map:click:thumbnail:self",1L);
 			MapListActivityHandler.getInstance().centreMapTo(mGeoPoint);
 			Intent hopinSelfProfile = new Intent(MapListActivityHandler.getInstance().getUnderlyingActivity(),SelfProfileActivity.class);
-			hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);			
+			hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);			
 			MapListActivityHandler.getInstance().getUnderlyingActivity().startActivity(hopinSelfProfile);
 			return true;
 		}

@@ -1,12 +1,16 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
+import in.co.hopin.Fragments.ImageViewerDialog;
 import in.co.hopin.Fragments.OtherUserMutualFriends;
 import in.co.hopin.Fragments.OtheruserAboutMeFragment;
+import in.co.hopin.Fragments.OtheruserCredentialFragment;
+import in.co.hopin.Fragments.ShowActiveReqPrompt;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +46,12 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
 	private String fbinfoJsonStr = "";	
 	private UserFBInfo userFBInfo = null;
 	private JSONObject fbInfoJSON;	
+	private ImageView thumbnailView = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.otheruser_profile);
+        setContentView(R.layout.otheruser_profile_new);
         
         fbinfoJsonStr = getIntent().getStringExtra("fb_info");
 		if (Platform.getInstance().isLoggingEnabled()) Log.d("debug","got json str:"+fbinfoJsonStr);
@@ -65,6 +70,17 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
         List<Fragment> fragments = getFragments();       
         mPagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);      
         mPager.setAdapter(mPagerAdapter);        
+        
+        thumbnailView = (ImageView) findViewById(R.id.otheruser_profilenew_thumbnail);
+        
+        thumbnailView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String imgUrl = StringUtils.getLargeFBPicURLFromFBID(userFBInfo.getFbid());
+				showImage(imgUrl);				
+			}
+		});
         
         // Watch for button clicks.
         button1 = (Button)findViewById(R.id.otheruser_profilenew_abountme);
@@ -116,16 +132,22 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
         mPager.setCurrentItem(0);
     }
     
+    private void showImage(String imgURL)
+    {
+    	ImageViewerDialog imgviewer_dialog =  ImageViewerDialog.newInstance(imgURL);
+    	imgviewer_dialog.show(getSupportFragmentManager(), "show_img");
+    }
+    
     private List<Fragment> getFragments() {
 		List<Fragment> frag_list= new ArrayList<Fragment>(); 
 		Fragment aboutMeFrag = new OtheruserAboutMeFragment();
-		Fragment mutualFriendsFrag = new OtherUserMutualFriends();
+		Fragment credentialsFrag = new OtheruserCredentialFragment();
 		Bundle fbInfoBundle = new Bundle();
 		fbInfoBundle.putString("fb_info", userFBInfo.getJsonObj().toString());
 		aboutMeFrag.setArguments(fbInfoBundle);
-		mutualFriendsFrag.setArguments(fbInfoBundle);
+		credentialsFrag.setArguments(fbInfoBundle);
 		frag_list.add(aboutMeFrag);
-		frag_list.add(mutualFriendsFrag);
+		frag_list.add(credentialsFrag);
 		return frag_list;
 	}
 
@@ -172,18 +194,18 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
 		
 		friendImageView = (ImageView)findViewById(R.id.otheruser_profilenew_thumbnail);
         nameTextView = (TextView)findViewById(R.id.otheruser_profilenew_name);        
-        mutualFriendsTextView = (TextView)findViewById(R.id.otheruser_profilenew_nummutualfriend);
-        maleIcon = (ImageView)findViewById(R.id.otheruser_profilenew_maleicon);
-        femaleIcon = (ImageView)findViewById(R.id.otheruser_profilenew_femaleicon);
+       // mutualFriendsTextView = (TextView)findViewById(R.id.otheruser_profilenew_nummutualfriend);
+       // maleIcon = (ImageView)findViewById(R.id.otheruser_profilenew_maleicon);
+        //femaleIcon = (ImageView)findViewById(R.id.otheruser_profilenew_femaleicon);
     	
 		SBImageLoader.getInstance().displayImageElseStub(userFBInfo.getImageURL(), friendImageView, R.drawable.nearbyusericon);
 		nameTextView.setText(userFBInfo.getFullName());	
-		mutualFriendsTextView.setText(userFBInfo.getNumberOfMutualFriends()+ " mutual friends");
+		//mutualFriendsTextView.setText(userFBInfo.getNumberOfMutualFriends()+ " mutual friends");
 		if(userFBInfo.getGender().equals("female"))
 		{
 			//default is male
-			maleIcon.setVisibility(View.GONE);
-			femaleIcon.setVisibility(View.VISIBLE);
+			//maleIcon.setVisibility(View.GONE);
+			//femaleIcon.setVisibility(View.VISIBLE);
 		}
 		
 	}

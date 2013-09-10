@@ -507,7 +507,7 @@ public ViewGroup getThisMapContainerWithMapView()
 	if(mMapViewContainer == null)
 	{
 		mMapViewContainer = (ViewGroup) underlyingActivity.getLayoutInflater().inflate(R.layout.map,null,false);
-		mMapView = (SBMapView) mMapViewContainer.findViewById(R.id.map_view);
+		mMapView = (SBMapView) mMapViewContainer.findViewById(R.id.map_view);		
 		selfLocationButton = (ImageButton) mMapViewContainer.findViewById(R.id.my_location_button);    		   		
 		mMapView.getOverlays().clear(); 
 		mapcontroller = mMapView.getController();
