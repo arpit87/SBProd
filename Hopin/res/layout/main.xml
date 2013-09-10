@@ -22,7 +22,16 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"       
         android:layout_below="@+id/main_hopinlogo"
-        android:text="@string/slogan"
+        android:text="Lets commute"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+     <TextView
+        android:id="@+id/main_sloganline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"       
+        android:layout_below="@+id/main_slogan"
+        android:text="together"
         android:textColor="@color/black"
         android:textSize="30sp" />
     
