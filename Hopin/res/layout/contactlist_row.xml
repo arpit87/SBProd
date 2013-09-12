@@ -34,5 +34,29 @@
             android:layout_marginTop="2dip"
             android:layout_marginLeft="5dip"
             android:layout_toRightOf="@id/contactlist_image_frame"/>
+    
+    <ImageView
+            android:id="@+id/contactlist_status_online"
+            android:layout_width="15dip"
+            android:layout_height="15dip"            
+            android:scaleType="centerInside"
+            android:src="@drawable/chat_dot_green"
+            android:layout_marginTop="15dip"  
+            android:layout_marginRight="10dip"   
+            android:layout_alignParentRight="true"  
+            android:visibility="invisible"      
+            />
+      
+      <ImageView
+            android:id="@+id/contactlist_status_offline"
+            android:layout_width="15.0dip"
+            android:layout_height="15dip"                             
+            android:scaleType="centerInside"
+            android:layout_marginTop="15dip"
+             android:layout_marginRight="10dip" 
+            android:src="@drawable/chat_dot_gray" 
+            android:layout_alignParentRight="true"           
+            />           
+   
 
 </RelativeLayout>
