@@ -10,13 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import in.co.hopin.Fragments.Contact;
 import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.Users.Friend;
+import in.co.hopin.Util.Logger;
 import in.co.hopin.R;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.packet.Presence;
 
 import java.util.List;
 
 public class ContactsListAdapter extends BaseAdapter {
 
+	 private static final String TAG = "in.co.hopin.Adapter.ContactListAdapter";
     private LayoutInflater inflater;
     private List<Contact> contacts;
 
@@ -39,6 +43,13 @@ public class ContactsListAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
+    
+    public void updateContents(List<Contact> contactList)
+	{
+    	contacts.clear();
+    	contacts.addAll(contactList);
+		notifyDataSetChanged();
+	}
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -48,6 +59,8 @@ public class ContactsListAdapter extends BaseAdapter {
 
         TextView userName = (TextView) view.findViewById(R.id.contactlist_name);
         ImageView imageView = (ImageView) view.findViewById(R.id.contactlist_image);
+        ImageView offline = (ImageView)view.findViewById(R.id.contactlist_status_offline); 
+        ImageView online = (ImageView)view.findViewById(R.id.contactlist_status_online);
         RosterEntry rosterEntry = contacts.get(i).getRosterEntry();
         String name = rosterEntry.getName();
         String user = rosterEntry.getUser();
@@ -56,6 +69,18 @@ public class ContactsListAdapter extends BaseAdapter {
         userName.setText(name);
         String imageurl = "http://graph.facebook.com/" + fbId + "/picture?type=small";
         SBImageLoader.getInstance().displayImageElseStub(imageurl, imageView, R.drawable.userpicicon);
+        Presence p = contacts.get(i).getPresence();
+        Logger.d(TAG, "Presence of:"+p.getFrom()+" is "+ p.getType());
+        if(p.getType() == Presence.Type.available)
+        {
+        	online.setVisibility(View.VISIBLE);
+        	offline.setVisibility(View.INVISIBLE);
+        }        
+        else
+        {
+        	online.setVisibility(View.INVISIBLE);
+        	offline.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 }

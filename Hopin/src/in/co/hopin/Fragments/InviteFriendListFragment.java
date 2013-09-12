@@ -39,6 +39,7 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	InviteFriendsListViewAdapter mAdapter;
 	boolean userIsLoggedIn = false;
 	boolean loadingMoreFriends = false;
+	boolean allFriendsLoaded = false;
 	GetMoreFriendsListListener getMorelistener = null;
 	int count = 0;
 	
@@ -77,15 +78,15 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		int lastInScreen = firstVisibleItem + visibleItemCount;
-		if((lastInScreen == totalItemCount) && !loadingMoreFriends){
+		int lastInScreen = firstVisibleItem + visibleItemCount;		
+		if((lastInScreen == totalItemCount) && !loadingMoreFriends && !allFriendsLoaded){
 			loadingMoreFriends = true;
 			ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Please wait..", "Loading more suggestions", getMorelistener);
 			Logger.d(TAG, "scrolled to end,will fetch more friends");
 			HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more", 1L);
 			count = totalItemCount;
 			SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(0,count*2, getMorelistener);
-			SBHttpClient.getInstance().executeRequest(fetchFriendsReq);	
+			SBHttpClient.getInstance().executeRequest(fetchFriendsReq);
 		}
 		
 	}
@@ -99,15 +100,18 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	
 	class GetMoreFriendsListListener extends SBHttpResponseListener
 	{
-
 		@Override
 		public void onComplete(String response) {
 			loadingMoreFriends = false;
 			if(!hasBeenCancelled)
 			{				
 				Logger.d(TAG, "got more friends");
-				inviteFriendlist = FriendsToInvite.getInstance().getAllFriends();				
-				mAdapter.updateContents(inviteFriendlist);
+				int numberPreviouslyLoaded = inviteFriendlist.size();
+				inviteFriendlist = FriendsToInvite.getInstance().getAllFriends();	
+				if(inviteFriendlist.size()==numberPreviouslyLoaded)
+					allFriendsLoaded = true;
+				else					
+					mAdapter.updateContents(inviteFriendlist);
 				HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more:completed", 1L);
 				ProgressHandler.dismissDialoge();
 			}

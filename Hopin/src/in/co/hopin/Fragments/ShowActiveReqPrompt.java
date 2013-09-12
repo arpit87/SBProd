@@ -9,6 +9,7 @@ import in.co.hopin.HttpClient.DailyCarPoolRequest;
 import in.co.hopin.HttpClient.InstaRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
+import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
@@ -138,6 +139,7 @@ public class ShowActiveReqPrompt extends DialogFragment{
 						public void onClick(View paramView) {
 							HopinTracker.sendEvent("ShowActiveReqPrompt","ButtonClick","showactivereqprompt:onetimepool",1L);
 							try {
+								
 								MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
 								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching  matches", "Please wait",null);
 								SBHttpRequest getNearbyUsersRequest = new InstaRequest();

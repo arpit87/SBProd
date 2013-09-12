@@ -148,7 +148,8 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 			    	  {			    		  
 			    		  ThisUserNew.getInstance().setCurrentGeoPoint(new SBGeoPoint((int) (currLoc.getLatitude() * 1e6), (int) (currLoc.getLongitude() * 1e6)));
 			    		  ThisUserNew.getInstance().setCurrentGeoPointToSourceGeopoint();
-			    		  putInitialOverlay();
+			    		  if(!isMapInitialized())
+			    			  putInitialOverlay();
 			    	  }
 			    	  else
 			    	  {
@@ -427,6 +428,7 @@ public void centreMapToPlusLilUp(SBGeoPoint centrePoint)
 public void clearAllData()
 {
     if (Platform.getInstance().isLoggingEnabled()) Log.d(TAG, "clearing all data");
+    mapInitialized = false;
     thisUserOverlay = null;
     nearbyUserItemizedOverlay = null;
     nearbyUserGroupItemizedOverlay = null;
@@ -610,6 +612,7 @@ public void updateSrcDstTimeInListView() {
         ThisUserNew.getInstance().set_Take_Offer_Type(shareOfferType);
 
         MapListActivityHandler.getInstance().updateThisUserMapOverlay();
+        mapInitialized = true;  // just in case it was not initialized like if location couldnt be fetched
         MapListActivityHandler.getInstance().centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
     }
 

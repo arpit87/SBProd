@@ -47,6 +47,7 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
 	private UserFBInfo userFBInfo = null;
 	private JSONObject fbInfoJSON;	
 	private ImageView thumbnailView = null;
+	private ImageView coverPic = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,9 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
         List<Fragment> fragments = getFragments();       
         mPagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);      
         mPager.setAdapter(mPagerAdapter);        
+        
+        coverPic = (ImageView) findViewById(R.id.otheruser_profilenew_cover);
+        SBImageLoader.getInstance().displayCoverImage(userFBInfo.getFbid(), coverPic,null);
         
         thumbnailView = (ImageView) findViewById(R.id.otheruser_profilenew_thumbnail);
         

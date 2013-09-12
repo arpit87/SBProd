@@ -1,10 +1,12 @@
 package in.co.hopin.Fragments;
 
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.packet.Presence;
 
 public class Contact implements Comparable<Contact> {
 
     private RosterEntry rosterEntry;
+    private Presence presence;
 
     public RosterEntry getRosterEntry() {
         return rosterEntry;
@@ -14,7 +16,15 @@ public class Contact implements Comparable<Contact> {
         this.rosterEntry = rosterEntry;
     }
 
-    @Override
+    public Presence getPresence() {
+		return presence;
+	}
+
+	public void setPresence(Presence presence) {
+		this.presence = presence;
+	}
+
+	@Override
     public int compareTo(Contact contact) {
         return rosterEntry.getName().compareTo(contact.rosterEntry.getName());
     }

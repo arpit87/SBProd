@@ -19,6 +19,7 @@ import in.co.hopin.ChatService.IXMPPAPIs;
 import in.co.hopin.ChatService.SBChatManager;
 import in.co.hopin.ChatService.SBChatService;
 import in.co.hopin.HelperClasses.CommunicationHelper;
+import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.R;
 import in.co.hopin.Util.Logger;
@@ -39,8 +40,9 @@ public class ContactListFragment extends ListFragment {
     private IXMPPAPIs xmppApis;
     private boolean mBinded;
     private List<Contact> contacts;
-    private Activity underlyingActivity;
-
+    //private HashMap<String,Contact> 
+   
+    ContactsListAdapter adapter = null;
 
     @Override
     public void onCreate(Bundle savedState) {
@@ -48,7 +50,7 @@ public class ContactListFragment extends ListFragment {
         if (!mBinded) {
             bindToService();
         }
-        underlyingActivity = getActivity();
+        ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Please wait", "fetching contacts", null);
     }
 
     private void bindToService() {
@@ -82,27 +84,29 @@ public class ContactListFragment extends ListFragment {
             Logger.d(TAG, "service connected");
             try {
                 final Roster roster = ((SBChatManager) xmppApis.getChatManager()).getXMPPConnection().getRoster();
+                updateUI();
                 roster.addRosterListener(new RosterListener() {
                     @Override
                     public void entriesAdded(Collection<String> strings) {
                         Logger.d(TAG, "Entries added :" + strings.size());
-                        updateUI(roster);
+                        //updateUI(roster);
                     }
 
                     @Override
                     public void entriesUpdated(Collection<String> strings) {
                         Logger.d(TAG, "Entries updated :" + strings.size());
-                        updateUI(roster);
+                        //updateUI(roster);
                     }
 
                     @Override
                     public void entriesDeleted(Collection<String> strings) {
                         Logger.d(TAG, "Entries deleted :" + strings.size());
+                        //updateUI(roster);
                     }
 
                     @Override
                     public void presenceChanged(Presence presence) {
-                        Logger.d(TAG, "Presence changed for" + presence.getFrom());
+                        Logger.d(TAG, "Presence changed for" + presence.getFrom());                        
                     }
                 }
 
@@ -120,34 +124,37 @@ public class ContactListFragment extends ListFragment {
             Logger.d(TAG, "service disconnected");
         }
 
-        public void updateUI(Roster roster) {
+        public void updateUI() {
+        	Roster roster;
+        	ProgressHandler.dismissDialoge();
+        	try {
+				roster = ((SBChatManager) xmppApis.getChatManager()).getXMPPConnection().getRoster();			
+        	 //safe to call even if not showing
             int entryCount = roster.getEntryCount();
             List<Contact> contacts = new ArrayList<Contact> (entryCount);
             for (RosterEntry rosterEntry : roster.getEntries()) {
-                contacts.add(new Contact(rosterEntry));
+            	Contact c= new Contact(rosterEntry);
+            	c.setPresence(roster.getPresence(rosterEntry.getUser()));
+                contacts.add(c);                
             }
 
             Collections.sort(contacts);
             ContactListFragment.this.contacts = contacts;
-
-            final Handler handler = Platform.getInstance().getHandler();
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ContactsListAdapter adapter = new ContactsListAdapter(ContactListFragment.this.underlyingActivity, ContactListFragment.this.contacts);
-                            ContactListFragment.this.setListAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                    });
-
-                }
-            });
-
-            t.start();
+            if(adapter == null)
+            {
+            	adapter = new ContactsListAdapter(getActivity(), ContactListFragment.this.contacts);
+            	setListAdapter(adapter);
+            }
+            else
+            {
+	            adapter.updateContents(contacts);
+	            adapter.notifyDataSetChanged();
+            }
+            } catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+           
         }
     }
 }

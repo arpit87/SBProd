@@ -1,28 +1,40 @@
 package in.co.hopin.Activities;
 
+import in.co.hopin.R;
+import in.co.hopin.Fragments.ContactListFragment;
+import in.co.hopin.HelperClasses.CommunicationHelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import in.co.hopin.Fragments.ContactListFragment;
-import in.co.hopin.HelperClasses.CommunicationHelper;
-import in.co.hopin.R;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 
 public class ContactsActivity extends FragmentActivity {
 
     FragmentManager fm = this.getSupportFragmentManager();
+    ImageButton refreshButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contactlist_layout);
+        refreshButton = (ImageButton)findViewById(R.id.contactslist_layout_refresh);
+        refreshButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showContactListLayout();				
+			}
+		});
+        showContactListLayout();
     }
 
     @Override
     public void onResume(){
-        super.onResume();
-        showContactListLayout();
+        super.onResume();        
     }
 
     public void showContactListLayout()

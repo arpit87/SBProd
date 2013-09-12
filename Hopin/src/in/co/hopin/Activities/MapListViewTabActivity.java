@@ -317,10 +317,10 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	 //sendIntent.setType("text/plain");
     	 startActivity(inviteFriendIntent);
     	 break;         
-     case R.id.main_menu_contacts:
+    /* case R.id.main_menu_contacts:
          Intent contactsIntent = new Intent(this, ContactsActivity.class);
          startActivity(contactsIntent);
-         break;
+         break;*/
      
         } 
         return super.onOptionsItemSelected(menuItem);
