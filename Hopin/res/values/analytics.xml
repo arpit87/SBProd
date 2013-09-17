@@ -2,7 +2,7 @@
     <!--Replace placeholder ID with your tracking ID-->
     
     <!--<string name="ga_trackingId">UA-38552153-2</string>-->
-    <string name="ga_trackingId">UA-39698394-1</string> <!--//-3 is prod,-1 is beta, -2 debug.above one test-->
+    <string name="ga_trackingId">UA-39698394-3</string> <!--//-3 is prod,-1 is beta, -2 debug.above one test-->
 
     <!--Enable automatic activity tracking-->
     <bool name="ga_autoActivityTracking">false</bool>

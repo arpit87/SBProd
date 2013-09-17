@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+     android:background="@color/white" >
 
    <!--   <TextView
         android:id="@+id/selfprofile_friends_header" 
@@ -18,25 +19,41 @@
      <ListView 
               android:id="@+id/selfprofile_friends_Listview"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_height="0dip"
               android:textSize="24dp"
               android:cacheColorHint="@android:color/transparent"
               android:divider="@color/dark_gray"
               android:dividerHeight="1dip"
-               android:visibility="gone">
+               android:visibility="gone"
+               android:layout_weight="1">
     </ListView>
     
       <TextView
         android:id="@+id/selfprofile_friends_emptyList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dip"
         android:gravity="center"
-        android:background="@color/white"
+       
         android:text="No friends use hopin"
         android:textSize="25dip"
         android:textColor="@color/gray"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_weight="10">
         
     </TextView>
+    
+      <TextView 
+        android:id="@+id/selfprofile_invitefriends"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_weight="1"
+        android:text="Invite Friends"
+        android:gravity="center"
+        android:textColor="@color/gray"
+        android:textSize="20dip"
+        android:background="@drawable/borderless_button"
+        ></TextView>
+      
+      
 
 </LinearLayout>
