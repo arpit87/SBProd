@@ -49,9 +49,10 @@
         android:layout_weight="1"
         android:text="Invite Friends"
         android:gravity="center"
-        android:textColor="@color/gray"
+        android:textColor="@color/white"
         android:textSize="20dip"
-        android:background="@drawable/borderless_button"
+        android:padding="3dip"
+        android:background="@drawable/borderless_button_transblackgreen"
         ></TextView>
       
       
