@@ -57,7 +57,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	private static final String TAG = "in.co.hopin.Activities.StartStrangerBuddyActivity";
 	Runnable startMapActivity;
 	Intent showSBMapViewActivity;
-	Timer timer;
+	//Timer timer;
 	AtomicBoolean mapActivityStarted = new AtomicBoolean(false);
 	boolean upGradeMsgShown = false;
 
@@ -108,8 +108,7 @@ public class StartStrangerBuddyActivity extends Activity {
 		Platform.getInstance().getHandler().postDelayed(r, 2000);	
 		//chk if welcome msg not already sent
 		if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.WELCOMENOTESENT))
-		{
-		ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);	
+		{		
 		Runnable welcomeMessage = new Runnable() {
 	          public void run() {	
 	        	  String admin_fbid = getResources().getString(R.string.hopin_admin_girl_fbid);
@@ -117,6 +116,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	      		String admin_welcome_message = getResources().getString(R.string.hopin_admin_girl_welcomemessage);	        	  
 	        	  int admin_fbid_hash = admin_fbid.hashCode();	        	  
 	        	  sendWelcomeNotification(admin_fbid_hash, admin_fbid, admin_name, admin_welcome_message);
+	        	  ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);	
 	          }};
 	    Platform.getInstance().getHandler().postDelayed(welcomeMessage, 1*60*1000);    
 		}
@@ -298,7 +298,7 @@ public class StartStrangerBuddyActivity extends Activity {
         //EasyTracker.getInstance().activityStart(this);
     } 
     
-    private class GetNetworkLocationFixTask extends TimerTask
+   /* private class GetNetworkLocationFixTask extends TimerTask
     { 
     	private int counter = 0;
          public void run() 
@@ -330,7 +330,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	        	  }
         	 }
           }
-     }
+     }*/
 
     private void loadHistoryFromDB() {
         LinkedList<HistoryAdapter.HistoryItem> historyItemList = null;

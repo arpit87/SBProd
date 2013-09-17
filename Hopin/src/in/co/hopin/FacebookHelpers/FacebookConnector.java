@@ -133,10 +133,10 @@ public class FacebookConnector {
         } else {
             Session.openActiveSession(underlyingActivity, true, statusCallback);
         }
-        String access_token = session.getAccessToken();
-        Logger.d(TAG, "expiry after login"+session.getExpirationDate());
-   	 Logger.d(TAG, "access token in login:"+access_token);
-   	Logger.d(TAG, "session state in login:"+session.getState());
+       // String access_token = session.getAccessToken();
+      //  Logger.d(TAG, "expiry after login"+session.getExpirationDate());
+   	// Logger.d(TAG, "access token in login:"+access_token);
+   //	Logger.d(TAG, "session state in login:"+session.getState());
  
     }  
     
@@ -154,17 +154,17 @@ public class FacebookConnector {
         }
     	
         if (!session.isOpened() && !session.isClosed()) {
-        	Logger.i(TAG, "relogin opening session for read");
-            session.openForRead(new Session.OpenRequest(underlyingActivity).setPermissions(FB_PERMISSIONS).setCallback(reloginstatusCallback));
+       	Logger.i(TAG, "relogin opening session for read");
+           session.openForRead(new Session.OpenRequest(underlyingActivity).setPermissions(FB_PERMISSIONS).setCallback(reloginstatusCallback));
         } else {
         	Logger.i(TAG, "relogin opening active session");
             Session.openActiveSession(underlyingActivity, false, reloginstatusCallback);
         }    	
         
-        String access_token = session.getAccessToken();
-    	Logger.d(TAG, "expiry after relogin:"+session.getExpirationDate());
-   	 	Logger.d(TAG, "access token after relogin:"+access_token);
-   	 Logger.d(TAG, "session state in relogin:"+session.getState());
+        //String access_token = session.getAccessToken();
+    	//Logger.d(TAG, "expiry after relogin:"+session.getExpirationDate());
+   	 	//Logger.d(TAG, "access token after relogin:"+access_token);
+   	// Logger.d(TAG, "session state in relogin:"+session.getState());
     } 
     
     public void authorizeCallback(int requestCode, int resultCode,Intent data)

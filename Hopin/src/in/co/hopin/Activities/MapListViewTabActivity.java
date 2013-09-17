@@ -209,7 +209,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 	    trackArgMap.put(ThisAppConfig.APPOPENCOUNT, count);
 	    trackArgMap.put(HopinTracker.USERID, ThisUserConfig.getInstance().getString(ThisUserConfig.USERID));
         HopinTracker.sendEvent("Map","AppClose","map:closed:opencount",(long)count,trackArgMap);
-     	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count++);
+        count = count+1;
+     	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count);
      	if(count == 5)
      	{
      		//show msg fifth time app is closed

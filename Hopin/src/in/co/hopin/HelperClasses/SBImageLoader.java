@@ -17,6 +17,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.Settings;
+import com.facebook.model.GraphObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -59,7 +60,7 @@ public class SBImageLoader {
 	  {
 		  	Session session = Session.getActiveSession();
 		  	if(session == null)
-		  		session = Session.openActiveSessionFromCache(Platform.getInstance().getContext());
+		  		return;
 	    	if (session.isOpened()) {
 	    		Logger.d(TAG, "sesion is open");
 	    		String graphPath = StringUtils.getFBCoverPicGraphPathFromFBID(fbid);
@@ -73,7 +74,10 @@ public class SBImageLoader {
 					public void onCompleted(Response response) {		
 						if(response == null)
 							return;
-						JSONObject json = response.getGraphObject().getInnerJSONObject();
+						GraphObject gObj = response.getGraphObject();
+						if(gObj==null)
+							return;
+						JSONObject json = gObj.getInnerJSONObject();
 						Logger.d(TAG, "got json :"+json.toString());
 						try {
 							String mCoverPicURL = json.getJSONObject("cover").getString("source");

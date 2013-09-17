@@ -112,7 +112,7 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 					allFriendsLoaded = true;
 				else					
 					mAdapter.updateContents(inviteFriendlist);
-				HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more:completed", 1L);
+				HopinTracker.sendEvent("InviteFriends", "getmorefriend", "invitefriend:scrolltobottom:more:completed", 1L);
 				ProgressHandler.dismissDialoge();
 			}
 		}

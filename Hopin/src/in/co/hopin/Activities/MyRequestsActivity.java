@@ -67,11 +67,12 @@ public class MyRequestsActivity extends Activity {
         carPoolNoActiveReq = (TextView)findViewById(R.id.my_requests_carpool_noactivereq);
         instaNoActiveReq = (TextView)findViewById(R.id.my_requests_insta_noactivereq);
         reqHandler = new MyRequestActivityHandler(this);
+        
         deleteCarpoolReq.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
-				registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.CARPOOLREQ_DELETED));
+				
 				ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting carpool request", "Please wait",null);
 				DeleteRequest deleteRequest = new DeleteRequest(0);
                 SBHttpClient.getInstance().executeRequest(deleteRequest);
@@ -84,7 +85,7 @@ public class MyRequestsActivity extends Activity {
 					public void onClick(View paramView) {
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:dailycarpool:delete",1L);
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:onetime:delete",1L);
-						registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.INSTAREQ_DELETED));
+						
 						ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting insta request", "Please wait",null);
 						DeleteRequest deleteRequest = new DeleteRequest(1);
 		                SBHttpClient.getInstance().executeRequest(deleteRequest);
@@ -133,6 +134,8 @@ public class MyRequestsActivity extends Activity {
     @Override
     protected void onResume(){
     	super.onResume();
+    	registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.CARPOOLREQ_DELETED));
+        registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.INSTAREQ_DELETED));
         String instaReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_INSTA);
         String carpoolReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_CARPOOL);   
         if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"carpooljson:"+carpoolReqJson);

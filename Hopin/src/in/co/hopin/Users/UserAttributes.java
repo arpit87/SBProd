@@ -59,7 +59,7 @@ public class UserAttributes {
 	public static String  EMAIL = "email";
 	public static String  MUTUALFRIENDSCOUNT = "mutual_friends_count";
 	public static String  FRIENDSCOUNT = "friends_count";
-	public static String  EMAILVERIFICATION = "email_verification";
+	public static String  EMAILVERIFICATION = "email_verified";
 
 	//chat 
 	public static String  CHATUSERID = "user_id";
@@ -79,7 +79,7 @@ public class UserAttributes {
 	//friend
 	public static String FRIENDFBID = "fbid";
 	public static String FRIENDNAME = "name";
-	public static String INSTALLEDHOPIN = "installed_hopin";
+	public static String INSTALLEDHOPIN = "installed";
 	public static String INVITED = "invited";
 	public static String FRIENDFBUSERNAME = "username";
 	
