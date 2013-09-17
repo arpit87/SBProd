@@ -42,7 +42,7 @@ public class AddThisUserSrcDstResponse extends ServerResponseBase{
 			MapListActivityHandler.getInstance().setSourceAndDestination(body);
             //Context context = Platform.getInstance().getContext();
             if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "Fetching nearby users..");
-            SBHttpRequest getNearbyUsersRequest = new InstaRequest();
+            SBHttpRequest getNearbyUsersRequest = new InstaRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
             SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);          
             logSuccess();
 		} catch (JSONException e) {

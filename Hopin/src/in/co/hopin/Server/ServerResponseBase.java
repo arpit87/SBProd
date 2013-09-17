@@ -69,11 +69,9 @@ public abstract class ServerResponseBase {
 			try {
 				//build dummy json if server doesnt return json string
 				jobj= new JSONObject("{\"header\":[]}");
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (JSONException e1) {				
 			}
-			e.printStackTrace();
+			
 		}
 		this.RESTAPI = RESTAPI;
 	}

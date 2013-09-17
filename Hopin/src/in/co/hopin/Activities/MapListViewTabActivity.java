@@ -80,7 +80,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         
         showMapView();
        
-        this.registerReceiver(mapListActivityHandler,new IntentFilter(BroadCastConstants.NEARBY_USER_UPDATED));    
+        //this.registerReceiver(mapListActivityHandler,new IntentFilter(BroadCastConstants.NEARBY_USER_UPDATED));    
        
         
         //show prompt if any of req active
@@ -147,12 +147,12 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
             public void onClick(final DialogInterface dialog, final int id) {
             	if(!StringUtils.isBlank(instaReqJson))
             	{
-            		DeleteRequest deleteInstaRequest = new DeleteRequest(1);
+            		DeleteRequest deleteInstaRequest = new DeleteRequest(1,null);
             		SBHttpClient.getInstance().executeRequest(deleteInstaRequest);
             	}
             	if(!StringUtils.isBlank(carpoolReqJson))
             	{
-            		DeleteRequest deleteCarPoolRequest = new DeleteRequest(0);
+            		DeleteRequest deleteCarPoolRequest = new DeleteRequest(0,null);
             		SBHttpClient.getInstance().executeRequest(deleteCarPoolRequest);
             	}
             	Platform.getInstance().stopChatService();
@@ -200,7 +200,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     public void onDestroy()
     {    
     	super.onDestroy();    	
-    	this.unregisterReceiver(mapListActivityHandler);
+    	//this.unregisterReceiver(mapListActivityHandler);
     	mapListActivityHandler.clearAllData();  
     	ThisUserNew.clearAllData();
     	CurrentNearbyUsers.getInstance().clearAllData();    	  

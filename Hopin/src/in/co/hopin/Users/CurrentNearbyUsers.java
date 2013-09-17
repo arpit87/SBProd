@@ -35,9 +35,7 @@ public class CurrentNearbyUsers {
 		//we return null for 0 users so check for null always while getting nearby users
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updating nearby users");
 		updatedToCurrent = false;
-		mNewNearbyUserList = JSONHandler.GetNearbyUsersInfoFromJSONObject(body);	
-		if(mNewNearbyUserList.size()>0)
-			ToastTracker.showToast(mNewNearbyUserList.size()+" match found");
+		mNewNearbyUserList = JSONHandler.GetNearbyUsersInfoFromJSONObject(body);		
 		//else
 		//	ToastTracker.showToast("sorry no match found");
 		

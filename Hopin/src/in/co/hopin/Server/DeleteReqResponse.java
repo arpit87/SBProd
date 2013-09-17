@@ -30,18 +30,17 @@ public class DeleteReqResponse extends ServerResponseBase{
 		try {
 			//body = jobj.getJSONObject("body");
 			String body = jobj.getString("body");
-			ToastTracker.showToast("Request deleted successfully");
-			Intent notifyUpdateintent = new Intent();
+			ToastTracker.showToast("Request deleted successfully");		
 			if(daily_insta_type == 1) {
                 ThisUserConfig.getInstance().putString(ThisUserConfig.ACTIVE_REQ_INSTA, "");
-				notifyUpdateintent.setAction(BroadCastConstants.INSTAREQ_DELETED);
+                if(mListener!=null)
+                	mListener.onComplete(BroadCastConstants.INSTAREQ_DELETED);
             }
 			else {
                 ThisUserConfig.getInstance().putString(ThisUserConfig.ACTIVE_REQ_CARPOOL, "");
-				notifyUpdateintent.setAction(BroadCastConstants.CARPOOLREQ_DELETED);
-            }
-			//this broadcast is for my active req page to update itself to no active req
-			Platform.getInstance().getContext().sendBroadcast(notifyUpdateintent);
+                if(mListener!=null)
+                	mListener.onComplete(BroadCastConstants.CARPOOLREQ_DELETED);
+            }			
 			logSuccess();
 		} catch (JSONException e) {
 			logServererror();

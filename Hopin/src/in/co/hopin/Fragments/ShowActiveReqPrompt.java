@@ -88,8 +88,8 @@ public class ShowActiveReqPrompt extends DialogFragment{
 							HopinTracker.sendEvent("ShowActiveReqPrompt","ButtonClick","showactivereqprompt:dailycarpool",1L);
 							try {
 								MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching carpool matches", "Please wait",null);
-								SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest();
+								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching carpool matches", "Please wait",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
+								SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
 						        SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
 						        dismiss(); 
 							} catch (JSONException e) {
@@ -141,8 +141,8 @@ public class ShowActiveReqPrompt extends DialogFragment{
 							try {
 								
 								MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching  matches", "Please wait",null);
-								SBHttpRequest getNearbyUsersRequest = new InstaRequest();
+								ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Fetching  matches", "Please wait",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
+								SBHttpRequest getNearbyUsersRequest = new InstaRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
 						        SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
 						        dismiss(); 
 							} catch (JSONException e) {

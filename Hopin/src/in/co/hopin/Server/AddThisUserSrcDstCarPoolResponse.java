@@ -39,7 +39,7 @@ public class AddThisUserSrcDstCarPoolResponse extends ServerResponseBase{
             body.put(UserAttributes.DAILYINSTATYPE, 0);
             ThisUserConfig.getInstance().putString(ThisUserConfig.ACTIVE_REQ_CARPOOL, body.toString());
             MapListActivityHandler.getInstance().setSourceAndDestination(body);
-			SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest();
+			SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
 	        SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
 	        logSuccess();
 			

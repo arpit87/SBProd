@@ -257,7 +257,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 			
 			getActivity().finish();
 			if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "user destination set... querying server");
-			ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",null);
+			ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
 			SBHttpRequest addThisUserSrcDstRequest;
 			if(getDailyInstaType() == 0)        		
 				addThisUserSrcDstRequest = new AddThisUserScrDstCarPoolRequest();        		

@@ -12,6 +12,8 @@ import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.HelperClasses.ToastTracker;
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.LocationHelpers.SBGeoPoint;
 import in.co.hopin.LocationHelpers.SBLocationManager;
 import in.co.hopin.MapHelpers.BaseItemizedOverlay;
@@ -40,7 +42,6 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -58,7 +59,7 @@ import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 
-public class MapListActivityHandler  extends BroadcastReceiver{
+public class MapListActivityHandler  {
 	
 	SBMapView mMapView;	
 	private static final String TAG = "in.co.hopin.ActivityHandlers.MapActivityHandler";
@@ -83,6 +84,7 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 	ViewGroup mListViewFooter = null;
 	private ViewGroup mMapViewContainer;	
 	private ImageButton selfLocationButton = null;
+	private NearbyUserUpdatedListener mUserUpdatedListener = null;
 	
 	
 			
@@ -166,7 +168,7 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 			    	  }
 			      } 
 			 };			        
-			Platform.getInstance().getHandler().postDelayed(fetchLocation, 4000);// post after 6 secs
+			Platform.getInstance().getHandler().postDelayed(fetchLocation, 2000);// post after 6 secs
 		}
 		else
 		{				
@@ -178,9 +180,9 @@ public class MapListActivityHandler  extends BroadcastReceiver{
 	
 	public void myLocationButtonClick()
 	{
+		HopinTracker.sendEvent("Map","ButtonClcik","map:click:mylocationbutton",1L);
 		if(!mapInitialized)
-		{
-			HopinTracker.sendEvent("Map","ButtonClcik","map:click:mylocationbutton",1L);
+		{			
 			initMyLocation();	
 			return;
 		}
@@ -454,21 +456,6 @@ public void clearAllData()
 		mtime.setText("  Time");
 }
 
-
-@Override
-public void onReceive(Context context, Intent intent) {
-	String intentAction = intent.getAction();
-	if(intentAction.equals(BroadCastConstants.NEARBY_USER_UPDATED))
-	{
-		//ToastTracker.showToast("update intent received");
-		updateNearbyUsersOnUsersChange();
-		if(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()==0)
-			buildAlertMessageForNoUserAndInviteFriends();
-			
-	}
-	
-}
-
 private void buildAlertMessageForNoUserAndInviteFriends() {
     final AlertDialog.Builder builder = new AlertDialog.Builder(underlyingActivity);
     builder.setMessage("Sorry, No match found. Please invite your friends to increase possibility of finding match")
@@ -615,5 +602,33 @@ public void updateSrcDstTimeInListView() {
         mapInitialized = true;  // just in case it was not initialized like if location couldnt be fetched
         MapListActivityHandler.getInstance().centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
     }
+    
+    public NearbyUserUpdatedListener getNearbyUserUpdatedListener()
+	{
+		if(mUserUpdatedListener == null)
+			mUserUpdatedListener = instance.new NearbyUserUpdatedListener();
+		return mUserUpdatedListener;
+	}
+    
+    class NearbyUserUpdatedListener extends SBHttpResponseListener
+	{
+
+		@Override
+		public void onComplete(String response) {
+			if(!hasBeenCancelled)
+			{
+				if(response.equals(BroadCastConstants.NEARBY_USER_UPDATED))
+				{
+					int size = CurrentNearbyUsers.getInstance().getAllNearbyUsers().size();
+					if(size>0)
+						ToastTracker.showToast(size+" match found");
+					updateNearbyUsersOnUsersChange();
+					if(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()==0)
+						buildAlertMessageForNoUserAndInviteFriends();
+				}						
+			}
+		}
+		
+	}
 
 }

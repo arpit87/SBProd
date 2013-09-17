@@ -31,12 +31,13 @@ public class InstaRequest extends SBHttpRequest{
 	HttpClient httpclient = new DefaultHttpClient();
 	InstaResponse instaResponse;
 	String jsonStr;
-	public InstaRequest()
+	SBHttpResponseListener mListener = null;
+	public InstaRequest(SBHttpResponseListener listener)
 	{
 		
 		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
-				
+		mListener = listener;		
 		//prepare getnearby request		
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();;
@@ -78,6 +79,7 @@ public class InstaRequest extends SBHttpRequest{
 			
 			instaResponse =	new InstaResponse(response,jsonStr,RESTAPI);
 			instaResponse.setReqTimeStamp(this.reqTimeStamp);
+			instaResponse.setResponseListener(mListener);
 			return instaResponse;
 		
 	}

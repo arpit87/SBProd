@@ -31,7 +31,9 @@ public class DailyCarPoolRequest  extends SBHttpRequest{
 	HttpClient httpclient = new DefaultHttpClient();
 	DailyCarPoolResponse getNearbyUsersResponse;
 	String jsonStr;
-	public DailyCarPoolRequest()
+	SBHttpResponseListener mListener = null;
+	
+	public DailyCarPoolRequest(SBHttpResponseListener listener)
 	{		
 		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
@@ -39,6 +41,7 @@ public class DailyCarPoolRequest  extends SBHttpRequest{
 		//prepare getnearby request		
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();
+		mListener = listener;
 		
 		try {
 			jsonobjGetNearbyUsers.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
@@ -78,6 +81,7 @@ public class DailyCarPoolRequest  extends SBHttpRequest{
 			
 			getNearbyUsersResponse =	new DailyCarPoolResponse(response,jsonStr,RESTAPI);
 			getNearbyUsersResponse.setReqTimeStamp(this.reqTimeStamp);
+			getNearbyUsersResponse.setResponseListener(mListener);
 			return getNearbyUsersResponse;
 		
 	}

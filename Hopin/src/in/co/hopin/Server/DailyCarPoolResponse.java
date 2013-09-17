@@ -48,12 +48,10 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 		if(CurrentNearbyUsers.getInstance().usersHaveChanged())
 		{
 			if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updating changed nearby carpool users");
-			Intent notifyUpdateintent = new Intent();
-			notifyUpdateintent.setAction(BroadCastConstants.NEARBY_USER_UPDATED);		
 			
-			//this broadcast is for chat window which queries for nearby users in case of incoming chat 
-			//from user which has not yet been fetched by getmatch request
-			Platform.getInstance().getContext().sendBroadcast(notifyUpdateintent);			
+			if(mListener!=null)
+				mListener.onComplete(BroadCastConstants.NEARBY_USER_UPDATED);		
+						
 		}
 		logSuccessWithArg(HopinTracker.NUMMATCHES, Integer.toString(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
 		ProgressHandler.dismissDialoge();

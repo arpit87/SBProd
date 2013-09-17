@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -69,7 +70,19 @@ public class ThisUserOverlayItem extends BaseOverlayItem{
 			}
 			mMapView.addSelfView(viewOnMarker,params);
 			viewOnMarker.setVisibility(View.VISIBLE);
-			viewOnMarker.setOnTouchListener(new ThisUserOnTouchListener());
+			viewOnMarker.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Logger.d(TAG, "self profile map touch opened");
+					HopinTracker.sendEvent("Map","ButtonClick","map:click:thumbnail:self",1L);
+					MapListActivityHandler.getInstance().centreMapTo(mGeoPoint);
+					Intent hopinSelfProfile = new Intent(MapListActivityHandler.getInstance().getUnderlyingActivity(),SelfProfileActivity.class);
+					hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);			
+					MapListActivityHandler.getInstance().getUnderlyingActivity().startActivity(hopinSelfProfile);					
+					
+				}
+			});
 			isVisible = true;
 		}
 		else
@@ -122,20 +135,6 @@ public class ThisUserOverlayItem extends BaseOverlayItem{
 		}
 	}
 	
-	public class ThisUserOnTouchListener implements OnTouchListener
-	{		
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {	
-			Logger.d(TAG, "self profile map touch opened");
-			HopinTracker.sendEvent("Map","ButtonClick","map:click:thumbnail:self",1L);
-			MapListActivityHandler.getInstance().centreMapTo(mGeoPoint);
-			Intent hopinSelfProfile = new Intent(MapListActivityHandler.getInstance().getUnderlyingActivity(),SelfProfileActivity.class);
-			hopinSelfProfile.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);			
-			MapListActivityHandler.getInstance().getUnderlyingActivity().startActivity(hopinSelfProfile);
-			return true;
-		}
 		
-	}
-	
 
 }

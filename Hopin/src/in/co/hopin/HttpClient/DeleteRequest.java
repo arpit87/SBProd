@@ -31,14 +31,16 @@ public class DeleteRequest extends SBHttpRequest{
 	String jsonStr;
 	JSONObject jsonobj;	
 	int daily_insta_type = 0;
-	public DeleteRequest(int daily_insta_type)
+	SBHttpResponseListener mListener;
+	
+	public DeleteRequest(int daily_insta_type,SBHttpResponseListener listener)
 	{
 		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Get;		
         httpQuery =  new HttpPost(URL);
         this.daily_insta_type = daily_insta_type;        
         jsonobj = GetServerAuthenticatedJSON();	
-        
+        mListener = listener;
 		try {
 			jsonobj.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
 			jsonobj.put(UserAttributes.DELETEDAILYINSTATYPE, daily_insta_type);
@@ -79,6 +81,7 @@ public class DeleteRequest extends SBHttpRequest{
 			
 			DeleteReqResponse delUserResponse = new DeleteReqResponse(response,jsonStr,daily_insta_type,RESTAPI);
 			delUserResponse.setReqTimeStamp(this.reqTimeStamp);
+			delUserResponse.setResponseListener(mListener);
 			return delUserResponse;
 	}
 

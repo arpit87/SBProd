@@ -1,8 +1,8 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
+import in.co.hopin.Activities.InviteFriendsActivity.GetFriendsListListener;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
-import in.co.hopin.ActivityHandlers.MyRequestActivityHandler;
 import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
@@ -11,7 +11,9 @@ import in.co.hopin.HttpClient.DeleteRequest;
 import in.co.hopin.HttpClient.InstaRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
+import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
@@ -20,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,10 +43,10 @@ public class MyRequestsActivity extends Activity {
 	View instaActiveLayout;
 	View carPoolActiveLayout;
 	TextView carPoolNoActiveReq;
-	TextView instaNoActiveReq;
-	MyRequestActivityHandler reqHandler = null; // this receives broadcast on response post delete
+	TextView instaNoActiveReq;	
     private Button showUsersInsta;
     private Button showUsersCarpool;
+    private RequestDeletedListener mReqDeleteListener = null;
 
 
     @Override
@@ -65,16 +66,15 @@ public class MyRequestsActivity extends Activity {
         instaActiveLayout = (View)findViewById(R.id.my_requests_instareq_layout);
         carPoolActiveLayout = (View)findViewById(R.id.my_requests_carpoolreq_layout);
         carPoolNoActiveReq = (TextView)findViewById(R.id.my_requests_carpool_noactivereq);
-        instaNoActiveReq = (TextView)findViewById(R.id.my_requests_insta_noactivereq);
-        reqHandler = new MyRequestActivityHandler(this);
+        instaNoActiveReq = (TextView)findViewById(R.id.my_requests_insta_noactivereq);        
         
         deleteCarpoolReq.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
 				
-				ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting carpool request", "Please wait",null);
-				DeleteRequest deleteRequest = new DeleteRequest(0);
+				ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting carpool request", "Please wait",getReqListener());
+				DeleteRequest deleteRequest = new DeleteRequest(0,getReqListener());
                 SBHttpClient.getInstance().executeRequest(deleteRequest);
                 
 			}
@@ -86,8 +86,8 @@ public class MyRequestsActivity extends Activity {
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:dailycarpool:delete",1L);
 						HopinTracker.sendEvent("MyRequest","ButtonClick","myrequests:click:onetime:delete",1L);
 						
-						ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting insta request", "Please wait",null);
-						DeleteRequest deleteRequest = new DeleteRequest(1);
+						ProgressHandler.showInfiniteProgressDialoge(MyRequestsActivity.this, "Deleting insta request", "Please wait",getReqListener());
+						DeleteRequest deleteRequest = new DeleteRequest(1,getReqListener());
 		                SBHttpClient.getInstance().executeRequest(deleteRequest);
 		                
 					}
@@ -101,8 +101,8 @@ public class MyRequestsActivity extends Activity {
                     String carpoolReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_CARPOOL);
                     final JSONObject responseJsonObj = new JSONObject(carpoolReqJson);
                     MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching carpool matches", "Please wait",null);
-                    SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest();
+                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching carpool matches", "Please wait",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
+                    SBHttpRequest getNearbyUsersRequest = new DailyCarPoolRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
                     SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
                     finish();
                 } catch (JSONException e){
@@ -119,8 +119,8 @@ public class MyRequestsActivity extends Activity {
                     String instaReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_INSTA);
                     final JSONObject responseJsonObj = new JSONObject(instaReqJson);
                     MapListActivityHandler.getInstance().setSourceAndDestination(responseJsonObj);
-                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching matches", "Please wait",null);
-                    SBHttpRequest getNearbyUsersRequest = new InstaRequest();
+                    ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching matches", "Please wait",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
+                    SBHttpRequest getNearbyUsersRequest = new InstaRequest(MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
                     SBHttpClient.getInstance().executeRequest(getNearbyUsersRequest);
                     finish();
                 } catch (JSONException e){
@@ -133,9 +133,7 @@ public class MyRequestsActivity extends Activity {
 
     @Override
     protected void onResume(){
-    	super.onResume();
-    	registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.CARPOOLREQ_DELETED));
-        registerReceiver(reqHandler, new IntentFilter(BroadCastConstants.INSTAREQ_DELETED));
+    	super.onResume();    	
         String instaReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_INSTA);
         String carpoolReqJson = ThisUserConfig.getInstance().getString(ThisUserConfig.ACTIVE_REQ_CARPOOL);   
         if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"carpooljson:"+carpoolReqJson);
@@ -182,15 +180,13 @@ public class MyRequestsActivity extends Activity {
     public void setCarpoolReqLayoutToNoActiveReq()
     {
     	carPoolActiveLayout.setVisibility(View.GONE);
-    	carPoolNoActiveReq.setVisibility(View.VISIBLE);
-    	unregisterReceiver(reqHandler);
+    	carPoolNoActiveReq.setVisibility(View.VISIBLE);    	
     }
     
     public void setInstaReqLayoutToNoActiveReq()
     {
     	instaActiveLayout.setVisibility(View.GONE);
-    	instaNoActiveReq.setVisibility(View.VISIBLE);
-    	unregisterReceiver(reqHandler);
+    	instaNoActiveReq.setVisibility(View.VISIBLE);    	
     }
 
     @Override
@@ -203,8 +199,7 @@ public class MyRequestsActivity extends Activity {
 
     @Override
     public void onStop(){
-        super.onStop();
-        unregisterReceiver(reqHandler);
+        super.onStop();      
         //EasyTracker.getInstance().activityStop(this);
     }
     
@@ -213,4 +208,40 @@ public class MyRequestsActivity extends Activity {
     	super.onBackPressed();
     	HopinTracker.sendEvent("MyRequest","BackButton","myrequests:click:back",1L);
     }
+    
+    private void reInitialize(){
+        MapListActivityHandler.getInstance().clearAllData();
+        ThisUserNew.getInstance().reset();
+        MapListActivityHandler.getInstance().myLocationButtonClick();
+        MapListActivityHandler.getInstance().centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
+    }
+    
+    public RequestDeletedListener getReqListener()
+	{
+		if(mReqDeleteListener == null)
+			mReqDeleteListener = new RequestDeletedListener();
+		return mReqDeleteListener;
+	}
+    
+    class RequestDeletedListener extends SBHttpResponseListener
+	{
+
+		@Override
+		public void onComplete(String response) {
+			if(!hasBeenCancelled)
+			{
+				if(response.equals(BroadCastConstants.CARPOOLREQ_DELETED))
+				{
+					setCarpoolReqLayoutToNoActiveReq();	
+					reInitialize();
+				}
+				if(response.equals(BroadCastConstants.INSTAREQ_DELETED))
+				{
+					setInstaReqLayoutToNoActiveReq();
+					reInitialize();
+				}				
+			}
+		}
+		
+	}
 }

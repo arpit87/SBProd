@@ -164,7 +164,7 @@ public abstract class AbstractHistoryFragment extends ListFragment {
 		@Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",null);
+            ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
         }
     }
 }
