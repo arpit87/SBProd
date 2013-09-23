@@ -55,6 +55,7 @@ public class UploadEventsRequest extends SBHttpRequest {
         } catch (Exception e) {
         	HopinTracker.sendEvent("HttpRequest","UploadEvents","httprequest:uploadevents:execut:executeeexception",1L);
             Logger.e(TAG, e.getMessage());
+            return null;
         }        
 
         try {

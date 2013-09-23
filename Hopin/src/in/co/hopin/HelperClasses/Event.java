@@ -1,5 +1,10 @@
 package in.co.hopin.HelperClasses;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Log;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.provider.EventsLoggingProvider;
@@ -7,12 +12,6 @@ import in.co.hopin.provider.EventsLoggingProvider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
-import android.util.Log;
 
 public class Event {
     private static final String TAG = "in.co.hopin.HelperClasses.EventsLogger";
@@ -65,21 +64,10 @@ public class Event {
 
     public static void addEvent(final String jsonDescription) {
         Logger.i(TAG, "Saving event");
-        final long time = System.currentTimeMillis();
-        new Thread("addEvent") {
-            @Override
-            public void run() {
-                saveEvent(jsonDescription, time);
-            }
-        }.start();
-
-    }
-
-    private static void saveEvent(String jsonDescription, long time) {
         ContentResolver cr = Platform.getInstance().getContext().getContentResolver();
         ContentValues contentValues = new ContentValues();
         contentValues.put(columns[0], jsonDescription);
-        contentValues.put(columns[1], time);
+        contentValues.put(columns[1], System.currentTimeMillis());
         cr.insert(mUri, contentValues);
     }
 

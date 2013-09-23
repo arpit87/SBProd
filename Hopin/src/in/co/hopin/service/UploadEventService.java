@@ -20,15 +20,15 @@ public class UploadEventService extends WakefulIntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Logger.d(TAG, "I am in upload service");
-        if(!SBConnectivity.isConnected())
-        	return;
+        if (!SBConnectivity.isConnected()) {
+            return;
+        }
+
         List<Event> events = Event.getEvents();
         if (events.isEmpty()) {
             return;
-        }
-        else
-        {
-        	HopinTracker.sendEvent("UploadEventService","UploadEvents","uploadeventservice:uploadingevents",1L);
+        } else {
+            HopinTracker.sendEvent("UploadEventService", "UploadEvents", "uploadeventservice:uploadingevents", 1L);
         	events = Event.getEvents();
         }
 
@@ -36,17 +36,19 @@ public class UploadEventService extends WakefulIntentService {
         sb.append("{\"common\":");
         sb.append(HopinTracker.createCommonInfoJSON().toString());
         sb.append(",\"rows\":[");
-        for (int i=0; i<events.size(); i++) {
+
+        long maxTimestamp = 0;
+        for (int i = 0; i < events.size(); i++) {
             Logger.d(TAG, events.get(i).getJsonDescription());
             sb.append(events.get(i).getJsonDescription());
             if (i != events.size() - 1) {
                 sb.append(",");
             }
+            maxTimestamp = Math.max(maxTimestamp, events.get(i).getTime());
         }
         sb.append("]}");
 
-        long lastTimeStamp = events.get(events.size() - 1).getTime();        
-        UploadEventsRequest request = new UploadEventsRequest(sb.toString(), lastTimeStamp);
+        UploadEventsRequest request = new UploadEventsRequest(sb.toString(), maxTimestamp);
         SBHttpClient.getInstance().executeRequest(request);
 
         super.onHandleIntent(intent);
