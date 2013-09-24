@@ -34,19 +34,19 @@ public class SelfFriends extends ListFragment{
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	            Bundle savedInstanceState) {
 		 ViewGroup friendsView;
+		 friendsView = (ViewGroup) inflater.inflate(
+	                R.layout.self_profile_friends, container, false);
 		 if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))
 			{
 			 //user not logged in. return no data layout
-			 friendsView = (ViewGroup) inflater.inflate(
-		                R.layout.nodata_layout, container, false);
-			 TextView nodataTextView = (TextView) friendsView.findViewById(R.id.nodata_layout_textview);			 
+			 
+			 TextView nodataTextView = (TextView) friendsView.findViewById(android.R.id.empty);			 
 			 nodataTextView.setText("You need to login to see friends");
 			 //Logger.i(TAG,"self profile click but not fb logged in");			
 			 //CommunicationHelper.getInstance().FBLoginpromptPopup_show((FBLoggableFragmentActivity)getActivity(), true) ;
 			 return friendsView;
 			}
-	        friendsView = (ViewGroup) inflater.inflate(
-	                R.layout.self_profile_friends, container, false);	        
+	        	        
 	       
 	        mHopinFriendsList = ThisUserNew.getInstance().getUserFBInfo().getHopinFriends();
 	        if(mHopinFriendsList.size() >0)
