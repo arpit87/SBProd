@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class CurrentNearbyUsers {
 	
 	private static String TAG = "in.co.hopin.Users.CurrentNearbyUsers" ;
 	private HashMap<String, NearbyUser> FBID_NearbyUserMap = new HashMap<String, NearbyUser>(); //store fbid<-> nearbyuser obj map
-	private List<NearbyUser> mCurrentNearbyUserList = null;
-	private List<NearbyUser> mNewNearbyUserList = null;
+	private List<NearbyUser> mCurrentNearbyUserList = Collections.emptyList();
+	private List<NearbyUser> mNewNearbyUserList = Collections.emptyList();
 	private static CurrentNearbyUsers instance=new CurrentNearbyUsers();
 	private boolean updatedToCurrent = false;	
 	public static CurrentNearbyUsers getInstance() {
@@ -32,7 +33,7 @@ public class CurrentNearbyUsers {
 	public void updateNearbyUsersFromJSON(JSONObject body)
 	{		
 		//we temporarily put new users in new list and MapHandler has to check if changed and callupdate then we change current to new
-		//we return null for 0 users so check for null always while getting nearby users
+		
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updating nearby users");
 		updatedToCurrent = false;
 		mNewNearbyUserList = JSONHandler.GetNearbyUsersInfoFromJSONObject(body);		
@@ -79,11 +80,11 @@ public class CurrentNearbyUsers {
         boolean haveUsersChanged = false;
 		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"chking if usr changed ");
 		if(!updatedToCurrent) {
-			if ((mCurrentNearbyUserList == null && mNewNearbyUserList == null))
+			if ((mCurrentNearbyUserList.isEmpty() && mNewNearbyUserList.isEmpty()))
 					ToastTracker.showToast("Sorry no match found");
-			else if ((mCurrentNearbyUserList == null && mNewNearbyUserList != null) ||
-                    (mCurrentNearbyUserList != null && mNewNearbyUserList == null)){
-                if (mNewNearbyUserList == null){
+			else if ((mCurrentNearbyUserList.isEmpty() && !mNewNearbyUserList.isEmpty()) ||
+                    (!mCurrentNearbyUserList.isEmpty() && mNewNearbyUserList.isEmpty())){
+                if (mNewNearbyUserList.isEmpty()){
                     ToastTracker.showToast("sorry no match found");
                 }
                 haveUsersChanged = true;
@@ -110,9 +111,9 @@ public class CurrentNearbyUsers {
 	
 	public void clearAllData()
 	{
-		if(mCurrentNearbyUserList!=null)
+		if(!mCurrentNearbyUserList.isEmpty())
 			mCurrentNearbyUserList.clear();
-		if(mNewNearbyUserList!=null)
+		if(!mNewNearbyUserList.isEmpty())
 			mNewNearbyUserList.clear();
 		if(FBID_NearbyUserMap!=null)
 			FBID_NearbyUserMap.clear();

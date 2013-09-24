@@ -43,9 +43,12 @@ public class SelfProfileRequest extends SBHttpRequest{
 		httpQuery = new HttpPost(URL);
 		jsonobj = GetServerAuthenticatedJSON();	
 		mListener = listener;
-		try {				
-			String userid = ThisUserConfig.getInstance().getString(ThisUserConfig.USERID);
-			jsonobj.put(UserAttributes.USERID, userid);
+		try {
+			if(ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))
+			{
+				String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+				jsonobj.put(UserAttributes.FBID, fbid);
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

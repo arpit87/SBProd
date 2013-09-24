@@ -1,16 +1,18 @@
 package in.co.hopin.HttpClient;
 
-import in.co.hopin.Platform.Platform;
-import in.co.hopin.Server.SaveFBInfoResponse;
+import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.Server.GetFriendListToInviteResponse;
+import in.co.hopin.Server.LiveFeedResponse;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Server.ServerResponseBase;
+import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.Logger;
 
 import java.io.UnsupportedEncodingException;
 
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -19,31 +21,32 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+public class LiveFeedRequest extends SBHttpRequest{
 
-public class SaveFBInfoRequest extends SBHttpRequest{
-	private static String RESTAPI="saveFBInfo";
+    private static String RESTAPI="getRideTicker";
     public static final String URL = ServerConstants.SERVER_ADDRESS + ServerConstants.USERDETAILSSERVICE + "/"+RESTAPI+"/";
 
-	HttpPost httpQuery;	
-	UrlEncodedFormEntity formEntity;
-	HttpClient httpclient = new DefaultHttpClient();	
-	SaveFBInfoResponse saveFBInfoResponse;
-	JSONObject jsonobj;
+	HttpPost httpQueryGetFriendList;	
+	JSONObject jsonobjFriendList;
+	HttpClient httpclient = new DefaultHttpClient();
+	LiveFeedResponse feedResponse;
 	String jsonStr;
-	
-	public SaveFBInfoRequest(String user_id,String fbid,String fbToken)
-	{		
+	SBHttpResponseListener mListener;
+	public LiveFeedRequest(String fbid,long cuttofftime,SBHttpResponseListener listener)
+	{
+		
 		super(URL,RESTAPI);
 		queryMethod = QueryMethod.Post;
-				
+		
+		mListener = listener;
 		//prepare getnearby request		
-		httpQuery = new HttpPost(URL);
-		jsonobj = GetServerAuthenticatedJSON();
-	
-		try {			
-			jsonobj.put(UserAttributes.FBID, fbid);
-			jsonobj.put(UserAttributes.FBTOKEN, fbToken);
+		httpQueryGetFriendList = new HttpPost(URL);
+		jsonobjFriendList = GetServerAuthenticatedJSON();;
+		try {						
+			jsonobjFriendList.put(UserAttributes.LIVEFEEDFBID, fbid);
+			jsonobjFriendList.put(UserAttributes.CUTTOFFTIME, cuttofftime);			
+			jsonobjFriendList.put(UserAttributes.LIVEFEEDLAT, ThisUserNew.getInstance().getCurrentGeoPoint().getLatitude());	
+			jsonobjFriendList.put(UserAttributes.LIVEFEEDLONG, ThisUserNew.getInstance().getCurrentGeoPoint().getLongitude());	
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,42 +54,40 @@ public class SaveFBInfoRequest extends SBHttpRequest{
 		
 		StringEntity postEntitygetNearbyUsers = null;
 		try {
-			postEntitygetNearbyUsers = new StringEntity(jsonobj.toString());
+			postEntitygetNearbyUsers = new StringEntity(jsonobjFriendList.toString());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		postEntitygetNearbyUsers.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-		if (Platform.getInstance().isLoggingEnabled()) Log.d("debug", "calling server:"+jsonobj.toString());	
-		httpQuery.setEntity(postEntitygetNearbyUsers);
-	
+		Logger.d("debug", "calling server:"+jsonobjFriendList.toString());	
+		httpQueryGetFriendList.setEntity(postEntitygetNearbyUsers);
+		
 	}
-	
 	
 	public ServerResponseBase execute() {
 		HopinTracker.sendEvent("HttpRequest",RESTAPI,"httprequest:"+RESTAPI+":execute",1L);
 			try {
-				response=httpclient.execute(httpQuery);
+				response=httpclient.execute(httpQueryGetFriendList);
 			} catch (Exception e) {
 				HopinTracker.sendEvent("HttpRequest",RESTAPI,"httprequest:"+RESTAPI+":execute:executeexception",1L);
 			}
-
+			
 			try {
 				if(response==null)
 					return null;
 				jsonStr = responseHandler.handleResponse(response);
 			} catch (Exception e) {
 				HopinTracker.sendEvent("HttpRequest",RESTAPI,"httprequest:"+RESTAPI+":execute:responseexception",1L);
-			} 	
+			} 		
 			
-		saveFBInfoResponse = new SaveFBInfoResponse(response,jsonStr,RESTAPI);
-		saveFBInfoResponse.setReqTimeStamp(this.reqTimeStamp);
-		return saveFBInfoResponse;
+			feedResponse =	new LiveFeedResponse(response,jsonStr,RESTAPI);
+			feedResponse.setReqTimeStamp(this.reqTimeStamp);
+			feedResponse.setResponseListener(mListener);
+			return feedResponse;
 		
 	}
 	
 	
 
 }
-
-

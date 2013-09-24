@@ -41,8 +41,7 @@ public class DeleteRequest extends SBHttpRequest{
         this.daily_insta_type = daily_insta_type;        
         jsonobj = GetServerAuthenticatedJSON();	
         mListener = listener;
-		try {
-			jsonobj.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
+		try {			
 			jsonobj.put(UserAttributes.DELETEDAILYINSTATYPE, daily_insta_type);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

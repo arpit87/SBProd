@@ -42,13 +42,7 @@ public class DailyCarPoolRequest  extends SBHttpRequest{
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();
 		mListener = listener;
-		
-		try {
-			jsonobjGetNearbyUsers.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
 		
 		StringEntity postEntitygetNearbyUsers = null;
 		try {

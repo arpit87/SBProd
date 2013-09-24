@@ -20,6 +20,7 @@ public class UserFBInfo {
     private String livesIn = "";
     private String studiedAt = "";
     private String hometown = "";
+    private String current_city = "";
     private String fbid = "";
     private String fbusername = "";
     private String phone = "";
@@ -28,6 +29,7 @@ public class UserFBInfo {
     private String friend_count="0"; 
     private String email_verified="0"; 
     private List<Friend> mMutualFriendList = new ArrayList<Friend>();
+    private List<Friend> mHopinFriendList = new ArrayList<Friend>();
     public UserFBInfo() {
         // TODO Auto-generated constructor stub
     }
@@ -93,6 +95,11 @@ public class UserFBInfo {
 	        }
 	        
 	        try {
+	            current_city = allInfo.getString(UserAttributes.CURRENTCITY);
+	        } catch (JSONException e) {
+	        }
+	        
+	        try {
 	            fbusername = allInfo.getString(UserAttributes.FBUSERNAME);
 	        } catch (JSONException e) {
 	        }
@@ -124,6 +131,8 @@ public class UserFBInfo {
 	            email_verified = allInfo.getString(UserAttributes.EMAILVERIFICATION);
 	        } catch (JSONException e) {
 	        }
+	        
+	        mHopinFriendList = JSONHandler.GetHopinFriendsFromJSONObject(allInfo); 
         }
     }
 	
@@ -191,6 +200,13 @@ public class UserFBInfo {
     		return hometown;
     }
     
+    public String getCurrentCity() {
+    	if(hometown.equals("null"))
+    		return "Unknown";
+    	else			
+    		return current_city;
+    }
+    
     public String getEmailVerificationStatus() {
     	if(email_verified.equals("0"))
     		return "Not Verified";
@@ -218,6 +234,10 @@ public class UserFBInfo {
     
     public List<Friend> getMutualFriends() {
         return mMutualFriendList;
+    }
+    
+    public List<Friend> getHopinFriends() {
+        return mHopinFriendList;
     }
     
     @Override

@@ -100,7 +100,7 @@ public class FriendsToInvite {
 	
 	public void clearAllData()
 	{
-		if(mInviteFriendList!=null)
+		if(!mInviteFriendList.isEmpty())
 			mInviteFriendList.clear();
 		
 		if(FBID_FriendToInviteMap!=null)

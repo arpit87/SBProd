@@ -5,6 +5,7 @@ import in.co.hopin.Activities.InviteFriendsActivity;
 import in.co.hopin.Activities.MapListViewTabActivity;
 import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
+import in.co.hopin.Fragments.LiveFeedFragment;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.HelperClasses.BroadCastConstants;
@@ -48,12 +49,17 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Point;
 import android.location.Location;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
@@ -84,9 +90,10 @@ public class MapListActivityHandler  {
 	ViewGroup mListViewFooter = null;
 	private ViewGroup mMapViewContainer;	
 	private ImageButton selfLocationButton = null;
-	private NearbyUserUpdatedListener mUserUpdatedListener = null;
-	
-	
+	private NearbyUserUpdatedListener mUserUpdatedListener = null;	
+	ProgressBar liveFeedProgress = null;
+	ViewGroup liveFeedLayout = null;
+	TextView mLiveFeedButton = null;
 			
 	public BaseItemizedOverlay getNearbyUserItemizedOverlay() {
 		return nearbyUserItemizedOverlay;
@@ -458,7 +465,7 @@ public void clearAllData()
 
 private void buildAlertMessageForNoUserAndInviteFriends() {
     final AlertDialog.Builder builder = new AlertDialog.Builder(underlyingActivity);
-    builder.setMessage("Sorry, No match found. Please invite your friends to increase possibility of finding match")
+    builder.setMessage("Sorry, no match found. Your request is live on our server. You will be notified if any match arrives.Please invite your friends to Hopin to increase possibility of finding match")
             .setCancelable(true)
             .setNegativeButton("Cancel", new OnClickListener() {				
 				@Override
@@ -497,25 +504,49 @@ public ViewGroup getThisMapContainerWithMapView()
 	{
 		mMapViewContainer = (ViewGroup) underlyingActivity.getLayoutInflater().inflate(R.layout.map,null,false);
 		mMapView = (SBMapView) mMapViewContainer.findViewById(R.id.map_view);		
-		selfLocationButton = (ImageButton) mMapViewContainer.findViewById(R.id.my_location_button);    		   		
+		selfLocationButton = (ImageButton) mMapViewContainer.findViewById(R.id.my_location_button);  
+		mLiveFeedButton = (TextView) mMapViewContainer.findViewById(R.id.livefeed_button); 
 		mMapView.getOverlays().clear(); 
 		mapcontroller = mMapView.getController();
 		mMapView.setBuiltInZoomControls(false);
         if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"initialize handler");
         if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"initialize mylocation");
-        MapListActivityHandler.getInstance().initMyLocation();
+        MapListActivityHandler.getInstance().initMyLocation();       
+        	
 		//mMapViewContainer.removeView(mMapView);
+        mLiveFeedButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				underlyingActivity.showLiveFeed(true);		
+				showLiveFeedButton(false);
+			}
+		});
 	}
 	else
 	{
 		mMapViewContainer.addView(mMapView);
 		mMapViewContainer.addView(selfLocationButton);		
+		mMapViewContainer.addView(mLiveFeedButton);
 		//mMapViewContainer.addView(offerRideButton);
 		//if(currentIsOfferMode)
 		//	offerRideButton.setChecked(true);
 	}	
 	return mMapViewContainer;
 }
+
+public void showLiveFeedButton(boolean show)
+{
+	if(mLiveFeedButton!=null)
+	{
+		if(show)
+			mLiveFeedButton.setVisibility(View.VISIBLE);
+		else
+			mLiveFeedButton.setVisibility(View.GONE);
+	}
+}
+
+
 
 public void updateUserPicInListView() {
     if (mListImageView != null) {

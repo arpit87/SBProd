@@ -2,11 +2,10 @@ package in.co.hopin.Activities;
 
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
-import in.co.hopin.FacebookHelpers.FacebookConnector;
+import in.co.hopin.Fragments.LiveFeedFragment;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.Fragments.ShowActiveReqPrompt;
-import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisUserConfig;
@@ -22,14 +21,18 @@ import in.co.hopin.Util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jivesoftware.smackx.pubsub.ChildrenAssociationPolicy;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -51,8 +54,10 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 	FragmentManager fm = getSupportFragmentManager();
 	private boolean isMapShowing = true;
    
+	private LiveFeedFragment liveFeedFragment = null;
     private SBMapFragment sbMapFragment;
     private SBListFragment sbListFragment;
+    TextView liveFeedButton = null;    
    
     private Menu mMenu;
     ActionBar ab;
@@ -213,28 +218,59 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
      	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count);
      	if(count == 5)
      	{
-     		//show msg fifth time app is closed
+     		HopinTracker.sendEvent("Map","ScreenOpen","map:open:ratehopinprompt",1L);
+     		buildRateAlertMessage();
+     	}
+     	
+     	if(count == 10)
+     	{
+     		HopinTracker.sendEvent("Map","ScreenOpen","map:open:feedbackactivity",1L);
      		Intent i = new Intent(Platform.getInstance().getContext(),FeedbackActivity.class);
  			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     	
  			i.putExtra("showprompt", true);
  			Platform.getInstance().getContext().startActivity(i);     		
      	}   
+     	
      	EasyTracker.getTracker().setStartSession(false);     	
     }
     
+    private void buildRateAlertMessage() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Did you like Hopin? Please rate Hopin on Playstore")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                    	 dialog.cancel();
+                    	 HopinTracker.sendEvent("Map","Click","map:click:ratehopinprompt:yes",1L);
+                    	 Intent openPlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.hopin"));
+                    	 openPlay.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    	 Platform.getInstance().getContext().startActivity(openPlay);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                    	dialog.cancel();
+                    	HopinTracker.sendEvent("Map","Click","map:click:ratehopinprompt:no",1L);                   	
+                        finish();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    
 	@Override
-	public void onBackPressed() {
-		HopinTracker.sendEvent("Map","ButtonClick","map:click:back",1L);
+	public void onBackPressed() {		
         if (!isMapShowing){
-            isMapShowing = true;
+            isMapShowing = true; 
             showMapView();
             MenuItem menuItem = mMenu.findItem(R.id.main_menu_btn_listview);
             menuItem.setIcon(R.drawable.maptolist);
-        } else {
-                
-                MapListViewTabActivity.super.onBackPressed();
+        }    
+        else
+        {
+        	super.onBackPressed();
         }
-        
 	}
   
 	
@@ -318,10 +354,10 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	 //sendIntent.setType("text/plain");
     	 startActivity(inviteFriendIntent);
     	 break;         
-    /* case R.id.main_menu_contacts:
-         Intent contactsIntent = new Intent(this, ContactsActivity.class);
-         startActivity(contactsIntent);
-         break;*/
+  //   case R.id.main_menu_contacts:
+  //       Intent contactsIntent = new Intent(this, ContactsActivity.class);
+  //       startActivity(contactsIntent);
+  //       break;
      
         } 
         return super.onOptionsItemSelected(menuItem);
@@ -340,14 +376,13 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     private void toggleMapListView(MenuItem menuItem)
     {
     	if(!isMapShowing)
-    	{    		
-    		isMapShowing = true;
+    	{ 
     		showMapView();
     		menuItem.setIcon(R.drawable.maptolist);
     	}
     	else
     	{    		
-    		isMapShowing = false;    		
+    		   		
     		showListView();
     		menuItem.setIcon(R.drawable.listtomap);
     	}
@@ -367,7 +402,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
             } else {
                 ft.replace(R.id.maplistviewcontent, sbMapFragment);
             }
-            ft.commit();            
+            ft.commit();   
+            isMapShowing = true;
         }
     }
     
@@ -381,11 +417,39 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
             if (sbListFragment == null) {
                 sbListFragment = new SBListFragment();
             }
-            ft.add(R.id.maplistviewcontent, sbListFragment);
-            ft.commit();           
+            ft.add(R.id.maplistviewcontent, sbListFragment);           
+            ft.commit(); 
+            isMapShowing = false; 
         }
+    } 
+    
+    public void showLiveFeed(boolean show)
+    {        
+        HopinTracker.sendView("LiveFeedView");
+        HopinTracker.sendEvent("LiveFeedView","ScreenOpen","map:open:livefeed",1L);    
+        FragmentManager fm= sbMapFragment.getChildFragmentManager();
+        if(fm!=null)
+        {
+	        FragmentTransaction ft = fm.beginTransaction();
+	       if(liveFeedFragment==null)
+	        {
+	        	liveFeedFragment = new LiveFeedFragment();
+	        	ft.add(R.id.livefeed_fragment, liveFeedFragment);        	
+	        }
+	        else if(show)
+	        {
+	        	ft.show(liveFeedFragment);
+	        	liveFeedFragment.startAutoScroll(true);
+	        }
+	        else
+	        {
+	        	ft.hide(liveFeedFragment);
+	        	liveFeedFragment.startAutoScroll(false);
+	        }
+	        ft.commit();
+        }                 
+        
     }
    
-	
       
 }

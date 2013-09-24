@@ -16,61 +16,11 @@ import android.util.Log;
 
 public class JSONHandler {
 	
-	/*public String getFBPicURLFromJSON(JSONObject jObj)
-	{
-		String URL = null;
-		try {
-			JSONObject picture = jObj.getJSONObject("picture");
-			JSONObject data = picture.getJSONObject("data");
-			URL = data.getString("url");
 		
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		return URL;
-	}*/
-	
-	/*public JSONObject GetJSONObjectFromHttp(HttpResponse response)
-	{
-				
-		if(response.getStatusLine().getStatusCode()!=200)
-			jObj = null;
-		StringBuilder builder = new StringBuilder();	   
-	    String json = "";
-	    HttpEntity entity;
-		InputStream inputStream = null;
-		try {
-			entity = response.getEntity();
-			inputStream = entity.getContent();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
-			String line;
-			try{
-			while ((line = reader.readLine()) != null) {
-				builder.append(line);
-			}}finally{
-				reader.close();
-				inputStream.close();
-				}			
-            json = builder.toString();
-        } catch (Exception e) {
-            if (Platform.getInstance().isLoggingEnabled()) Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
- 
-        // try parse the string to a JSON object
-        try {
-            jObj = new JSONObject(json);            
-        } catch (JSONException e) {
-            if (Platform.getInstance().isLoggingEnabled()) Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
-		return jObj;
-		
-	}*/
-	
 	public static List<NearbyUser> GetNearbyUsersInfoFromJSONObject(JSONObject jObj)
 	{
 		
-		//for 0 users we are returning null and not zero size list
+		
 		ArrayList<NearbyUser> nearbyUsers = new ArrayList<NearbyUser>();
 		try {			
 						
@@ -95,7 +45,7 @@ public class JSONHandler {
 	public static List<Friend> GetFriendsToInviteFromJSONObject(JSONObject jObj)
 	{
 		
-		//for 0 users we are returning null and not zero size list
+		
 		ArrayList<Friend> friendsToInvite = new ArrayList<Friend>();
 		try {			
 						
@@ -110,8 +60,7 @@ public class JSONHandler {
 			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		return friendsToInvite;
 		
@@ -120,8 +69,8 @@ public class JSONHandler {
 	public static List<Friend> GetMutualFriendsFromJSONObject(JSONObject jObj)
 	{
 		
-		//for 0 users we are returning null and not zero size list
-		ArrayList<Friend> friends = null;
+		
+		ArrayList<Friend> friends = new ArrayList<Friend>();;
 		try {			
 						
 			JSONArray users = jObj.getJSONArray("mutual_friends");
@@ -138,8 +87,7 @@ public class JSONHandler {
 			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		return friends;
 		
@@ -149,7 +97,7 @@ public class JSONHandler {
 	{
 		
 		//for 0 users we are returning null and not zero size list
-		ArrayList<Friend> friends = null;
+		ArrayList<Friend> friends = new ArrayList<Friend>();;
 		try {			
 						
 			JSONArray users = jObj.getJSONArray("friends");
@@ -165,11 +113,65 @@ public class JSONHandler {
 				friends.add((m));				
 			}
 			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (JSONException e) {			
 		}
 		return friends;
+		
+	}	
+	
+	public static List<Friend> GetHopinFriendsFromJSONObject(JSONObject jObj)
+	{
+		
+		
+		ArrayList<Friend> hopinfriends = new ArrayList<Friend>();;
+		try {			
+						
+			JSONArray users = jObj.getJSONArray("HopinFriends");
+						
+			if(users.length() > 0)
+				hopinfriends = new ArrayList<Friend>();
+			
+			for(int i=0;i<users.length();i++)
+			{
+				JSONObject thisHopinFriend=users.getJSONObject(i);
+				Logger.d("json",thisHopinFriend.toString());
+				Friend m = new Friend(thisHopinFriend);
+				hopinfriends.add((m));				
+			}
+			
+		} catch (JSONException e) {			
+		}
+		return hopinfriends;
+		
+	}	
+	
+	public static List<LiveFeed> GetLiveFeedFromJSONObject(JSONObject jObj)
+	{
+		
+		
+		ArrayList<LiveFeed> liveFeed = new ArrayList<LiveFeed>();;
+		try {			
+						
+			JSONArray feed = jObj.getJSONArray("LiveFeed");
+						
+			if(feed.length() > 0)
+			{
+				Logger.d("LiveFeed length:",Integer.toString(feed.length()));
+				liveFeed = new ArrayList<LiveFeed>();
+			}
+			
+			for(int i=0;i<feed.length();i++)
+			{
+				JSONObject thisliveFeed=feed.getJSONObject(i);
+				Logger.d("json",thisliveFeed.toString());
+				LiveFeed m = new LiveFeed(thisliveFeed);
+				liveFeed.add((m));				
+			}
+			
+		} catch (JSONException e) {	
+			e.printStackTrace();
+		}
+		return liveFeed;
 		
 	}	
 

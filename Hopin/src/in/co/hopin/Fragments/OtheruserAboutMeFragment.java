@@ -20,6 +20,7 @@ public class OtheruserAboutMeFragment extends Fragment{
 	 TextView worksAtTextView;
 	 TextView homeTownTextView;
 	 TextView educationTextView;
+	 TextView currentCityTextView;
 	 
 	 @Override
 	    public void onCreate(Bundle savedInstanceState){
@@ -51,10 +52,12 @@ public class OtheruserAboutMeFragment extends Fragment{
 	        worksAtTextView = (TextView) aboutMeView.findViewById(R.id.otheruser_aboutme_worksat);
 	        homeTownTextView = (TextView) aboutMeView.findViewById(R.id.otheruser_aboutme_hometown);
 	        educationTextView = (TextView) aboutMeView.findViewById(R.id.otheruser_aboutme_education);
+	        currentCityTextView = (TextView) aboutMeView.findViewById(R.id.otheruser_aboutme_currentcity);
 	        Logger.d(TAG, "other user profile"+mNearbyUserFbInfo.getJsonObj().toString());
 	        worksAtTextView.setText(mNearbyUserFbInfo.getWorksAt());
 	        homeTownTextView.setText(mNearbyUserFbInfo.getHometown());
 	        educationTextView.setText(mNearbyUserFbInfo.getStudiedAt());
+	        currentCityTextView.setText(mNearbyUserFbInfo.getCurrentCity());
 	        return aboutMeView;
 	    }
 

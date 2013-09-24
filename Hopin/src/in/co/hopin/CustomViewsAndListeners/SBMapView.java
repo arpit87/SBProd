@@ -4,6 +4,7 @@ package in.co.hopin.CustomViewsAndListeners;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.MapHelpers.BaseItemizedOverlay;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,7 @@ public class SBMapView extends MapView implements OnGestureListener {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"dispatchDraw oldzoon:"+oldZoomLevel+",curzoom:"+getZoomLevel());
+        //Logger.i(TAG,"dispatchDraw oldzoon:"+oldZoomLevel+",curzoom:"+getZoomLevel());
         if (getZoomLevel() != oldZoomLevel && oldZoomLevel!= -1) {  
         	if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updateOverlayOnZoomChange ll be called");
             oldZoomLevel  = getZoomLevel();

@@ -54,6 +54,7 @@ public class UserAttributes {
 	public static String  LIVESIN = "lives_in";
 	public static String  STUDYAT = "study_at";
 	public static String  HOMETOWN = "hometown";
+	public static String  CURRENTCITY = "lives_in";
 	public static String  GENDER = "gender";
 	public static String  PHONE = "phone";
 	public static String  EMAIL = "email";
@@ -92,4 +93,13 @@ public class UserAttributes {
 	public static String INVITATIONFROM = "from";
 	public static String INVITATIONTO = "to";
 	
+	//livefeed
+	public static String LIVEFEEDFBID = "fbid";
+	public static String LIVEFEEDSOURCE = "src";
+	public static String LIVEFEEDDESTINATION = "dst";
+	public static String LIVEFEEDLOCATION = "location";
+	public static String CUTTOFFTIME = "cutofftime";	
+	public static String LIVEFEEDTIME = "time";
+	public static String LIVEFEEDLAT = "latitude";
+	public static String LIVEFEEDLONG = "longitude";
 }

@@ -17,6 +17,7 @@ public class SelfAboutMeFrag extends Fragment{
 	 TextView worksAtTextView;
 	 TextView homeTownTextView;
 	 TextView educationTextView;
+	 TextView currentcityTextView;
 	 
 	 @Override
 	    public void onCreate(Bundle savedInstanceState){
@@ -46,16 +47,19 @@ public class SelfAboutMeFrag extends Fragment{
 	        String worksat = ThisUserNew.getInstance().getUserFBInfo().getWorksAt();
 	        String hometown = ThisUserNew.getInstance().getUserFBInfo().getHometown();
 	        String education = ThisUserNew.getInstance().getUserFBInfo().getStudiedAt();
+	        String current_city = ThisUserNew.getInstance().getUserFBInfo().getCurrentCity();
 	        
 	        //nameTextView = (TextView) aboutMeView.findViewById(R.id.self_aboutme_name);
 	        worksAtTextView = (TextView) aboutMeView.findViewById(R.id.self_aboutme_worksat);
 	        homeTownTextView = (TextView) aboutMeView.findViewById(R.id.self_aboutme_hometown);
 	        educationTextView = (TextView) aboutMeView.findViewById(R.id.self_aboutme_education);
+	        currentcityTextView = (TextView) aboutMeView.findViewById(R.id.self_aboutme_currentcity);
 	        
 	        //nameTextView.setText(name);
 	        worksAtTextView.setText(worksat);
 	        homeTownTextView.setText(hometown);
 	        educationTextView.setText(education);
+	        currentcityTextView.setText(current_city);
 	        return aboutMeView;
 	    }
 

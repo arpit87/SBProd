@@ -39,8 +39,7 @@ public class FeedbackRequest extends SBHttpRequest{
         httpQuery =  new HttpPost(URL);               
         jsonobj=GetServerAuthenticatedJSON();		
        
-		try {
-			jsonobj.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());
+		try {			
 			jsonobj.put(UserAttributes.USERNAME, ThisUserConfig.getInstance().getString(ThisUserConfig.FBUSERNAME));
 			jsonobj.put(UserAttributes.EMAIL, ThisUserConfig.getInstance().getString(ThisUserConfig.EMAIL));
 			jsonobj.put("feedback", feedback);

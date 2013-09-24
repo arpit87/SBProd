@@ -41,13 +41,7 @@ public class InstaRequest extends SBHttpRequest{
 		//prepare getnearby request		
 		httpQueryGetNearbyUsers = new HttpPost(URL);
 		jsonobjGetNearbyUsers = GetServerAuthenticatedJSON();;
-		try {
-			jsonobjGetNearbyUsers.put(UserAttributes.USERID, ThisUserNew.getInstance().getUserID());			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+				
 		StringEntity postEntitygetNearbyUsers = null;
 		try {
 			postEntitygetNearbyUsers = new StringEntity(jsonobjGetNearbyUsers.toString());
