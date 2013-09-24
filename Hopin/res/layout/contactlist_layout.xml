@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/white"
+              android:background="@color/very_light_gray"
               android:gravity="center_horizontal" >
 
     <TextView
@@ -23,12 +23,14 @@
         android:layout_width="30dip"
         android:background="@drawable/refresh_icon"
         android:layout_alignParentRight="true" 
+        android:layout_marginRight="10dip"
+        android:clickable="true"
         />
     <FrameLayout
             android:id="@+id/contactslist_layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_rectangle_background_gray"
+            android:background="@drawable/rounded_rectangle_white_with_backgroundshadow"
             android:layout_marginBottom="2dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"

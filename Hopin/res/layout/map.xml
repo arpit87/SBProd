@@ -14,4 +14,27 @@
         android:paddingTop="5dip" 
         android:layout_alignParentRight="true" android:contentDescription="@string/icon_my_location" 
         android:onClick="buttonOnMapClick"/>
+    
+   <FrameLayout
+       android:id="@+id/livefeed_fragment"
+       android:layout_height="wrap_content"
+       android:layout_width="match_parent"
+       android:layout_alignParentBottom="true"       
+       />
+         
+   
+     <TextView
+android:id="@+id/livefeed_button"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Live feed"
+android:layout_alignParentBottom="true"
+android:layout_centerHorizontal="true"
+android:background="@drawable/bordered_button_transblackgreen"
+android:textColor="@color/off_white"
+android:textSize="15dip"
+android:padding="5dip"
+android:clickable="true"
+/>
+  
 </RelativeLayout>

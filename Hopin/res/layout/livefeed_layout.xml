@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="112dip" 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/livefeed_container">
+   
+    <View 
+        android:layout_width="fill_parent"
+              android:layout_height="97dip" 
+              android:background="@drawable/transparent_black"
+              android:layout_marginTop="15dip"/>
+    
+    <include
+        android:id="@+id/livefeed_one"
+        layout="@layout/livefeed_layout_row"        
+        />
+    <include
+        android:id="@+id/livefeed_two"
+        layout="@layout/livefeed_layout_row"
+        android:visibility="gone"        
+        />
+  
+   <!-- <ListView 
+              android:id="@android:id/list"
+              android:layout_width="fill_parent"
+              android:layout_height="120dip"             
+              android:cacheColorHint="@android:color/transparent"
+              android:divider="@android:color/transparent"
+              android:scrollbars="none"              
+              android:dividerHeight="10dip"
+              android:fadingEdgeLength="0dip"                     
+             /> --> 
+    
+   
+    <ImageView
+        android:id="@+id/livefeed_close"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:background="@drawable/borderless_button" 
+        android:src="@drawable/button_close_white"      
+       android:layout_marginRight="2dip" 
+		android:layout_marginTop="15dip"
+		android:layout_alignParentRight="true" 
+		
+         />
+
+ <ProgressBar 
+       android:id="@+id/livefeed_loading"
+       android:layout_width="40dip"
+       android:layout_height="40dip"
+       android:layout_marginTop="50dip"
+       android:layout_centerHorizontal="true"       	
+       android:indeterminate="true"
+       android:visibility="gone" />
+    
+</RelativeLayout>

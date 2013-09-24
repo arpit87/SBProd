@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-     android:background="@color/white" >
-
-   <!--   <TextView
-        android:id="@+id/selfprofile_friends_header" 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mutual Friends"        
-        android:textColor="@color/very_dark_gray"
-        android:layout_gravity="left"
-        android:layout_marginLeft="10dip"
-        android:textSize="20dip"
-        android:layout_marginTop="5dip"/> -->
-    
-     <ListView 
-              android:id="@+id/selfprofile_friends_Listview"
-              android:layout_width="fill_parent"
-              android:layout_height="0dip"
-              android:textSize="24dp"
-              android:cacheColorHint="@android:color/transparent"
-              android:divider="@color/dark_gray"
-              android:dividerHeight="1dip"
-               android:visibility="gone"
-               android:layout_weight="1">
-    </ListView>
-    
-      <TextView
-        android:id="@+id/selfprofile_friends_emptyList"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:gravity="center"
-       
-        android:text="No friends use hopin"
-        android:textSize="25dip"
-        android:textColor="@color/gray"
-        android:visibility="visible"
-        android:layout_weight="10">
-        
-    </TextView>
-    
-      <TextView 
+   >
+   
+    <TextView 
         android:id="@+id/selfprofile_invitefriends"
         android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="Invite Friends"
-        android:gravity="center"
+        android:gravity="center"       
         android:textColor="@color/white"
         android:textSize="20dip"
         android:padding="3dip"
         android:background="@drawable/borderless_button_transblackgreen"
         ></TextView>
+    
+     <ListView 
+              android:id="@id/android:list"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"              
+              android:cacheColorHint="@android:color/transparent"
+              android:divider="@color/very_dark_gray"
+              android:dividerHeight="1dip"              
+              android:layout_alignParentTop="true"
+              android:layout_above="@id/selfprofile_invitefriends"
+               android:clickable="false"
+                android:background="@drawable/square_rectangle_white_with_backgroundshadow"
+   				 android:layout_margin="2dip"
+   				  android:padding="2dip"
+   			
+               >
+    </ListView>
+    
+      <TextView
+        android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"       
+        android:text="No friends use hopin"
+        android:layout_margin="2dip"
+        android:textSize="25dip"
+        android:textColor="@color/gray" 
+        android:layout_alignParentTop="true" 
+        android:layout_above="@id/selfprofile_invitefriends" 
+        android:background="@drawable/square_rectangle_white_with_backgroundshadow"
+        	 android:visibility="gone" 
+        >
+        
+    </TextView>
+    
+     
       
       
 
-</LinearLayout>
+</RelativeLayout>

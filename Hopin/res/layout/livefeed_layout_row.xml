@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="112dip"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/livefeed_content"
+  android:clickable="false">
+
+     <ImageView
+        android:id="@+id/livefeedrow_image"
+        android:layout_width="52dp"
+        android:layout_height="52dp"             
+        android:layout_marginLeft="14dip"   
+        android:src="@drawable/userpicicon_white"
+        android:scaleType="fitXY"        
+         />    
+         
+        
+         <TextView
+          android:id="@+id/livefeedrow_namelocation"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"          
+          android:maxLines="1"          
+          android:textColor="@color/white"
+          android:textSize="20dip" 
+          android:maxWidth="280dip"       
+          android:layout_toRightOf="@id/livefeedrow_image"  
+          android:layout_marginTop="13dip"      
+         android:layout_marginLeft="6dip"         
+         />
+      
+        <TextView
+          android:id="@+id/livefeedrow_time"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"          
+          android:maxLines="1"
+          android:textColor="@color/white"
+          android:textSize="12dip" 
+              
+          android:layout_below="@id/livefeedrow_namelocation" 
+          android:layout_marginLeft="6dip"
+          android:layout_toRightOf="@id/livefeedrow_image"                  
+                    
+         />
+     
+      
+      <TextView
+          android:id="@+id/livefeedrow_src"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"
+          android:maxLines="1"
+          android:text="Source"
+          android:textColor="@color/white"
+          android:gravity="start|center_vertical"
+          android:textSize="15dip"
+          android:drawableLeft="@drawable/source_marker"
+          android:paddingStart="2dip"        
+          android:layout_below="@id/livefeedrow_time" 
+           android:layout_marginLeft="8dip" 
+           android:layout_marginTop="3dip"
+           />
+      
+       <TextView
+          android:id="@+id/livefeedrow_dst"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"
+          android:maxLines="1" 
+          android:gravity="start|center_vertical"
+          android:drawableLeft="@drawable/destination_marker"
+          android:text="Destination"         
+          android:textColor="@color/white"
+          android:textSize="15dip"   
+          android:paddingStart="2dip" 
+          android:layout_below="@id/livefeedrow_src"  
+           android:layout_marginLeft="8dip"    
+          /> 
+  
+
+     
+</RelativeLayout>
