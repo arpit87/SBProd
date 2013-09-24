@@ -67,6 +67,7 @@
                  android:layout_height="wrap_content"
                  android:layout_gravity="center"
                  android:src="@drawable/intro_dottedarrow" 
+                 android:rotation="180"
                  />
 
              <TextView
