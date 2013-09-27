@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/white"
+              android:background="@color/very_light_gray"
               android:gravity="center_horizontal" >
 
     <TextView
@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="2.0dip"
             android:paddingTop="2.0dip"
-            android:text="My Active Requests"
+            android:text="Active Trips"
             android:textColor="@color/black"
             android:textSize="20dip"
             android:textStyle="bold" />
@@ -20,7 +20,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_rectangle_background_gray"
+            android:background="@drawable/rounded_rectangle_white_with_backgroundshadow"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginBottom="2dip"
