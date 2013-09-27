@@ -133,7 +133,10 @@ class AuthorizationClient implements Serializable {
 
     void startOrContinueAuth(AuthorizationRequest request) {
         if (appEventsLogger == null || appEventsLogger.getApplicationId() != request.getApplicationId()) {
-            appEventsLogger = AppEventsLogger.newLogger(context, request.getApplicationId());
+        	if(request!=null)
+        		appEventsLogger = AppEventsLogger.newLogger(context, request.getApplicationId());
+        	else
+        		appEventsLogger = AppEventsLogger.newLogger(context);
         }
 
         if (getInProgress()) {
