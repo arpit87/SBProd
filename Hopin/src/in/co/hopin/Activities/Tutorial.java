@@ -124,7 +124,7 @@ public class Tutorial extends FragmentActivity{
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN))
+		if(ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN) && !"".equals(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID)))
 			finish();
 	}
 	

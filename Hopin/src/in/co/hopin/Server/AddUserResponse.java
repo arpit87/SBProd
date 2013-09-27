@@ -43,14 +43,7 @@ public class AddUserResponse extends ServerResponseBase{
 			user_id = body.getString(UserAttributes.USERID);
 			ThisUserConfig.getInstance().putString(ThisUserConfig.USERID, user_id);
             // starts the gcm service once the userid is available
-            Platform.getInstance().startGCMService();
-
-            //upload contacts
-            Platform.getInstance().getHandler().postDelayed(new Runnable() {
-                public void run() {
-                    uploadContacts();
-                }
-            }, 10000);
+            Platform.getInstance().startGCMService();           
 
 			ThisUserNew.getInstance().setUserID(user_id);	
 			//ToastTracker.showToast("Got user_id:"+user_id);
@@ -92,65 +85,4 @@ public class AddUserResponse extends ServerResponseBase{
 			SBHttpClient.getInstance().executeRequest(sendFBInfoRequest);			
 		}
 
-    public void uploadContacts() {
-        Log.d(TAG, "Uploading Contacts");
-
-        Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
-        String _ID = ContactsContract.Contacts._ID;
-        String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
-
-        Uri EmailCONTENT_URI = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
-        String EmailCONTACT_ID = ContactsContract.CommonDataKinds.Email.CONTACT_ID;
-        String DATA = ContactsContract.CommonDataKinds.Email.DATA;
-
-        ContentResolver contentResolver = Platform.getInstance().getContext().getContentResolver();
-        Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);
-
-        Logger.d(TAG, "Total Contacts:" + cursor.getCount());
-        // Loop for every contact in the phone
-        //update in batches of 50 contacts
-        JSONArray jsonArray = new JSONArray();
-        int count = 0;
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                if (count == 50) {
-                    count = 0;
-                    UploadContactsRequest uploadContactsRequest = new UploadContactsRequest(jsonArray);
-                    SBHttpClient.getInstance().executeRequest(uploadContactsRequest);
-                    jsonArray = new JSONArray();
-                }
-
-                String contact_id = cursor.getString(cursor.getColumnIndex(_ID));
-
-                // Query and loop for every email of the contact
-                Cursor emailCursor = contentResolver.query(EmailCONTENT_URI, null, EmailCONTACT_ID + " = ?", new String[]{contact_id}, null);
-                if (emailCursor != null && emailCursor.getCount() > 0) {
-                    count++;
-                    JSONObject jsonObject = new JSONObject();
-                    String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
-                    try {
-                        jsonObject.put("Name", name);
-                        emailCursor.moveToNext();
-                        String email = emailCursor.getString(emailCursor.getColumnIndex(DATA));
-                        jsonObject.put("Email", email);
-                        jsonArray.put(jsonObject);
-                    } catch (JSONException e) {
-                        //do nothing
-                    }
-                }
-
-                if (emailCursor != null) {
-                    emailCursor.close();
-                }
-
-            }
-        }
-
-        cursor.close();
-
-        if (count != 0) {
-            UploadContactsRequest uploadContactsRequest = new UploadContactsRequest(jsonArray);
-            SBHttpClient.getInstance().executeRequest(uploadContactsRequest);
-        }
-    }
-}
+   }

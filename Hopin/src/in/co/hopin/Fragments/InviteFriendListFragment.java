@@ -53,7 +53,7 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
         getMorelistener = new GetMoreFriendsListListener();
         if(!inviteFriendlist.isEmpty())
         {
-			mAdapter = new InviteFriendsListViewAdapter(getActivity(), inviteFriendlist);
+			mAdapter = new InviteFriendsListViewAdapter(getActivity());
 			setListAdapter(mAdapter);			
 			Logger.i(TAG,"invitefriendlist size:"+inviteFriendlist.size());
         }
@@ -85,7 +85,7 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 			Logger.d(TAG, "scrolled to end,will fetch more friends");
 			HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more", 1L);
 			count = totalItemCount;
-			SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(0,count*2, getMorelistener);
+			SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(count,count*2, getMorelistener);
 			SBHttpClient.getInstance().executeRequest(fetchFriendsReq);
 		}
 		

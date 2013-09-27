@@ -19,7 +19,8 @@ public class UploadEventsRequest extends SBHttpRequest {
     private static final String TAG = "in.co.hopin.HttpClient.UploadEventsRequest";
 
     private static String RESTAPI = "UploadEvents";
-    public static final String URL = "http://hopin.co.in/miscapi/loggerv4.php";
+   // public static final String URL = "http://hopin.co.in/miscapi/loggerv4.php"; //prod
+    public static final String URL = "http://hopin.co.in/mayank/testapi/loggerv4_testonly.php"; //debug 
     
     private final HttpPost httpQuery;
     private final HttpClient httpclient = new DefaultHttpClient();    

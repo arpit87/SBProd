@@ -8,6 +8,7 @@ import in.co.hopin.HttpClient.InviteFriendRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Users.Friend;
+import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Util.HopinTracker;
 
 import java.util.ArrayList;
@@ -27,21 +28,19 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class InviteFriendsListViewAdapter extends BaseAdapter{
-
-	List<Friend> mFriendsList = new ArrayList<Friend>();	
+	
 	Activity underLyingActivity;
 	private static LayoutInflater inflater=null;
-	public InviteFriendsListViewAdapter(Activity activity,List<Friend> friendList)
+	public InviteFriendsListViewAdapter(Activity activity)
 	{
-		underLyingActivity = activity;
-		mFriendsList = friendList;
+		underLyingActivity = activity;		
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return mFriendsList.size();
+		return FriendsToInvite.getInstance().getAllFriends().size();
 	}
 
 	@Override
@@ -56,34 +55,55 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 		return position;
 	}
 	
-	public void clear()
-	{		
-		mFriendsList.clear();
-		notifyDataSetChanged();
-	}
-	
+		
 	public void updateContents(List<Friend> friendList)
 	{
-		mFriendsList.clear();
-		mFriendsList.addAll(friendList);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Friend thisFriend = (Friend) mFriendsList.get(position);
+		final Friend thisFriend = FriendsToInvite.getInstance().getAllFriends().get(position);
+		ImageView userImageView = null;
+		TextView userName = null;
+	
 		View thisFriendView=convertView;
-        if(thisFriendView == null)     		
-        	thisFriendView = inflater.inflate(R.layout.invitefriends_list_row, null);
+        if(thisFriendView == null)     	
+        {
+        	thisFriendView = inflater.inflate(R.layout.invitefriends_list_row, null);        
+        }
+        
+    	userImageView = (ImageView)thisFriendView.findViewById(R.id.invitefriend_list_row_image);
+    	userName = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_invitefriendname);
+    	final TextView inviteTap =  (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_taptoinvite);
+   	 	inviteTap.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				if(thisFriend.isSelected())
+		        {
+					thisFriend.setSelected(false);
+		        	inviteTap.setText("Tap to select");	
+		        	inviteTap.setTypeface(null,Typeface.NORMAL);
+		        	HopinTracker.sendEvent("InviteFriends","ListClick","invitefriends:listclick:deselectfriend",1L);
+		        	inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+		        }  
+				else
+				{
+					inviteTap.setText("   Selected");
+					thisFriend.setSelected(true);
+					inviteTap.setTypeface(null,Typeface.BOLD);
+					inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, underLyingActivity.getResources().getDrawable(R.drawable.checkmark_green), null);
+					//SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
+		       		//SBHttpClient.getInstance().executeRequest(request);			       		
+		       		HopinTracker.sendEvent("InviteFriends","ListClick","invitefriends:listclick:selectfriend",1L);
+				}
+				}				
+		});
+       
         final boolean hasBeenInvited = thisFriend.hasBeenInvited();
         boolean hasInstalledHopin = thisFriend.hasInstalledHopin();
-        
-        ImageView userImageView = (ImageView)thisFriendView.findViewById(R.id.invitefriend_list_row_image);
-                
-        TextView userName = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_invitefriendname);
         userName.setText(thisFriend.getName());
-        final TextView inviteTap = (TextView)thisFriendView.findViewById(R.id.invitefriend_list_row_taptoinvite);
-        
+       
         SBImageLoader.getInstance().displayImageElseStub(thisFriend.getImageURL(), userImageView, R.drawable.userpicicon);
         if(thisFriend.isSelected())
         {
@@ -92,34 +112,22 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 			inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, underLyingActivity.getResources().getDrawable(R.drawable.checkmark_green), null);
         }       
         else if(hasInstalledHopin)
+        {
         	inviteTap.setText("Hopin installed");
+        	inviteTap.setTypeface(null,Typeface.BOLD_ITALIC);
+        	inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
+        else if(hasBeenInvited)
+        {
+        	inviteTap.setText("Invited");
+        	inviteTap.setTypeface(null,Typeface.ITALIC);
+        	inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
         else
         {
-        	inviteTap.setText("Tap to select");    
-        	
-	        inviteTap.setOnClickListener(new OnClickListener() {			
-				@Override
-				public void onClick(View v) {
-					if(thisFriend.isSelected())
-			        {
-						thisFriend.setSelected(false);
-			        	inviteTap.setText("Tap to select");	
-			        	inviteTap.setTypeface(null,Typeface.NORMAL);
-			        	HopinTracker.sendEvent("InviteFriends","ListClick","invitefriends:listclick:deselectfriend",1L);
-			        	inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-			        }  
-					else
-					{
-						inviteTap.setText("   Selected");
-						thisFriend.setSelected(true);
-						inviteTap.setTypeface(null,Typeface.BOLD);
-						inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, underLyingActivity.getResources().getDrawable(R.drawable.checkmark_green), null);
-						//SBHttpRequest request = new InviteFriendRequest(thisFriend.getFb_id());		
-			       		//SBHttpClient.getInstance().executeRequest(request);			       		
-			       		HopinTracker.sendEvent("InviteFriends","ListClick","invitefriends:listclick:selectfriend",1L);
-					}
-					}				
-			});
+        	inviteTap.setText("Tap to select"); 
+        	inviteTap.setTypeface(null,Typeface.NORMAL);
+        	inviteTap.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
         
 		return thisFriendView;

@@ -7,6 +7,7 @@ import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.Fragments.ShowActiveReqPrompt;
 import in.co.hopin.HelperClasses.CommunicationHelper;
+import in.co.hopin.HelperClasses.CurrentFeed;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.DeleteRequest;
@@ -188,7 +189,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	SBLocationManager.getInstance().StartListeningtoNetwork(); 
     	
     }
-
+//Hi ,take a look at this page and "Like" it please : https://www.facebook.com/hopin.co.in
     //test
     @Override
 	public void onPause(){
@@ -208,7 +209,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	//this.unregisterReceiver(mapListActivityHandler);
     	mapListActivityHandler.clearAllData();  
     	ThisUserNew.clearAllData();
-    	CurrentNearbyUsers.getInstance().clearAllData();    	  
+    	CurrentNearbyUsers.getInstance().clearAllData();  
+    	CurrentFeed.getInstance().clearAll();
         int count = ThisAppConfig.getInstance().getInt(ThisAppConfig.APPOPENCOUNT); 
         Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(ThisAppConfig.APPOPENCOUNT, count);
@@ -354,10 +356,10 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	 //sendIntent.setType("text/plain");
     	 startActivity(inviteFriendIntent);
     	 break;         
-  //   case R.id.main_menu_contacts:
-  //       Intent contactsIntent = new Intent(this, ContactsActivity.class);
-  //       startActivity(contactsIntent);
-  //       break;
+     case R.id.main_menu_contacts:
+         Intent contactsIntent = new Intent(this, ContactsActivity.class);
+         startActivity(contactsIntent);
+         break;
      
         } 
         return super.onOptionsItemSelected(menuItem);
@@ -426,7 +428,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     public void showLiveFeed(boolean show)
     {        
         HopinTracker.sendView("LiveFeedView");
-        HopinTracker.sendEvent("LiveFeedView","ScreenOpen","map:open:livefeed",1L);    
+        HopinTracker.sendEvent("LiveFeedView","ScreenOpen","livefeed:open",1L);    
         FragmentManager fm= sbMapFragment.getChildFragmentManager();
         if(fm!=null)
         {

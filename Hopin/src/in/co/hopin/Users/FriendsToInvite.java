@@ -26,6 +26,7 @@ public class FriendsToInvite {
 	private static String TAG = "in.co.hopin.Users.FriendsToInvite" ;
 	private HashMap<String, Friend> FBID_FriendToInviteMap = new HashMap<String, Friend>(); //store fbid<-> friend obj map
 	private List<Friend> mInviteFriendList = Collections.EMPTY_LIST;
+	private List<Friend> mUpdatedInviteFriendList = Collections.EMPTY_LIST;
 	private static FriendsToInvite instance=new FriendsToInvite();	
 	public static FriendsToInvite getInstance() {
 		 return instance;
@@ -34,10 +35,15 @@ public class FriendsToInvite {
 	public void updateFriendsToInviteFromJSON(JSONObject body)
 	{		
 		Logger.i(TAG,"updateFriendsToInviteFromJSON");		
-		mInviteFriendList = JSONHandler.GetFriendsToInviteFromJSONObject(body);
-		if(mInviteFriendList.size()>0)
+		mUpdatedInviteFriendList = JSONHandler.GetFriendsToInviteFromJSONObject(body);
+		int size = mInviteFriendList.size();
+		if(size ==0)
+			mInviteFriendList = new ArrayList<Friend>(mUpdatedInviteFriendList);
+		else
+			mInviteFriendList.addAll(size, mUpdatedInviteFriendList);
+		if(mUpdatedInviteFriendList.size()>0)
 		{
-			for(Friend f : mInviteFriendList)
+			for(Friend f : mUpdatedInviteFriendList)
 			{
 				FBID_FriendToInviteMap.put(f.getFb_id(), f);
 			}
@@ -105,6 +111,9 @@ public class FriendsToInvite {
 		
 		if(FBID_FriendToInviteMap!=null)
 			FBID_FriendToInviteMap.clear();
+		
+		if(!mUpdatedInviteFriendList.isEmpty())
+			mUpdatedInviteFriendList.clear();
 	}
 	
 }

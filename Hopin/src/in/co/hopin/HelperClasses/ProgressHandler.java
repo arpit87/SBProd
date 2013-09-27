@@ -97,7 +97,8 @@ public class ProgressHandler {
 			Platform.getInstance().getHandler().removeCallbacks(cancelableRunnable);
 			Platform.getInstance().getHandler().post((new Runnable(){
 			public void run() {
-				progressDialog.dismiss();						
+				if(progressDialog.isShowing())
+					progressDialog.dismiss();						
 			}}));
 		}
 	}	

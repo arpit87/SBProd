@@ -41,6 +41,12 @@ public class CurrentFeed {
 	{
 		return cuttofftime;
 	}
+	
+	public void clearAll()
+	{
+		mFeedList.clear();
+		cuttofftime = 0;
+	}
 		
 
 }

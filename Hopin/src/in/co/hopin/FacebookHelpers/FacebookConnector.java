@@ -19,9 +19,6 @@ import in.co.hopin.Util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,11 +29,12 @@ import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.Settings;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
@@ -107,6 +105,7 @@ public class FacebookConnector {
             	 return true;
              else if(session.getState().equals(SessionState.OPENED_TOKEN_UPDATED))
              {
+            	 HopinTracker.sendEvent("FacebookLogin", "TokenUpdated", "facebook:issessionvalid:tokenupdated", 1L);
             	 reloginstatusCallback.call(session, session.getState(), null);
             	 return true;
              }
@@ -361,7 +360,10 @@ public class FacebookConnector {
 	{
 		Bundle parameters = new Bundle();
 		parameters.putString("message", "Take a look at this usefull application");
-
+		
+		if(!isSessionValid())
+			return;		
+		
 		WebDialog.RequestsDialogBuilder requestDialog = new WebDialog.RequestsDialogBuilder(underlyingActivity, Session.getActiveSession(),
 		                                 parameters);
 		if(!StringUtils.isBlank(to))

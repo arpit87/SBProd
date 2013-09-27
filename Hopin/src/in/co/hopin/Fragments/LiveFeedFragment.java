@@ -10,6 +10,7 @@ import in.co.hopin.HttpClient.LiveFeedRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
 
@@ -38,9 +39,7 @@ public class LiveFeedFragment extends Fragment{
 	private FeedListener feedListener = null;
 	int currentFeedShowing = -1;
 	long currentfeedcuttofftime = 0;
-	int FEEDINTERVAL = 5*1000;	
-	int pixelsInRow = 0;
-	LayoutInflater inflater = null;
+	int FEEDINTERVAL = 5*1000;
 	ViewGroup livefeed1 = null;
 	ViewGroup livefeed2 = null;
 	ViewGroup livefeedshowing = null;
@@ -83,6 +82,7 @@ public class LiveFeedFragment extends Fragment{
 			
 			@Override
 			public void onClick(View v) {
+				HopinTracker.sendEvent("LiveFeedView","ButtonClick","livefeed:close",1L); 
 				feedListener.hasBeenCancelled = true;				
 				getParentFragment().getChildFragmentManager().beginTransaction().hide(LiveFeedFragment.this).commit();
 				MapListActivityHandler.getInstance().showLiveFeedButton(true);
@@ -98,10 +98,11 @@ public class LiveFeedFragment extends Fragment{
 		@Override
 		public void run() {
 			Logger.i(TAG, "showing next feed");
+			if(liveFeedlist.isEmpty())
+				return;
 			currentFeedShowing = (currentFeedShowing+1)%liveFeedlist.size();
 			feedCounter = feedCounter+1;
-			LiveFeed thisFeed = liveFeedlist.get(currentFeedShowing);
-			String fbid = thisFeed.getFbid();			
+			LiveFeed thisFeed = liveFeedlist.get(currentFeedShowing);						
 			if(feedCounter == 0)
 			{				
 				livefeedshowing = livefeed1;
@@ -196,7 +197,7 @@ public class LiveFeedFragment extends Fragment{
 	
 	public void startAutoScroll(boolean start)
 	{
-		if(start)
+		if(start && !liveFeedlist.isEmpty())
 			Platform.getInstance().getHandler().postDelayed(showNextFeed, FEEDINTERVAL);
 		else
 		{
@@ -211,8 +212,7 @@ public class LiveFeedFragment extends Fragment{
 		{
 			progress.setVisibility(View.GONE);
 			Logger.i(TAG, "feed not empty,will show");	
-			Platform.getInstance().getHandler().post(showNextFeed);
-			startAutoScroll(true);
+			Platform.getInstance().getHandler().post(showNextFeed);			
 		}
 		else
 		{

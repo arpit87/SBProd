@@ -64,7 +64,10 @@ public abstract class ServerResponseBase {
 	}
 		
 		try {
-			jobj= new JSONObject(jobjStr);
+			if(jobjStr != null)
+				jobj= new JSONObject(jobjStr);
+			else
+				jobj= new JSONObject("{\"header\":[]}");
 		} catch (JSONException e) {
 			try {
 				//build dummy json if server doesnt return json string

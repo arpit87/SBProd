@@ -1,6 +1,7 @@
 package in.co.hopin.HttpClient;
 
 import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.LocationHelpers.SBGeoPoint;
 import in.co.hopin.Server.GetFriendListToInviteResponse;
 import in.co.hopin.Server.LiveFeedResponse;
 import in.co.hopin.Server.ServerConstants;
@@ -44,9 +45,13 @@ public class LiveFeedRequest extends SBHttpRequest{
 		jsonobjFriendList = GetServerAuthenticatedJSON();;
 		try {						
 			jsonobjFriendList.put(UserAttributes.LIVEFEEDFBID, fbid);
-			jsonobjFriendList.put(UserAttributes.CUTTOFFTIME, cuttofftime);			
-			jsonobjFriendList.put(UserAttributes.LIVEFEEDLAT, ThisUserNew.getInstance().getCurrentGeoPoint().getLatitude());	
-			jsonobjFriendList.put(UserAttributes.LIVEFEEDLONG, ThisUserNew.getInstance().getCurrentGeoPoint().getLongitude());	
+			jsonobjFriendList.put(UserAttributes.CUTTOFFTIME, cuttofftime);		
+			SBGeoPoint currGeo = ThisUserNew.getInstance().getCurrentGeoPoint();
+			if(currGeo!=null)
+			{
+				jsonobjFriendList.put(UserAttributes.LIVEFEEDLAT, currGeo.getLatitude());	
+				jsonobjFriendList.put(UserAttributes.LIVEFEEDLONG, currGeo.getLongitude());	
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -13,7 +13,8 @@ import in.co.hopin.HelperClasses.SBConnectivity;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisAppInstallation;
 import in.co.hopin.HelperClasses.ThisUserConfig;
-import in.co.hopin.LocationHelpers.SBGeoPoint;
+import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.UploadContactsRequest;
 import in.co.hopin.LocationHelpers.SBLocationManager;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerConstants;
@@ -22,17 +23,17 @@ import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
 import in.co.hopin.Util.StringUtils;
 import in.co.hopin.provider.HistoryContentProvider;
-import in.co.hopin.service.OnAlarmReceiver;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -42,14 +43,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.Settings.Secure;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 public class StartStrangerBuddyActivity extends Activity {
 	
@@ -90,13 +91,21 @@ public class StartStrangerBuddyActivity extends Activity {
 		String uuid = ThisAppInstallation.id(this.getBaseContext());
 		ThisAppConfig.getInstance().putString(ThisAppConfig.APPUUID,uuid);
 		ThisAppConfig.getInstance().putBool(ThisAppConfig.NEWUSERPOPUP,true);
-		ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,1);
+		int appOpenCount = ThisAppConfig.getInstance().getInt(ThisAppConfig.APPOPENCOUNT);
+		if(appOpenCount == -1)
+			appOpenCount = 1;
+		else
+			appOpenCount = appOpenCount+1;
+		ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,appOpenCount);
 		String deviceId = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
 		ThisAppConfig.getInstance().putString(ThisAppConfig.DEVICEID,deviceId);
 		Map<String, Object> trackerMap = new HashMap<String, Object>();
 		trackerMap.put(HopinTracker.APPUUID, uuid);
 		trackerMap.put(HopinTracker.DEVICEID, deviceId);
-		HopinTracker.sendEvent("HopinInstall","Appinstall","application:install",1L,trackerMap);
+		if(appOpenCount ==1 )
+			HopinTracker.sendEvent("HopinInstall","Appinstall","application:install",1L,trackerMap);
+		else
+			HopinTracker.sendEvent("HopinInstall","AppinstallError","application:firstrun:exception",1L,trackerMap);
 		//with uuid means first time start
 		final Intent show_tutorial = new Intent(this,Tutorial.class);
 		show_tutorial.putExtra("uuid", uuid);
@@ -120,6 +129,11 @@ public class StartStrangerBuddyActivity extends Activity {
 	          }};
 	    Platform.getInstance().getHandler().postDelayed(welcomeMessage, 1*60*1000);    
 		}
+		
+		 //upload contacts
+		//UploadContactTask uploadContactTask = new UploadContactTask();
+		//uploadContactTask.execute("");
+		       
 	}
     
     public void sendWelcomeNotification(int id,String fb_id,String participant_name,String chatMessage) {
@@ -228,7 +242,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	       // Logger.i(TAG, "FB session valid:"+FacebookConnector.isSessionValid());  
 	       // Logger.i(TAG, "FB token:"+ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
 	       // Logger.i(TAG, "FB token expires:"+ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES));
-	        if(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID) == "")
+	        if("".equals(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID)))
 	        {
 	            firstRun();
 	        }
@@ -364,6 +378,84 @@ public class StartStrangerBuddyActivity extends Activity {
         }
 
         ThisUserNew.getInstance().setHistoryItemList(historyItemList);
+    }
+    
+    public void uploadContacts() {
+        Log.d(TAG, "Uploading Contacts");
+
+        Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
+        String _ID = ContactsContract.Contacts._ID;
+        String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
+
+        Uri EmailCONTENT_URI = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
+        String EmailCONTACT_ID = ContactsContract.CommonDataKinds.Email.CONTACT_ID;
+        String DATA = ContactsContract.CommonDataKinds.Email.DATA;
+
+        ContentResolver contentResolver = Platform.getInstance().getContext().getContentResolver();
+        Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);
+
+        Logger.d(TAG, "Total Contacts:" + cursor.getCount());
+        // Loop for every contact in the phone
+        //update in batches of 50 contacts
+        JSONArray jsonArray = new JSONArray();
+        int count = 0;
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                if (count == 50) {
+                    count = 0;
+                    UploadContactsRequest uploadContactsRequest = new UploadContactsRequest(jsonArray);
+                    SBHttpClient.getInstance().executeRequest(uploadContactsRequest);
+                    jsonArray = new JSONArray();
+                }
+
+                String contact_id = cursor.getString(cursor.getColumnIndex(_ID));
+
+                // Query and loop for every email of the contact
+                Cursor emailCursor = contentResolver.query(EmailCONTENT_URI, null, EmailCONTACT_ID + " = ?", new String[]{contact_id}, null);
+                if (emailCursor != null && emailCursor.getCount() > 0) {
+                    count++;
+                    JSONObject jsonObject = new JSONObject();
+                    String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
+                    try {
+                        jsonObject.put("Name", name);
+                        emailCursor.moveToNext();
+                        String email = emailCursor.getString(emailCursor.getColumnIndex(DATA));
+                        jsonObject.put("Email", email);
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        //do nothing
+                    }
+                }
+
+                if (emailCursor != null) {
+                    emailCursor.close();
+                }
+
+            }
+        }
+
+        cursor.close();
+
+        if (count != 0) {
+            UploadContactsRequest uploadContactsRequest = new UploadContactsRequest(jsonArray);
+            SBHttpClient.getInstance().executeRequest(uploadContactsRequest);
+        }
+    }
+    
+    private class UploadContactTask extends AsyncTask<String, Integer, Long> {
+        protected Long doInBackground(String... urls) {
+        	uploadContacts();
+			return 0l;
+            
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            
+        }
+
+        protected void onPostExecute(Long result) {
+            
+        }
     }
 
 }
