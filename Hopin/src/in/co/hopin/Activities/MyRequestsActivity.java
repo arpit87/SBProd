@@ -212,7 +212,7 @@ public class MyRequestsActivity extends Activity {
     private void reInitialize(){
         MapListActivityHandler.getInstance().clearAllData();
         ThisUserNew.getInstance().reset();
-        MapListActivityHandler.getInstance().myLocationButtonClick();
+        MapListActivityHandler.getInstance().myLocationButtonClick(false);
         MapListActivityHandler.getInstance().centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
     }
     

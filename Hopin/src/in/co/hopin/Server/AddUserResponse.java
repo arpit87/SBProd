@@ -35,9 +35,9 @@ public class AddUserResponse extends ServerResponseBase{
 	
 	@Override
 	public void process() {
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"processing AddUsersResponse response.status:"+this.getStatus());
+		Logger.i(TAG,"processing AddUsersResponse response.status:"+this.getStatus());
 		
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"got json "+jobj.toString());		
+		Logger.i(TAG,"got json "+jobj.toString());		
 		try {
 			body = jobj.getJSONObject("body");
 			user_id = body.getString(UserAttributes.USERID);

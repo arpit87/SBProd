@@ -91,16 +91,16 @@ public class Tutorial extends FragmentActivity{
 			@Override
 			public void onClick(View v) {
 				
-                String userNameText = userNameView.getText().toString();
-                if (StringUtils.isBlank(userNameText)) {
-                	Toast.makeText(Tutorial.this,"Please enter name",Toast.LENGTH_SHORT).show();
+                String emailText = userNameView.getText().toString();                
+                if (!StringUtils.isEmailValid(emailText)) {
+                	Toast.makeText(Tutorial.this,"Please enter valid email-id",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 HopinTracker.sendEvent("Tutorial","ButtonClick","tutorial:click:fbloginlater",1L);
-              // String mobile = phoneView.getText().toString();
+               String userNameText = emailText.substring(0, emailText.indexOf("@"));
                ThisUserConfig.getInstance().putString(ThisUserConfig.USERNAME, userNameText);
                //ThisUserConfig.getInstance().putString(ThisUserConfig.MOBILE, mobile);
-               SBHttpRequest request = new AddUserRequest(uuid,userNameText,Tutorial.this);		
+               SBHttpRequest request = new AddUserRequest(uuid,emailText,Tutorial.this);		
        		   SBHttpClient.getInstance().executeRequest(request);       		
        		   ProgressHandler.showInfiniteProgressDialoge(Tutorial.this, "Welcome "+userNameText+"!", "Preparing for first run",null);       		  
 				

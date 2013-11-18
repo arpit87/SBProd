@@ -118,7 +118,7 @@ public class Platform {
         Intent intent =  new Intent(context, OnAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
     }
    
       

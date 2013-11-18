@@ -73,4 +73,6 @@
 	<string name="http_tiny_app_link">http://goo.gl/9ODUkv</string>
 	<string name="fb_app_id">107927182711315</string>
 	<string name="fb_app_id_debug">486912421326659</string>
+	<string name="fb_page_name">hopin.co.in</string>
+	<string name="fb_page_id">471710289548841</string>
 </resources>

@@ -61,6 +61,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	//Timer timer;
 	AtomicBoolean mapActivityStarted = new AtomicBoolean(false);
 	boolean upGradeMsgShown = false;
+	boolean initialized  = false;
 
     private static Uri mHistoryUri = Uri.parse("content://" + HistoryContentProvider.AUTHORITY + "/db_fetch_only");
     private static String[] columns = new String[]{
@@ -83,11 +84,23 @@ public class StartStrangerBuddyActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);        
+        setContentView(R.layout.main);     
+        
     }
+	
+	@Override
+	public void onResume()
+    {   	
+    	super.onResume();        
+    	checkNetworkAndDataConnectivity();  
+    	if(isLocationProviderEnabled() && SBConnectivity.isOnline())    	
+    		initialize();    	    		
+    }
+	    
     
     private void firstRun() {
-		//get user_id from the server				
+		//get user_id from the server	
+    	 Logger.i(TAG, "first run") ;
 		String uuid = ThisAppInstallation.id(this.getBaseContext());
 		ThisAppConfig.getInstance().putString(ThisAppConfig.APPUUID,uuid);
 		ThisAppConfig.getInstance().putBool(ThisAppConfig.NEWUSERPOPUP,true);
@@ -130,9 +143,12 @@ public class StartStrangerBuddyActivity extends Activity {
 	    Platform.getInstance().getHandler().postDelayed(welcomeMessage, 1*60*1000);    
 		}
 		
-		 //upload contacts
-		//UploadContactTask uploadContactTask = new UploadContactTask();
-		//uploadContactTask.execute("");
+		//upload contacts
+		if(!Platform.getInstance().isLoggingEnabled())
+		{
+			UploadContactTask uploadContactTask = new UploadContactTask();
+			uploadContactTask.execute("");
+		}
 		       
 	}
     
@@ -208,23 +224,23 @@ public class StartStrangerBuddyActivity extends Activity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+    
+    private void checkNetworkAndDataConnectivity()
+    {
+    	 if (!isLocationProviderEnabled()){
+             buildAlertMessageForLocationProvider();           
+         }
+         else  if(!SBConnectivity.isOnline())
+         {
+         	buildAlertMessageForNoNetwork();	           
+         }         
+    }
 
-    public void onResume()
-    {   	
-    	super.onResume();        
-        if (!isLocationProviderEnabled()){
-            buildAlertMessageForLocationProvider();           
-        }
-        else  if(!SBConnectivity.isOnline())
-        {
-        	buildAlertMessageForNoNetwork();	           
-        }
-        else        	
-        {
-	
-	        Logger.i(TAG,"started network listening ");
+    private void initialize()
+    {
+    	 Logger.i(TAG,"started network listening ");
 	        SBLocationManager.getInstance().StartListeningtoNetwork();
-            loadHistoryFromDB();        
+         loadHistoryFromDB();        
 	       
 	
 	        //map activity can get started from 3 places, timer task if location found instantly
@@ -283,11 +299,10 @@ public class StartStrangerBuddyActivity extends Activity {
 		  	        	  sendWelcomeNotification(admin_fbid_hash, admin_fbid, admin_name, admin_upgrade_message);
 			  	          }};
 			  	    Platform.getInstance().getHandler().postDelayed(upgradeMessage, 1*60*1000);    
-			  		}	        
-	        }
-        }
-        }
-    
+			  	}	        
+	        }     
+    }  
+  
     
     private boolean isVersionUpgraded()
     {

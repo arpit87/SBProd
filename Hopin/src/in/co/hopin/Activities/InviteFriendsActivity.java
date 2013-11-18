@@ -226,7 +226,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	            FragmentTransaction fragTrans = fm.beginTransaction();
 	            mInviteFriendListFragment = new InviteFriendListFragment();
 	            fragTrans.replace(R.id.invitefriendslist_layout_content,mInviteFriendListFragment );	            
-	            fragTrans.commit();	
+	            fragTrans.commitAllowingStateLoss();	
 	            HopinTracker.sendEvent("InviteFriends","ScreenOpen","invitefriends:open:list",1L);
 	        }
 	    }
@@ -279,7 +279,7 @@ public class InviteFriendsActivity extends FragmentActivity {
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-	    //No call for super(). Bug on API Level > 11.
+	    
 	}
 
 	

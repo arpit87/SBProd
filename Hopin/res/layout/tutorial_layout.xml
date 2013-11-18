@@ -450,9 +450,10 @@
         android:background="@drawable/gray_green_background_selector" 
         android:gravity="left"  
         android:paddingLeft="10dip"
-        android:hint="Enter name"  
+        android:hint="Enter email"  
         android:layout_marginTop="10dip"
-        android:selectAllOnFocus="true"      
+        android:selectAllOnFocus="true"
+        android:inputType="textEmailAddress"      
         /> 
         
          <Button

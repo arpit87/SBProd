@@ -93,7 +93,8 @@ public class MapListActivityHandler  {
 	private NearbyUserUpdatedListener mUserUpdatedListener = null;	
 	ProgressBar liveFeedProgress = null;
 	ViewGroup liveFeedLayout = null;
-	TextView mLiveFeedButton = null;
+	TextView mLiveFeedButton = null;	
+	int searchInThisSession = 0;
 			
 	public BaseItemizedOverlay getNearbyUserItemizedOverlay() {
 		return nearbyUserItemizedOverlay;
@@ -185,7 +186,7 @@ public class MapListActivityHandler  {
 		}
 	}
 	
-	public void myLocationButtonClick()
+	public void myLocationButtonClick(boolean showProgress)
 	{
 		HopinTracker.sendEvent("Map","ButtonClcik","map:click:mylocationbutton",1L);
 		if(!mapInitialized)
@@ -206,6 +207,7 @@ public class MapListActivityHandler  {
 		Location thisCurrLoc = SBLocationManager.getInstance().getLastXSecBestLocation(startInterval);
 		if(thisCurrLoc == null)
 		{
+			if(showProgress)
 			progressDialog = ProgressDialog.show(underlyingActivity, "Fetching location", "Please wait..", true);
 			for(int attempt = 1 ; attempt <= 4; attempt++ )
 			{
@@ -216,6 +218,7 @@ public class MapListActivityHandler  {
 					break;
 				}
 			}
+			if(showProgress)
 			progressDialog.dismiss();
 		}
 		if(thisCurrLoc!=null)
@@ -223,7 +226,7 @@ public class MapListActivityHandler  {
 			SBGeoPoint currGeo = new SBGeoPoint((int)(thisCurrLoc.getLatitude()*1e6),(int)(thisCurrLoc.getLongitude()*1e6));
 			ThisUserNew.getInstance().setCurrentGeoPoint(currGeo);
 			ThisUserNew.getInstance().setSourceGeoPoint(currGeo);
-			MapListActivityHandler.getInstance().setUpdateMap(true);
+			 setUpdateMap(true);
 			updateThisUserMapOverlay();
 		}
 	}
@@ -442,7 +445,8 @@ public void clearAllData()
     nearbyUserItemizedOverlay = null;
     nearbyUserGroupItemizedOverlay = null;
     mListViewContainer = null;
-    mMapViewContainer = null;
+    mMapViewContainer = null;    
+	searchInThisSession = 0;
 	if(mMapView!=null)
 	{
 		mMapView.setOldZoomLevel(-1);
@@ -461,6 +465,18 @@ public void clearAllData()
     }
 	if(mtime!=null)
 		mtime.setText("  Time");
+}
+
+public int getSearchInThisSession() {
+	return searchInThisSession;
+}
+
+public void updateSearchNumberInThisSessionAndShowDialogIfReq()
+{
+	//we show invite friend propmt only on new session open..ie. user closed app n opened again 
+	searchInThisSession = searchInThisSession+1;
+	if(searchInThisSession == 1 && CurrentNearbyUsers.getInstance().getAllNearbyUsers().isEmpty())
+		buildAlertMessageForNoUserAndInviteFriends();
 }
 
 private void buildAlertMessageForNoUserAndInviteFriends() {
@@ -629,9 +645,9 @@ public void updateSrcDstTimeInListView() {
         ThisUserNew.getInstance().set_Daily_Instant_Type(dailyInstaType);
         ThisUserNew.getInstance().set_Take_Offer_Type(shareOfferType);
 
-        MapListActivityHandler.getInstance().updateThisUserMapOverlay();
+        updateThisUserMapOverlay();
         mapInitialized = true;  // just in case it was not initialized like if location couldnt be fetched
-        MapListActivityHandler.getInstance().centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
+        centreMapTo(ThisUserNew.getInstance().getSourceGeoPoint());
     }
     
     public NearbyUserUpdatedListener getNearbyUserUpdatedListener()
@@ -649,13 +665,10 @@ public void updateSrcDstTimeInListView() {
 			if(!hasBeenCancelled)
 			{
 				if(response.equals(BroadCastConstants.NEARBY_USER_UPDATED))
-				{
-					int size = CurrentNearbyUsers.getInstance().getAllNearbyUsers().size();
-					if(size>0)
-						ToastTracker.showToast(size+" match found");
+				{					
+					if(!CurrentNearbyUsers.getInstance().getAllNearbyUsers().isEmpty())
+						ToastTracker.showToast(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()+" match found");					
 					updateNearbyUsersOnUsersChange();
-					if(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()==0)
-						buildAlertMessageForNoUserAndInviteFriends();
 				}						
 			}
 		}

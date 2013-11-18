@@ -2,11 +2,9 @@ package in.co.hopin.Fragments;
 
 import in.co.hopin.R;
 import in.co.hopin.Adapter.InviteFriendsListViewAdapter;
-import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.GetFriendListToInviteRequest;
-import in.co.hopin.HttpClient.InviteFriendRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.HttpClient.SBHttpResponseListener;
@@ -18,13 +16,11 @@ import in.co.hopin.Util.Logger;
 
 import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -40,8 +36,9 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 	boolean userIsLoggedIn = false;
 	boolean loadingMoreFriends = false;
 	boolean allFriendsLoaded = false;
-	GetMoreFriendsListListener getMorelistener = null;
-	int count = 0;
+	GetMoreFriendsListListener getMorelistener = new GetMoreFriendsListListener();	
+	int prevSize = 0;
+	int newSize = 0;
 	
 	@Override
 	public void onCreate(Bundle savedState) {
@@ -49,11 +46,10 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 		//update listview
         Log.i(TAG,"on create invite friend list view");
         inviteFriendlist = FriendsToInvite.getInstance().getAllFriends();
-        userIsLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN);
-        getMorelistener = new GetMoreFriendsListListener();
+        userIsLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN);      
         if(!inviteFriendlist.isEmpty())
         {
-			mAdapter = new InviteFriendsListViewAdapter(getActivity());
+			mAdapter = new InviteFriendsListViewAdapter(getActivity(),inviteFriendlist);
 			setListAdapter(mAdapter);			
 			Logger.i(TAG,"invitefriendlist size:"+inviteFriendlist.size());
         }
@@ -83,9 +79,8 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 			loadingMoreFriends = true;
 			ProgressHandler.showInfiniteProgressDialoge(getActivity(), "Please wait..", "Loading more suggestions", getMorelistener);
 			Logger.d(TAG, "scrolled to end,will fetch more friends");
-			HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more", 1L);
-			count = totalItemCount;
-			SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(count,count*2, getMorelistener);
+			HopinTracker.sendEvent("InviteFriend", "getmorefriend", "invitefriend:scrolltobottom:more", 1L);			
+			SBHttpRequest fetchFriendsReq = new GetFriendListToInviteRequest(totalItemCount,totalItemCount*2, getMorelistener);
 			SBHttpClient.getInstance().executeRequest(fetchFriendsReq);
 		}
 		
@@ -103,15 +98,19 @@ public class InviteFriendListFragment extends ListFragment implements android.wi
 		@Override
 		public void onComplete(String response) {
 			loadingMoreFriends = false;
+			newSize = FriendsToInvite.getInstance().getAllFriends().size();
+			Logger.d(TAG, "prevsize:"+prevSize+",newsize:"+newSize);
 			if(!hasBeenCancelled)
 			{				
-				Logger.d(TAG, "got more friends");
-				int numberPreviouslyLoaded = inviteFriendlist.size();
+				Logger.d(TAG, "got more friends");				
 				inviteFriendlist = FriendsToInvite.getInstance().getAllFriends();	
-				if(inviteFriendlist.size()==numberPreviouslyLoaded)
+				if(prevSize == newSize)
 					allFriendsLoaded = true;
-				else					
+				else				
+				{
 					mAdapter.updateContents(inviteFriendlist);
+					prevSize = newSize;
+				}
 				HopinTracker.sendEvent("InviteFriends", "getmorefriend", "invitefriend:scrolltobottom:more:completed", 1L);
 				ProgressHandler.dismissDialoge();
 			}

@@ -7,6 +7,7 @@ import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Server.ServerResponseBase;
 import in.co.hopin.Users.UserAttributes;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.Logger;
 
 import java.io.UnsupportedEncodingException;
 
@@ -25,7 +26,8 @@ import android.util.Log;
 public class AddUserRequest extends SBHttpRequest{
 	private static String RESTAPI="addUser";
     public static final String URL = ServerConstants.SERVER_ADDRESS + ServerConstants.USERSERVICE + "/"+RESTAPI+"/";
-
+    private static final String TAG = "in.co.hopin.HttpClient.AddUserRequest";
+    
 	HttpPost httpQuery;
 	JSONObject jsonobj;	
 	String uuid;
@@ -60,7 +62,7 @@ public class AddUserRequest extends SBHttpRequest{
 			e.printStackTrace();
 		}
 		postEntityUser.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-		if (Platform.getInstance().isLoggingEnabled()) Log.d("debug", "calling server:"+jsonobj.toString());	
+		Logger.i(TAG, "calling server:"+jsonobj.toString());	
 		httpQuery.setEntity(postEntityUser);
 	}
 	

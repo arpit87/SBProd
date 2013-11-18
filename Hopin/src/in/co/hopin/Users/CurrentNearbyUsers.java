@@ -3,14 +3,15 @@ package in.co.hopin.Users;
 import in.co.hopin.HelperClasses.JSONHandler;
 import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.Platform.Platform;
-
-import org.json.JSONObject;
-
-import android.util.Log;
+import in.co.hopin.Util.Logger;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONObject;
+
+import android.util.Log;
 
 /****
  * 
@@ -78,14 +79,14 @@ public class CurrentNearbyUsers {
 	public boolean usersHaveChanged()
 	{
         boolean haveUsersChanged = false;
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"chking if usr changed ");
+		Logger.i(TAG,"chking if usr changed ");
 		if(!updatedToCurrent) {
 			if ((mCurrentNearbyUserList.isEmpty() && mNewNearbyUserList.isEmpty()))
 					ToastTracker.showToast("Sorry no match found");
 			else if ((mCurrentNearbyUserList.isEmpty() && !mNewNearbyUserList.isEmpty()) ||
                     (!mCurrentNearbyUserList.isEmpty() && mNewNearbyUserList.isEmpty())){
                 if (mNewNearbyUserList.isEmpty()){
-                    ToastTracker.showToast("sorry no match found");
+                    ToastTracker.showToast("Sorry no match found");
                 }
                 haveUsersChanged = true;
             } else {

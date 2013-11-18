@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -547,7 +548,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
     }
     
     class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-        private ArrayList<String> resultList;
+        private ArrayList<String> resultList = new ArrayList<String>();
         private ProgressBar thisTextProgressBar = null;
 
         public PlacesAutoCompleteAdapter(Context context, int textViewResourceId, ProgressBar progressBar) {
@@ -556,7 +557,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
         }
 
         @Override
-        public int getCount() {
+        public int getCount() {        	
             return resultList.size();
         }
 

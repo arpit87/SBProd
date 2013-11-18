@@ -15,6 +15,7 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.LocationHelpers.SBLocationManager;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.CurrentNearbyUsers;
+import in.co.hopin.Users.FriendsToInvite;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.StringUtils;
@@ -58,7 +59,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 	private LiveFeedFragment liveFeedFragment = null;
     private SBMapFragment sbMapFragment;
     private SBListFragment sbListFragment;
-    TextView liveFeedButton = null;    
+    TextView liveFeedButton = null;     
    
     private Menu mMenu;
     ActionBar ab;
@@ -100,7 +101,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         }
         
         mapListActivityHandler.setUnderlyingActivity(this);
-        //checkIfGPSIsEnabled();
+        //checkIfGPSIsEnabled();        
         
     }
     
@@ -178,7 +179,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 
     @Override
     public void onStop(){
-        super.onStop();
+        super.onStop();       
         //EasyTracker.getInstance().activityStop(this);       
     }
     
@@ -211,17 +212,22 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	ThisUserNew.clearAllData();
     	CurrentNearbyUsers.getInstance().clearAllData();  
     	CurrentFeed.getInstance().clearAll();
+    	FriendsToInvite.getInstance().clearAllData();
         int count = ThisAppConfig.getInstance().getInt(ThisAppConfig.APPOPENCOUNT); 
         Map<String, Object> trackArgMap = new HashMap<String,Object>();
 	    trackArgMap.put(ThisAppConfig.APPOPENCOUNT, count);
 	    trackArgMap.put(HopinTracker.USERID, ThisUserConfig.getInstance().getString(ThisUserConfig.USERID));
-        HopinTracker.sendEvent("Map","AppClose","map:closed:opencount",(long)count,trackArgMap);
+        HopinTracker.sendEvent("Map","AppClose","map:closed:opencount",1L,trackArgMap);
+        HopinTracker.sendEvent("Map","AppClose","map:closed:sessionsearchcount",(long)mapListActivityHandler.getSearchInThisSession(),trackArgMap);
         count = count+1;
      	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count);
-     	if(count == 5)
+     	if(count == 4)
      	{
-     		HopinTracker.sendEvent("Map","ScreenOpen","map:open:ratehopinprompt",1L);
-     		buildRateAlertMessage();
+     		HopinTracker.sendEvent("Map","ScreenOpen","map:open:likeratehopinprompt",1L);
+     		Intent i = new Intent(Platform.getInstance().getContext(),LikeUsRateUsActivity.class);
+ 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     	
+ 			i.putExtra("showprompt", true);
+ 			Platform.getInstance().getContext().startActivity(i); 
      	}
      	
      	if(count == 10)
@@ -235,30 +241,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
      	
      	EasyTracker.getTracker().setStartSession(false);     	
     }
-    
-    private void buildRateAlertMessage() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Did you like Hopin? Please rate Hopin on Playstore")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                    	 dialog.cancel();
-                    	 HopinTracker.sendEvent("Map","Click","map:click:ratehopinprompt:yes",1L);
-                    	 Intent openPlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=in.co.hopin"));
-                    	 openPlay.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    	 Platform.getInstance().getContext().startActivity(openPlay);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                    	dialog.cancel();
-                    	HopinTracker.sendEvent("Map","Click","map:click:ratehopinprompt:no",1L);                   	
-                        finish();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
+       
 
     
 	@Override
@@ -355,11 +338,15 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	 //sendIntent.putExtra(Intent.EXTRA_TEXT, "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link));
     	 //sendIntent.setType("text/plain");
     	 startActivity(inviteFriendIntent);
-    	 break;         
-     case R.id.main_menu_contacts:
-         Intent contactsIntent = new Intent(this, ContactsActivity.class);
-         startActivity(contactsIntent);
-         break;
+    	 break;      
+     case R.id.main_menu_likeus:
+         Intent likeusrateusIntent = new Intent(this, LikeUsRateUsActivity.class);
+         startActivity(likeusrateusIntent);
+         break; 
+     //case R.id.main_menu_contacts:
+     //    Intent contactsIntent = new Intent(this, ContactsActivity.class);
+     //    startActivity(contactsIntent);
+     //    break;
      
         } 
         return super.onOptionsItemSelected(menuItem);
@@ -370,7 +357,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     	switch(button.getId())
     	{
     	case R.id.my_location_button:
-    		MapListActivityHandler.getInstance().myLocationButtonClick();    		
+    		MapListActivityHandler.getInstance().myLocationButtonClick(true);    		
     		break; 	
     	}
     }

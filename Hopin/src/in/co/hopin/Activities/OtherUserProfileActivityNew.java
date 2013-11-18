@@ -55,6 +55,11 @@ public class OtherUserProfileActivityNew extends FragmentActivity{
         setContentView(R.layout.otheruser_profile_new);
         
         fbinfoJsonStr = getIntent().getStringExtra("fb_info");
+        if(StringUtils.isEmpty(fbinfoJsonStr))
+        {
+        	Toast.makeText(this, "Sorry problem fetching profile", Toast.LENGTH_SHORT).show();
+			finish();
+        }
 		if (Platform.getInstance().isLoggingEnabled()) Log.d("debug","got json str:"+fbinfoJsonStr);
 		try {
 			fbInfoJSON = new JSONObject(fbinfoJsonStr);

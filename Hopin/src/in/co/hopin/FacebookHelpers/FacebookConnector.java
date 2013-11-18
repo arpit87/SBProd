@@ -105,9 +105,22 @@ public class FacebookConnector {
             	 return true;
              else if(session.getState().equals(SessionState.OPENED_TOKEN_UPDATED))
              {
-            	 HopinTracker.sendEvent("FacebookLogin", "TokenUpdated", "facebook:issessionvalid:tokenupdated", 1L);
-            	 reloginstatusCallback.call(session, session.getState(), null);
-            	 return true;
+            	 String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+            	 Map<String, Object> trackArgMap = new HashMap<String,Object>();
+				 trackArgMap.put(HopinTracker.FBID, fbid);
+            	 HopinTracker.sendEvent("FacebookLogin", "TokenUpdated", "facebook:issessionvalid:tokenupdated", 1L,trackArgMap);
+            	 if(session.isOpened())
+ 				{ 					
+ 			    	ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, session.getAccessToken());
+ 		        	ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES, session.getExpirationDate().getTime());
+ 			    	SBHttpRequest sendFBInfoRequest = new SaveFBInfoRequest(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID),fbid , ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
+ 					SBHttpClient.getInstance().executeRequest(sendFBInfoRequest); 
+ 			        HopinTracker.sendEvent("FacebookLogin", "TokenUpdated", "facebook:tokenupdated:newtokensenttoserver", 1L,trackArgMap);
+ 			       return true;
+ 				}
+            	 else
+            		 return false;
+            	 
              }
              else            	          
             	 return false;

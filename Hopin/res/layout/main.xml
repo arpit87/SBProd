@@ -10,7 +10,7 @@
         android:id="@+id/main_hopinlogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"       
+        android:layout_marginBottom="2dp"       
         android:src="@drawable/hopinlogo" 
         android:layout_centerInParent="true" 
         android:layout_margin="5dip"       
@@ -25,7 +25,7 @@
         android:text="Lets commute"
         android:textColor="@color/black"
         android:textSize="30sp" />
-     <TextView
+    <TextView
         android:id="@+id/main_sloganline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +33,17 @@
         android:layout_below="@+id/main_slogan"
         android:text="together"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="italic" />
+    <!--  <TextView
+        android:id="@+id/main_sloganline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"       
+        android:layout_below="@+id/main_sloganline2"
+        android:text="Globally"
+        android:textColor="@color/black"
+        android:textSize="30sp" 
+        android:textStyle="italic"/> -->
     
 </RelativeLayout>

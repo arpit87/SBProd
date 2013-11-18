@@ -34,7 +34,7 @@ public class SBGlobalBroadcastReceiver extends BroadcastReceiver {
             Intent newIntent =  new Intent(context, OnAlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, 0, Platform.UPLOAD_FREQUENCY, pendingIntent);
+            am.setRepeating(AlarmManager.RTC, 0, Platform.UPLOAD_FREQUENCY, pendingIntent);
 
             WakefulIntentService.acquireStaticLock(context); //acquire a partial WakeLock
             context.startService(new Intent(context, UploadEventService.class)); //start UploadEventsService

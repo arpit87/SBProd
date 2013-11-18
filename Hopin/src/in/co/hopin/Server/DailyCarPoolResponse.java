@@ -1,5 +1,6 @@
 package in.co.hopin.Server;
 
+import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ToastTracker;
@@ -44,6 +45,7 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 		
 		CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);	
 		FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);
+		
 		//MapListActivityHandler.getInstance().updateNearbyUsers();	
 		if(CurrentNearbyUsers.getInstance().usersHaveChanged())
 		{
@@ -53,6 +55,10 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 				mListener.onComplete(BroadCastConstants.NEARBY_USER_UPDATED);		
 						
 		}
+		
+		//call this after usershavechanged() as that is where we update orig list to new list.
+		MapListActivityHandler.getInstance().updateSearchNumberInThisSessionAndShowDialogIfReq();
+		
 		logSuccessWithArg(HopinTracker.NUMMATCHES, Integer.toString(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
 		ProgressHandler.dismissDialoge();
 		

@@ -9,6 +9,7 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Users.UserAttributes;
+import in.co.hopin.Util.Logger;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
@@ -47,7 +48,7 @@ public class AddThisUserSrcDstResponse extends ServerResponseBase{
             logSuccess();
 		} catch (JSONException e) {
 			logServererror();
-			if (Platform.getInstance().isLoggingEnabled()) Log.e(TAG, "Error returned by server on user add scr dst");
+			Logger.e(TAG, "Error returned by server on user add scr dst");
 			ProgressHandler.dismissDialoge();
 			ToastTracker.showToast("Network error,try again");
 			e.printStackTrace();

@@ -28,25 +28,26 @@ public class FeedbackActivity extends Activity{
         boolean showprompt = getIntent().getBooleanExtra("showprompt", false);
         if(showprompt)
         	buildfeedbackAlertMessage();
+        
+        feedbackTextView = (EditText)findViewById(R.id.feedback_feedbackedittext); 
+    	
+    	Button sendFeedbackButton = (Button)findViewById(R.id.feedback_btn_send);
+    	// if button is clicked, close the custom dialog
+    	sendFeedbackButton.setOnClickListener(new OnClickListener() {
+    		@Override
+    		public void onClick(View v) {			
+    			 FeedbackRequest feedbackRequest = new FeedbackRequest(feedbackTextView.getText().toString());
+                 SBHttpClient.getInstance().executeRequest(feedbackRequest);
+                 Toast.makeText(FeedbackActivity.this, "Thank you for valuable feedback", Toast.LENGTH_SHORT).show();
+                 finish();
+    		}
+    	});
       		
 	}
 	
 	@Override
     public void onResume(){
-    	super.onResume();	
-	feedbackTextView = (EditText)findViewById(R.id.feedback_feedbackedittext); 
-	
-	Button sendFeedbackButton = (Button)findViewById(R.id.feedback_btn_send);
-	// if button is clicked, close the custom dialog
-	sendFeedbackButton.setOnClickListener(new OnClickListener() {
-		@Override
-		public void onClick(View v) {			
-			 FeedbackRequest feedbackRequest = new FeedbackRequest(feedbackTextView.getText().toString());
-             SBHttpClient.getInstance().executeRequest(feedbackRequest);
-             Toast.makeText(FeedbackActivity.this, "Thank you for valuable feedback", Toast.LENGTH_SHORT).show();
-             finish();
-		}
-	});
+    	super.onResume();
 		
 }
 	

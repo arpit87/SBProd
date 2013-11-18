@@ -31,8 +31,10 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 	
 	Activity underLyingActivity;
 	private static LayoutInflater inflater=null;
-	public InviteFriendsListViewAdapter(Activity activity)
+	private List<Friend> inviteFriendList = null;
+	public InviteFriendsListViewAdapter(Activity activity,List<Friend> invitefriendList)
 	{
+		inviteFriendList = invitefriendList;
 		underLyingActivity = activity;		
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -40,7 +42,7 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return FriendsToInvite.getInstance().getAllFriends().size();
+		return inviteFriendList.size();
 	}
 
 	@Override
@@ -57,13 +59,14 @@ public class InviteFriendsListViewAdapter extends BaseAdapter{
 	
 		
 	public void updateContents(List<Friend> friendList)
-	{
+	{		
+		inviteFriendList = FriendsToInvite.getInstance().getAllFriends();
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Friend thisFriend = FriendsToInvite.getInstance().getAllFriends().get(position);
+		final Friend thisFriend = inviteFriendList.get(position);
 		ImageView userImageView = null;
 		TextView userName = null;
 	

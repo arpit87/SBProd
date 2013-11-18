@@ -36,11 +36,11 @@ public class FriendsToInvite {
 	{		
 		Logger.i(TAG,"updateFriendsToInviteFromJSON");		
 		mUpdatedInviteFriendList = JSONHandler.GetFriendsToInviteFromJSONObject(body);
-		int size = mInviteFriendList.size();
-		if(size ==0)
+		
+		if(mInviteFriendList.isEmpty())
 			mInviteFriendList = new ArrayList<Friend>(mUpdatedInviteFriendList);
 		else
-			mInviteFriendList.addAll(size, mUpdatedInviteFriendList);
+			mInviteFriendList.addAll(mInviteFriendList.size(), mUpdatedInviteFriendList);
 		if(mUpdatedInviteFriendList.size()>0)
 		{
 			for(Friend f : mUpdatedInviteFriendList)
@@ -48,7 +48,8 @@ public class FriendsToInvite {
 				FBID_FriendToInviteMap.put(f.getFb_id(), f);
 			}
 		}	
-		
+		Logger.i(TAG,"updateFriendsToInviteFromJSON update size="+mUpdatedInviteFriendList.size());
+		Logger.i(TAG,"updateFriendsToInviteFromJSON new size="+mInviteFriendList.size());	
 	}
 
 	public List<Friend> getAllFriends()
@@ -74,11 +75,11 @@ public class FriendsToInvite {
 	public List<String> getAllSelectedFriendEmails()
 	{
 		List<String> emaillist = new ArrayList<String>();
-		if(mInviteFriendList.size()>0)
+		if(!mInviteFriendList.isEmpty())
 		{
 			for(Friend f : mInviteFriendList)
 			{
-				if(f.isSelected())
+				if(f.isSelected() && !StringUtils.isBlank(f.getFBUserName()))
 					emaillist.add(f.getFBUserName() + "@facebook.com");
 			}
 		}	

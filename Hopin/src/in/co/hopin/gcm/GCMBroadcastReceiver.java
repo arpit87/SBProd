@@ -5,6 +5,7 @@ import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HttpClient.GetNewUserInfoAndShowPopupRequest;
 import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +33,9 @@ public class GCMBroadcastReceiver extends BroadcastReceiver {
                 GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             //do nothing
         } else {
-            processMessage(intent.getStringExtra("message"));
+        	String message = intent.getStringExtra("message");
+        	if(!StringUtils.isEmpty(message))
+        		processMessage(message);
         }
         setResultCode(Activity.RESULT_OK);
     }
