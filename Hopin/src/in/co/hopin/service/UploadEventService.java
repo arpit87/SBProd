@@ -1,5 +1,6 @@
 package in.co.hopin.service;
 
+import android.app.IntentService;
 import android.content.Intent;
 import in.co.hopin.HelperClasses.Event;
 import in.co.hopin.HelperClasses.SBConnectivity;
@@ -10,11 +11,11 @@ import in.co.hopin.Util.Logger;
 
 import java.util.List;
 
-public class UploadEventService extends WakefulIntentService {
+public class UploadEventService extends IntentService {
     public static final String TAG = "in.co.hopin.service.UploadEventService";
 
     public UploadEventService() {
-        super("EventUploadService");
+        super("UploadEventService");
     }
 
     @Override
@@ -50,7 +51,5 @@ public class UploadEventService extends WakefulIntentService {
 
         UploadEventsRequest request = new UploadEventsRequest(sb.toString(), maxTimestamp);
         SBHttpClient.getInstance().executeRequest(request);
-
-        super.onHandleIntent(intent);
     }
 }
