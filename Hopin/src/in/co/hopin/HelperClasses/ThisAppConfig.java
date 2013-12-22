@@ -16,6 +16,7 @@ public class ThisAppConfig extends ConfigBase{
     public static final String PROPERTY_APP_VERSION = "appVersion";
     public static final String PROPERTY_ON_SERVER_EXPIRATION_TIME ="onServerExpirationTimeMs";
     public static final String SWIPETUTORIALSHOWN = "swipe_tutorial_shown";
+    public static final String MAPTUTORIALSHOWN = "map_tutorial_shown";
     public static final String DEVICEID = "device_id";
 	
 	

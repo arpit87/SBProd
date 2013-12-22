@@ -1,11 +1,10 @@
 package in.co.hopin.ActivityHandlers;
 
 import in.co.hopin.R;
-import in.co.hopin.Activities.InviteFriendsActivity;
+import in.co.hopin.Activities.InviteFriendsActivityNew;
 import in.co.hopin.Activities.MapListViewTabActivity;
 import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
-import in.co.hopin.Fragments.LiveFeedFragment;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
 import in.co.hopin.HelperClasses.BroadCastConstants;
@@ -49,9 +48,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Point;
 import android.location.Location;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -491,7 +487,7 @@ private void buildAlertMessageForNoUserAndInviteFriends() {
 			})
             .setPositiveButton("Ok", new OnClickListener() {
                 public void onClick(final DialogInterface dialog, final int id) {
-                    Intent startInviteActivity = new Intent(underlyingActivity,InviteFriendsActivity.class);
+                    Intent startInviteActivity = new Intent(underlyingActivity,InviteFriendsActivityNew.class);
                     underlyingActivity.startActivity(startInviteActivity);
                 }
             })           

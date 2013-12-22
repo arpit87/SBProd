@@ -1,7 +1,6 @@
 package in.co.hopin.Activities;
 
 import in.co.hopin.R;
-import in.co.hopin.Activities.InviteFriendsActivity.GetFriendsListListener;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.HelperClasses.BroadCastConstants;
 import in.co.hopin.HelperClasses.ProgressHandler;

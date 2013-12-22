@@ -101,6 +101,15 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         }
         
         mapListActivityHandler.setUnderlyingActivity(this);
+        
+        if(!ThisAppConfig.getInstance().getBool(ThisAppConfig.MAPTUTORIALSHOWN))	
+		{
+			 Intent mapTutIntent = new Intent(this,MapTutorialActivity.class);	
+			 mapTutIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+	   		 startActivity(mapTutIntent);
+		}
+			
+        
         //checkIfGPSIsEnabled();        
         
     }
@@ -221,7 +230,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         HopinTracker.sendEvent("Map","AppClose","map:closed:sessionsearchcount",(long)mapListActivityHandler.getSearchInThisSession(),trackArgMap);
         count = count+1;
      	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count);
-     	if(count == 4)
+     	if(count == 10)
      	{
      		HopinTracker.sendEvent("Map","ScreenOpen","map:open:likeratehopinprompt",1L);
      		Intent i = new Intent(Platform.getInstance().getContext(),LikeUsRateUsActivity.class);
@@ -230,7 +239,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
  			Platform.getInstance().getContext().startActivity(i); 
      	}
      	
-     	if(count == 10)
+     	if(count == 18)
      	{
      		HopinTracker.sendEvent("Map","ScreenOpen","map:open:feedbackactivity",1L);
      		Intent i = new Intent(Platform.getInstance().getContext(),FeedbackActivity.class);
@@ -333,7 +342,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
          break;         
      case R.id.main_menu_shareapp: 
     	 HopinTracker.sendEvent("MainMenu","MenuClick","mainmenu:click:tellafriend",1L);
-    	 Intent inviteFriendIntent = new Intent(this,InviteFriendsActivity.class);
+    	 Intent inviteFriendIntent = new Intent(this,InviteFriendsActivityNew.class);
     	 //sendIntent.setAction(Intent.ACTION_SEND);
     	 //sendIntent.putExtra(Intent.EXTRA_TEXT, "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link));
     	 //sendIntent.setType("text/plain");

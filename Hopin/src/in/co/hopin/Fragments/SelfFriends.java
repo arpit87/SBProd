@@ -1,14 +1,15 @@
 package in.co.hopin.Fragments;
 
-import java.util.List;
-
 import in.co.hopin.R;
-import in.co.hopin.Activities.InviteFriendsActivity;
+import in.co.hopin.Activities.InviteFriendsActivityNew;
 import in.co.hopin.Adapter.FriendAdapter;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Users.Friend;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.HopinTracker;
+
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class SelfFriends extends ListFragment{
@@ -64,7 +64,7 @@ public class SelfFriends extends ListFragment{
 				@Override
 				public void onClick(View v) {
 					HopinTracker.sendEvent("SelfFriends","Click","SelfProfile:Friends:click:invitefriends",1L);
-			    	 Intent inviteFriendIntent = new Intent(getActivity(),InviteFriendsActivity.class);			    	 
+			    	 Intent inviteFriendIntent = new Intent(getActivity(),InviteFriendsActivityNew.class);			    	 
 			    	 startActivity(inviteFriendIntent);
 					
 				}

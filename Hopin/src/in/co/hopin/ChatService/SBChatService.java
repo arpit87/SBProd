@@ -84,7 +84,7 @@ public class SBChatService extends Service {
         SASLAuthentication.supportSASLMechanism("PLAIN");
         mXMPPConnection = new XMPPConnection(mConnectionConfiguration);
 
-        if (Platform.getInstance().isLoggingEnabled()) Log.d(TAG, "made xmpp connection");
+        Logger.d(TAG, "made xmpp connection");
 
         ServiceDiscoveryManager.setIdentityName("Hopin");
         ServiceDiscoveryManager.setIdentityType("Bot");
@@ -134,7 +134,7 @@ public class SBChatService extends Service {
     private void initializeConfigration() {
         mConnectionConfiguration = new ConnectionConfiguration(mHost, mPort);
         mConnectionConfiguration.setReconnectionAllowed(true);
-        mConnectionConfiguration.setDebuggerEnabled(false);
+        mConnectionConfiguration.setDebuggerEnabled(true);
         mConnectionConfiguration.setSendPresence(true);
         mConnectionConfiguration.setRosterLoadedAtLogin(false);
         SmackConfiguration.setPacketReplyTimeout(10000);

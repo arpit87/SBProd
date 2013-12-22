@@ -12,8 +12,11 @@ import in.co.hopin.HelperClasses.BlockedUser;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.HttpClient.ChatServiceCreateUser;
 import in.co.hopin.HttpClient.GetOtherUserProfileAndShowPopup;
 import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.SBHttpRequest;
+import in.co.hopin.HttpClient.SaveFBInfoRequest;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Users.CurrentNearbyUsers;
@@ -139,7 +142,7 @@ public void onResume() {
 	mFBLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBINFOSENTTOSERVER);
 	mThiUserChatUserName = ThisUserConfig.getInstance().getString(ThisUserConfig.CHATUSERID);
 	mThisUserChatPassword = ThisUserConfig.getInstance().getString(ThisUserConfig.CHATPASSWORD);
-	mThisUserChatFullName = ThisUserConfig.getInstance().getString(ThisUserConfig.FB_FULLNAME);
+	mThisUserChatFullName = ThisUserConfig.getInstance().getString(ThisUserConfig.FB_FULLNAME);	
 	if (!mBinded) 
 		bindToService();
 	else
@@ -293,22 +296,34 @@ public void onResume() {
 		    
 	    public String getParticipantFBID() {
 			return mParticipantFBID;
-		}
-
-	    
+		}	    
 	    
 		private void sendMessage() {
 		final String inputContent = mInputField.getText().toString();	
-		SBChatMessage lastMessage = null;
-		if(!mFBLoggedIn)
+		SBChatMessage lastMessage = null;				
+		if(mThiUserChatUserName == "" || mThisUserChatPassword == "")
 		{
-			//check the status again..this is imp as by now it could have logged in
-			mFBLoggedIn = ThisUserConfig.getInstance().getBool(ThisUserConfig.FBINFOSENTTOSERVER);
-			mThiUserChatUserName = ThisUserConfig.getInstance().getString(ThisUserConfig.CHATUSERID);
-			mThisUserChatPassword = ThisUserConfig.getInstance().getString(ThisUserConfig.CHATPASSWORD);			
-			
-			Logger.i(TAG,"chat sent click but not fb logged in");			
-			CommunicationHelper.getInstance().FBLoginDialog_show(ChatWindow.this); 					
+			if(!mFBLoggedIn)
+			{
+				//make popup 
+				CommunicationHelper.getInstance().FBLoginDialog_show(ChatWindow.this); 
+			}
+			else 
+			{
+				Logger.d(TAG,"FBLogged in but not chat!!Server working properly for chat req?sending again");
+				//sending fbinfo n chatreq again
+				if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.FBINFOSENTTOSERVER))
+				{
+					//server couldnt receive fbinfo
+					SBHttpRequest sendFBInfoRequest = new SaveFBInfoRequest(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID), ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID), ThisUserConfig.getInstance().getString(ThisUserConfig.FBACCESSTOKEN));
+					SBHttpClient.getInstance().executeRequest(sendFBInfoRequest);
+				}
+				
+				SBHttpRequest chatServiceAddUserRequest = new ChatServiceCreateUser(ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID));
+		     	SBHttpClient.getInstance().executeRequest(chatServiceAddUserRequest);							
+			}
+			//Intent fbLoginIntent = new Intent(context,LoginActivity.class);			
+			//MapListActivityHandler.getInstance().getUnderlyingActivity().startActivity(fbLoginIntent);
 		}
 		else if(!"".equals(inputContent))
 		{
