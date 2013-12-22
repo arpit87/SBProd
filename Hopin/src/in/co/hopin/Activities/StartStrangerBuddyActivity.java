@@ -61,7 +61,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	//Timer timer;
 	AtomicBoolean mapActivityStarted = new AtomicBoolean(false);
 	boolean upGradeMsgShown = false;
-	boolean initialized  = false;
+	AtomicBoolean mInitialized = new AtomicBoolean(false);
 
     private static Uri mHistoryUri = Uri.parse("content://" + HistoryContentProvider.AUTHORITY + "/db_fetch_only");
     private static String[] columns = new String[]{
@@ -93,8 +93,15 @@ public class StartStrangerBuddyActivity extends Activity {
     {   	
     	super.onResume();        
     	checkNetworkAndDataConnectivity();  
-    	if(isLocationProviderEnabled() && SBConnectivity.isOnline())    	
+    	if(isLocationProviderEnabled() && SBConnectivity.isOnline() &&!mInitialized.getAndSet(true))    	
     		initialize();    	    		
+    }
+	
+	@Override
+	public void onStop()
+    {
+	  super.onStop();	
+      mInitialized.set(false);
     }
 	    
     
@@ -131,24 +138,27 @@ public class StartStrangerBuddyActivity extends Activity {
 		//chk if welcome msg not already sent
 		if(!ThisUserConfig.getInstance().getBool(ThisUserConfig.WELCOMENOTESENT))
 		{		
+			ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);	
 		Runnable welcomeMessage = new Runnable() {
 	          public void run() {	
 	        	  String admin_fbid = getResources().getString(R.string.hopin_admin_girl_fbid);
 	      		String admin_name = getResources().getString(R.string.hopin_admin_girl_name);
 	      		String admin_welcome_message = getResources().getString(R.string.hopin_admin_girl_welcomemessage);	        	  
 	        	  int admin_fbid_hash = admin_fbid.hashCode();	        	  
-	        	  sendWelcomeNotification(admin_fbid_hash, admin_fbid, admin_name, admin_welcome_message);
-	        	  ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);	
+	        	  sendWelcomeNotification(admin_fbid_hash, admin_fbid, admin_name, admin_welcome_message);	        	  	
 	          }};
 	    Platform.getInstance().getHandler().postDelayed(welcomeMessage, 1*60*1000);    
 		}
 		
 		//upload contacts
-		if(!Platform.getInstance().isLoggingEnabled())
+		if(!Platform.getInstance().isLoggingEnabled() && !ThisUserConfig.getInstance().getBool(ThisUserConfig.CONTACTUPLOADED))
 		{
+			ThisUserConfig.getInstance().putBool(ThisUserConfig.CONTACTUPLOADED, true);
 			UploadContactTask uploadContactTask = new UploadContactTask();
 			uploadContactTask.execute("");
 		}
+		
+		
 		       
 	}
     
@@ -237,7 +247,8 @@ public class StartStrangerBuddyActivity extends Activity {
     }
 
     private void initialize()
-    {
+    {    	
+    	
     	 Logger.i(TAG,"started network listening ");
 	        SBLocationManager.getInstance().StartListeningtoNetwork();
          loadHistoryFromDB();        
@@ -260,7 +271,8 @@ public class StartStrangerBuddyActivity extends Activity {
 	       // Logger.i(TAG, "FB token expires:"+ThisUserConfig.getInstance().getLong(ThisUserConfig.FBACCESSEXPIRES));
 	        if("".equals(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID)))
 	        {
-	            firstRun();
+	        	firstRun();
+	            
 	        }
 	        else if (ThisUserConfig.getInstance().getBool(ThisUserConfig.FBLOGGEDIN) && !FacebookConnector.getInstance(this).isSessionValid())
 	        {	
@@ -281,11 +293,11 @@ public class StartStrangerBuddyActivity extends Activity {
 	        	  {
 	            	Platform.getInstance().getHandler().postDelayed(startMapActivity,2000);
 	        	  }
-	            
+	    		
 	            //send upgrade msg
-	            if(isVersionUpgraded() && !upGradeMsgShown)
+	            if(isVersionUpgraded() && !ThisUserConfig.getInstance().getBool(ThisUserConfig.UPGRADENOTESENT))
 		        {
-		        	upGradeMsgShown = true;
+	            	ThisUserConfig.getInstance().putBool(ThisUserConfig.WELCOMENOTESENT, true);
 		        	Logger.d(TAG, "app upgraded, sending upgrade msg");
 		        	Runnable upgradeMessage = new Runnable() {
 		  	          public void run() {	   
@@ -300,7 +312,8 @@ public class StartStrangerBuddyActivity extends Activity {
 			  	          }};
 			  	    Platform.getInstance().getHandler().postDelayed(upgradeMessage, 1*60*1000);    
 			  	}	        
-	        }     
+	        }  
+	        
     }  
   
     

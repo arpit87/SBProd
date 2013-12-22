@@ -23,6 +23,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class HopinTracker {
 	
+	private static final String TAG = "in.co.hopin.Util.HopinTracker";
 	//common info
 	public static String USERID = "uid";
 	public static String APPUUID = "app_id";
@@ -67,6 +68,7 @@ public class HopinTracker {
 	
 	public static void sendEvent(String category, String action, String label, Long value)
 	{
+		Logger.i(TAG, "get event:"+label);
 		EasyTracker.getTracker().sendEvent(category, action, label, value);
 		Map<String,Object> args = new HashMap<String, Object>();
 		args.put("event", label);

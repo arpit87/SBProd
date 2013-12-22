@@ -65,6 +65,10 @@ public class FacebookConnector {
     	if(fbconnect == null)
     		fbconnect = new FacebookConnector();
     	fbconnect.setActivity(underlying_activity); 
+    	Settings.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+    	Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+    	Settings.addLoggingBehavior(LoggingBehavior.CACHE);
+    	Settings.addLoggingBehavior(LoggingBehavior.DEVELOPER_ERRORS);
     	return fbconnect;
     }
         
@@ -233,7 +237,7 @@ public class FacebookConnector {
 	private void requestUserData(Session session,SessionState state) {
 		HopinTracker.sendEvent("FacebookLogin", "login", "facebook:login:requestdata:execute", 1L);
 		Logger.i(TAG,"requestUserData");
-		//Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+		Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
 		Context context= Platform.getInstance().getContext();		
 		//Settings.publishInstallAsync(context, context.getResources().getString(in.co.hopin.R.string.fb_app_id));
 		if (state.isOpened()) {	   

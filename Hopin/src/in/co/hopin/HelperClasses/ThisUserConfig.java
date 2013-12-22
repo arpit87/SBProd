@@ -30,6 +30,8 @@ public class ThisUserConfig extends ConfigBase{
     public static final String GENDER = "fb_gender";
     public static final String EMAIL = "email";    
     public static final String WELCOMENOTESENT = "welcomemsgsent"; 
+    public static final String UPGRADENOTESENT = "upgrademsgsent"; 
+    public static final String CONTACTUPLOADED = "contactuploaded";
 	
 	private ThisUserConfig(){super(Constants.USER_CONF_FILE);}
 	

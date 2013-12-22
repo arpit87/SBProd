@@ -63,7 +63,7 @@ public class Event {
     }
 
     public static void addEvent(final String jsonDescription) {
-        Logger.i(TAG, "Saving event");
+        Logger.i(TAG, "Saving event:"+jsonDescription.toString());
         ContentResolver cr = Platform.getInstance().getContext().getContentResolver();
         ContentValues contentValues = new ContentValues();
         contentValues.put(columns[0], jsonDescription);

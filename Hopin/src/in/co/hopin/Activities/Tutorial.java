@@ -49,6 +49,8 @@ public class Tutorial extends FragmentActivity{
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+        HopinTracker.sendView("Tutorial");
+        HopinTracker.sendEvent("Tutorial","ScreenOpen","tutorial:open",1L);
         setContentView(R.layout.tutorial_layout);
         
         Intent i = getIntent();
@@ -168,9 +170,7 @@ public class Tutorial extends FragmentActivity{
 
     @Override
     public void onStart(){
-        super.onStart();
-        HopinTracker.sendView("Tutorial");
-        HopinTracker.sendEvent("Tutorial","ScreenOpen","tutorial:open",1L);
+        super.onStart();        
     }
 
     @Override
