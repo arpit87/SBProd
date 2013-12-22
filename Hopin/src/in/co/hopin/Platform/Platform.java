@@ -34,7 +34,6 @@ public class Platform {
 	private Handler handler;
 	private boolean ENABLE_LOGGING = false;
 	public boolean SUPPORTS_NEWAPI = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-	public static final int UPLOAD_FREQUENCY = 60 * 60 * 1000;
 		
 	private Platform() {
 	}
@@ -65,7 +64,6 @@ public class Platform {
 		CurrentNearbyUsers.getInstance().clearAllData();
 		ThisUserNew.getInstance();	
 		EasyTracker.getInstance().setContext(context);	
-		setAlarm(context);
 		ENABLE_LOGGING = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 	}
 	
@@ -114,12 +112,16 @@ public class Platform {
         context.startService(intent);
      }
     
-    public void setAlarm(Context context){
-        Intent intent =  new Intent(context, OnAlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3*30*1000, UPLOAD_FREQUENCY , pendingIntent);
+    public void startUploadEventService() {
+        Intent i = new Intent("in.co.hopin.service.UploadEventService");
+        Logger.d(TAG, "Starting UploadEvent service");
+        context.startService(i);
     }
    
       
+    public void stopUploadEventService() {
+        Intent i = new Intent("in.co.hopin.service.UploadEventService");
+        context.stopService(i);
+        Logger.d(TAG, "UploadEvent service stopped");
+    }
 }

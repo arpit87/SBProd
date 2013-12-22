@@ -112,7 +112,7 @@ public class SBChatService extends Service {
             mConnectionAdapter.loginAsync(login, password);
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ConnectionMonitorTask(), POLL_FREQ, POLL_FREQ);
+        timer.schedule(new ConnectionMonitorTask(), POLL_FREQ, POLL_FREQ);
 
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.

@@ -154,6 +154,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         if(StringUtils.isBlank(instaReqJson) && StringUtils.isBlank(carpoolReqJson))
         {
            Platform.getInstance().stopChatService();
+           Platform.getInstance().stopUploadEventService();
            finish();
            return;
         }       
@@ -172,6 +173,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
             		SBHttpClient.getInstance().executeRequest(deleteCarPoolRequest);
             	}
             	Platform.getInstance().stopChatService();
+                Platform.getInstance().stopUploadEventService();
             	finish();
             	return;
             }
