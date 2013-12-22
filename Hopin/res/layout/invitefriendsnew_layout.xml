@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"        
+    android:background="@color/very_light_gray"
+    android:gravity="center_horizontal" >
+   
+  <TextView         
+         android:id="@+id/invitefriendslistnew_layout_header"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"         
+         android:paddingBottom="2.0dip"
+         android:paddingTop="2.0dip"
+         android:text="Invite friends"         
+         android:textColor="@color/black"
+         android:textSize="20dip"
+         android:textStyle="bold" 
+         android:layout_centerHorizontal="true"/>
+
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_rectangle_white_with_backgroundshadow"
+     android:padding="7dip"
+    android:layout_marginBottom="2dip"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:layout_marginTop="30dip"
+    android:orientation="vertical"
+    android:gravity="left"
+    android:layout_below="@id/invitefriendslist_layout_header">
+    
+   <Button
+     android:id="@+id/invitefriendsnew_wtsapp"     
+     android:text="  WhatsApp"
+     
+     android:textColor="@color/black_75"
+     android:layout_weight="1"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:background="@drawable/borderless_button"
+     android:textSize="20sp"
+     android:padding="5dip"     
+     android:layout_margin="10dip"    
+     android:drawableLeft="@drawable/wtsapp"
+    />
+   <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View>
+   
+     <Button
+     android:id="@+id/invitefriendsnew_facebook"
+     android:soundEffectsEnabled="true"       
+     android:text="   Facebook"
+     
+     android:background="@drawable/borderless_button"
+     android:textColor="@color/black_75"
+     android:layout_weight="1"
+     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:textSize="20sp"
+     android:padding="5dip"   
+     android:layout_margin="10dip" 
+     android:drawableLeft="@drawable/fb_icon_enabled" 
+     />
+     <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View>
+     
+     <Button
+     android:id="@+id/invitefriendsnew_email"
+     android:soundEffectsEnabled="true"       
+     android:text="   Email"
+    
+     android:background="@drawable/borderless_button"
+     android:textColor="@color/black_75"
+     android:layout_weight="1"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:textSize="20sp"
+     android:padding="5dip"   
+     android:layout_margin="10dip" 
+     android:drawableLeft="@drawable/emailicon" 
+     />
+     <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View>
+  
+  <Button
+     android:id="@+id/invitefriendsnew_wechat"
+     android:soundEffectsEnabled="true"       
+     android:text="   WeChat"    
+     android:background="@drawable/borderless_button"
+     android:textColor="@color/black_75"
+ 	 android:layout_weight="1"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:textSize="20sp"
+     android:padding="5dip"   
+     android:layout_margin="10dip"
+     android:drawableLeft="@drawable/wechat" 
+     />
+  
+     <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View>
+     
+    <Button
+     android:id="@+id/invitefriendsnew_line"
+     android:soundEffectsEnabled="true"       
+     android:text="   Line"    
+     android:background="@drawable/borderless_button"
+     android:textColor="@color/black_75"
+     android:layout_weight="1"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:textSize="20sp"
+     android:padding="5dip"   
+     android:layout_margin="10dip"  
+     android:drawableLeft="@drawable/linemessenger"
+     />
+       <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View> 
+  <Button
+     android:id="@+id/invitefriendsnew_viber"
+     android:soundEffectsEnabled="true"       
+     android:text="   Viber"
+     
+     android:background="@drawable/borderless_button"
+     android:textColor="@color/black_75"
+     android:layout_weight="1"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="left|center_vertical"
+     android:textSize="20sp"
+     android:padding="5dip"
+	android:layout_margin="10dip" 
+     android:drawableLeft="@drawable/viber" 
+     /> 
+      <View
+       android:layout_height="1dip"
+       android:layout_width="match_parent"
+       android:layout_margin="4dip"
+       android:background="@color/very_light_gray"
+       ></View>  
+
+       
+  </LinearLayout>  
+</RelativeLayout>
+

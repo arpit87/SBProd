@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:background="@color/white">
+    <TableLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" 
+              android:orientation="vertical">
+              <TableRow >
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                                    
+                     android:textColor="@color/black"
+                     android:layout_weight="1"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="20dip"
+                     android:layout_marginRight="10dip"
+                     android:layout_marginTop="10dip"
+                     android:text="  Travelling in next"/>
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                                      
+                     android:layout_marginTop="10dip"
+                     android:layout_weight="1"
+                     android:textColor="@color/black"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="10dip"
+                     android:layout_marginRight="20dip"
+                     android:text="Are you looking for"/>
+              </TableRow>
+                <TableRow >
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                                         
+                     android:textColor="@color/black"
+                     android:layout_weight="1"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="20dip"
+                     android:layout_marginRight="10dip"               
+                     android:text="-15min"/>
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                               
+                     android:layout_weight="1"
+                     android:textColor="@color/black"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="10dip"
+                     android:layout_marginRight="20dip"
+                     android:text="-daily carpool"/>
+              </TableRow>
+                <TableRow >
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                                      
+                     android:textColor="@color/black"
+                     android:layout_weight="1"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="20dip"
+                     android:layout_marginRight="10dip"
+                  
+                     android:text="-30min"/>
+                   <TextView 
+                     android:layout_width="0dip"
+                     android:layout_height="wrap_content"
+                    
+                     android:layout_weight="1"
+                     android:textColor="@color/black"
+                     android:gravity="center_horizontal"
+                     android:layout_marginLeft="10dip"
+                     android:layout_marginRight="20dip"
+                     android:text="-one time travel"/>
+              </TableRow>
+          </TableLayout>
+           <ImageView
+                android:layout_marginTop="10dip"
+                 android:id="@+id/scrollArrow"
+                 android:layout_width="170dip"
+                 android:layout_height="70dip"
+                 android:scaleType="fitXY"
+                 android:gravity="center"
+                 android:layout_gravity="center_horizontal"
+                 android:src="@drawable/common_arrow" />
+              <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_marginLeft="30dip"
+                 android:layout_marginRight="30dip"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_horizontal"      
+                 android:gravity="center"          
+                 android:text="Enter travel details and see matching nearby commuters"
+                 android:textAppearance="?android:textAppearanceSmall"
+                 android:textColor="@color/very_dark_gray" />
+              
+    
+
+        <RelativeLayout
+   
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    
+    android:orientation="vertical" >
+    
+            
+              <ImageView 
+                  android:id="@+id/tutorial_smallpicmapview" 
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/map1fortutorial"
+                  android:clickable="true"/>
+              <ImageView
+                  android:id="@+id/tutorial_expandedpicmapview" 
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/map2fortutorial"
+                  android:visibility="gone"
+                  android:clickable="false"/>
+
+              <TextView
+                  android:id="@+id/tutorial_maptaptextview"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center_horizontal"
+                  android:paddingTop="170dip"                  
+                  android:text="Tap frame"
+                  android:textStyle="bold"
+                  android:textColor="@color/black" />
+
+              </RelativeLayout>
+              </LinearLayout>

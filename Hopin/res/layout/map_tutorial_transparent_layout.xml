@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?> 
+   
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"        
+        android:background="@drawable/transparent_black"
+        android:onClick="onScreenTap">
+        <ImageView
+        android:id="@+id/map_tutorial_arrow" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  
+        android:src="@drawable/arrowtopright"       
+        android:layout_alignParentRight="true"
+        android:gravity="right" 
+        android:layout_marginTop="60dip"
+        android:layout_marginRight="60dip"
+       
+        />
+        
+        <TextView
+            android:layout_below="@id/map_tutorial_arrow"
+            android:layout_height="wrap_content"
+            android:layout_width="260dip"
+            android:text="Tap on search button to search for ride"
+            android:textColor="@color/white"
+            android:textSize="20dip"            
+            android:layout_centerHorizontal="true" 
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+             ></TextView>
+        
+        
+</RelativeLayout>

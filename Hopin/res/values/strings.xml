@@ -52,11 +52,11 @@
         <item quantity="one">%1$d result for \"%2$s\": </item>
         <item quantity="other">%1$d results for \"%2$s\": </item>
     </plurals>
-    <string name="chatserver">54.243.171.212</string>
+   
     <string name="NetworkConnectivityLost">Sorry, no network</string>
     <string name="chatservice">chatservice</string>
     <string name="sbchatservicedescription">chat service</string>
-    <string name="serverip">54.243.171.212</string>
+    
     <string name="icon_offerride">offer ride?</string>
     <string name="crash_toast_text">Some error occured</string>
     <string name="set_username">Set UserName</string>

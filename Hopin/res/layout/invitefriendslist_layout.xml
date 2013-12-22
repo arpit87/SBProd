@@ -142,45 +142,18 @@
       
      />
     
-    
-         <LinearLayout android:orientation="horizontal"
-                     android:layout_height="wrap_content"
-                     android:layout_width="fill_parent"
-                     android:layout_weight="0"
-                     android:background="@color/white"
-                     android:paddingTop="10dip"
-                     android:paddingBottom="10dip"
-                     >
-       <Button
-               android:id="@+id/invitefriendslist_layout_viaemail"
-               android:layout_width="0dip"
-               android:layout_weight="1"
-               android:layout_height="30dip"
-               android:layout_gravity="center_horizontal"
-               android:gravity="center_horizontal|center_vertical"
-               android:paddingLeft="5dip"
-               android:paddingRight="5dip"
-               android:layout_marginLeft="10dip"
-               android:layout_marginRight="10dip"
-               android:background="@drawable/green_gradient_btn_selector"
-               android:text="Send e-mail"
-               android:textColor="@color/white"
-               />
         <Button
             android:id="@+id/invitefriendslist_layout_viafbl"
-           	android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_height="30dip"
+           	android:layout_width="wrap_content"            
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical|center_horizontal"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:gravity="center_horizontal"
+            android:padding="10dip"
+                     
             android:background="@drawable/blue_gradient_btn_selector"
             android:text="Facebook invite"
             android:textColor="@color/white" />
-       </LinearLayout>
+  
        
   </LinearLayout>  
 </RelativeLayout>
