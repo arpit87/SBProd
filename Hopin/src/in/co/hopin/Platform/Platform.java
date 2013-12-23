@@ -1,27 +1,15 @@
 package in.co.hopin.Platform;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import in.co.hopin.HttpClient.SBHttpClient;
-import in.co.hopin.HttpClient.UploadContactsRequest;
 import in.co.hopin.Users.CurrentNearbyUsers;
 import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.Logger;
-import in.co.hopin.service.OnAlarmReceiver;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -112,7 +100,7 @@ public class Platform {
         context.startService(intent);
      }
     
-    public void startUploadEventService() {
+   /* public void startUploadEventService() {
         Intent i = new Intent("in.co.hopin.service.UploadEventService");
         Logger.d(TAG, "Starting UploadEvent service");
         context.startService(i);
@@ -123,5 +111,5 @@ public class Platform {
         Intent i = new Intent("in.co.hopin.service.UploadEventService");
         context.stopService(i);
         Logger.d(TAG, "UploadEvent service stopped");
-    }
+    }*/
 }

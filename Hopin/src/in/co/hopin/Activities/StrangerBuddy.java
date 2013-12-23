@@ -48,7 +48,7 @@ public class StrangerBuddy extends Application{
 		getApplicationContext();		
 		Platform.getInstance().initialize(this);
 		Platform.getInstance().startChatService();
-        Platform.getInstance().startUploadEventService();
+        //Platform.getInstance().startUploadEventService();
         if (!StringUtils.isEmpty(ThisUserConfig.getInstance().getString(ThisUserConfig.USERID))) {
         	Platform.getInstance().startGCMService();
         }

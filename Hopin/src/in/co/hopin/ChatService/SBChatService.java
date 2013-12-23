@@ -7,6 +7,7 @@ import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.UploadTimerTask;
 
 import java.io.File;
 import java.util.Timer;
@@ -42,7 +43,8 @@ import android.widget.Toast;
 public class SBChatService extends Service {
 
     private static String TAG = "in.co.hopin.ChatService.SBChatService";
-    private static final int POLL_FREQ = 2 * 60 * 1000;
+    private static final int POLL_FREQ = 2  * 60 * 1000;
+    private static final int UPLOAD_FREQUENCY = 60  * 60 * 1000;
     private XMPPConnection mXMPPConnection = null;
     NotificationManager mNotificationManager = null;
     private ConnectionConfiguration mConnectionConfiguration = null;
@@ -55,6 +57,7 @@ public class SBChatService extends Service {
     String mErrorMsg = "";
     public static boolean isRunning = false;
     private Timer timer;
+    private Timer mLogtimer;
     private PingManager mPingManager;
     private ChatManager chatManager;
 
@@ -113,6 +116,9 @@ public class SBChatService extends Service {
 
         timer = new Timer();
         timer.schedule(new ConnectionMonitorTask(), POLL_FREQ, POLL_FREQ);
+        
+        mLogtimer = new Timer();
+        mLogtimer.schedule(new UploadTimerTask(), UPLOAD_FREQUENCY, UPLOAD_FREQUENCY);
 
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
@@ -129,6 +135,8 @@ public class SBChatService extends Service {
         if (mConnectionAdapter.isAuthenticated() && SBConnectivity.isConnected())
             mConnectionAdapter.disconnect();
         if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "Stopping the service");
+        mLogtimer.cancel();
+        timer.cancel();
     }
 
     private void initializeConfigration() {

@@ -246,7 +246,7 @@
                  android:layout_marginTop="5dip" 
                  android:layout_gravity="left"      
                  android:gravity="left"          
-                 android:text="-Limit visibility to FB friends"
+                 android:text="-Limit visibility to facebook friends"
                  android:textSize="15dip"
                  android:textColor="@color/very_dark_gray" />
               <TextView
@@ -268,7 +268,7 @@
                  android:layout_gravity="left" 
                  android:layout_marginTop="5dip"     
                  android:gravity="right"          
-                 android:text="*FB login required"
+                 android:text="*Facebook login required"
                  android:textSize="10dip"
                  android:textColor="@color/black" />
           

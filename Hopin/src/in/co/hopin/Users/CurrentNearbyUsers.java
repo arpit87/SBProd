@@ -35,7 +35,7 @@ public class CurrentNearbyUsers {
 	{		
 		//we temporarily put new users in new list and MapHandler has to check if changed and callupdate then we change current to new
 		
-		if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG,"updating nearby users");
+		Logger.i(TAG,"updating nearby users");
 		updatedToCurrent = false;
 		mNewNearbyUserList = JSONHandler.GetNearbyUsersInfoFromJSONObject(body);		
 		//else

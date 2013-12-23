@@ -477,7 +477,8 @@ public void updateSearchNumberInThisSessionAndShowDialogIfReq()
 
 private void buildAlertMessageForNoUserAndInviteFriends() {
     final AlertDialog.Builder builder = new AlertDialog.Builder(underlyingActivity);
-    builder.setMessage("Sorry, no match found. Your request is live on our server. You will be notified if any match arrives.Please invite your friends to Hopin to increase possibility of finding match")
+    builder.setTitle("No match found")
+    		.setMessage("Your request is live on our server. You will be notified if any match arrives.Please invite your friends to Hopin to increase possibility of finding match")
             .setCancelable(true)
             .setNegativeButton("Cancel", new OnClickListener() {				
 				@Override

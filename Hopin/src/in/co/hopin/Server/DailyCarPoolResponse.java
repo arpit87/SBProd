@@ -43,8 +43,11 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 			return;
 		}		
 		
-		CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);	
-		FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);
+		if(!getResponseListener().hasBeenCancelled)
+		{
+			CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);	
+			FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);
+		}
 		
 		//MapListActivityHandler.getInstance().updateNearbyUsers();	
 		if(CurrentNearbyUsers.getInstance().usersHaveChanged())

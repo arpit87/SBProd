@@ -44,8 +44,11 @@ public class InstaResponse extends ServerResponseBase{
 			return;
 		}
 		
-		CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);
-		FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);		
+		if(!getResponseListener().hasBeenCancelled)
+		{
+			CurrentNearbyUsers.getInstance().updateNearbyUsersFromJSON(body);
+			FriendsToInvite.getInstance().updateFriendsToInviteFromJSON(body);	
+		}
 		
 		//List<NearbyUser> nearbyUsers = JSONHandler.getInstance().GetNearbyUsersInfoFromJSONObject(body);	
 		if(CurrentNearbyUsers.getInstance().usersHaveChanged())

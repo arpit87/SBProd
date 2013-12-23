@@ -131,7 +131,7 @@
               android:layout_height="match_parent"              
               android:textAppearance="?android:attr/textAppearanceLarge"
               android:gravity="center"
-              android:text="Tap on search button on bar"
+              android:text="Tap on search button on top"
               android:textColor="@color/very_dark_gray"
               android:background="@color/white"
               android:textStyle="bold"/>
