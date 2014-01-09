@@ -11,6 +11,8 @@ import in.co.hopin.Util.HopinTracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.internal.m;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +41,6 @@ public class SearchInputActivityNew extends FragmentActivity{
 	//for GA
 	private String tabTypeStr = "Insta";
 	private String history_newsearch_str = "SearchUsers";
-	
    
 	@Override
 	 public void onStart(){
@@ -57,7 +58,7 @@ public class SearchInputActivityNew extends FragmentActivity{
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState){
 		 super.onCreate(savedInstanceState);
-		 setContentView(R.layout.search_users_framelayout);
+		 setContentView(R.layout.search_users_framelayout);		
 		 BtnInstaSearchView = (Button)findViewById(R.id.search_user_tab_insta);
 		 BtnPlanSearchView = (Button)findViewById(R.id.search_user_tab_plan);
 		 BtnGotoPastSearch = (ToggleButton)findViewById(R.id.search_user_tab_gotohistory);		
@@ -158,7 +159,15 @@ public class SearchInputActivityNew extends FragmentActivity{
 				}
 	        });
 		  			     	 
-		 BtnInstaSearchView.setSelected(true);
+		 		 
+		//put plan view for game mode 
+		if(getIntent().getIntExtra("isgamemode", 0)==1)		
+		{
+			BtnPlanSearchView.setSelected(true);		
+			mPager.setCurrentItem(1);
+		}
+		else
+			BtnInstaSearchView.setSelected(true);
 		 
 		if(!ThisAppConfig.getInstance().getBool(ThisAppConfig.SWIPETUTORIALSHOWN))	
 		{

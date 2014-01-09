@@ -101,5 +101,9 @@ public class UserAttributes {
 	public static String CUTTOFFTIME = "cutofftime";	
 	public static String LIVEFEEDTIME = "time";
 	public static String LIVEFEEDLAT = "latitude";
-	public static String LIVEFEEDLONG = "longitude";
+	public static String LIVEFEEDLONG = "longitude";	
+	
+	//referral
+	public static String REFERRALSTRING = "referralstr";
+
 }

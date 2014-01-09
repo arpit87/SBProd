@@ -23,14 +23,10 @@ import in.co.hopin.Util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jivesoftware.smackx.pubsub.ChildrenAssociationPolicy;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -56,7 +52,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 	FragmentManager fm = getSupportFragmentManager();
 	private boolean isMapShowing = true;
    
-	private LiveFeedFragment liveFeedFragment = null;
+	private LiveFeedFragment liveFeedFragment = null;	
     private SBMapFragment sbMapFragment;
     private SBListFragment sbListFragment;
     TextView liveFeedButton = null;     
@@ -314,6 +310,14 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 			FacebookConnector fbconnect = FacebookConnector.getInstance(MapListViewTabActivity.this);
         	fbconnect.logoutFromFB();
         	break;*/
+        case R.id.main_menu_invite:
+        	//onSearchRequested();        	
+        	HopinTracker.sendEvent("InviteFriends","MenuClick","mainmenu:click:invitefriends",1L);
+	    	 Intent inviteIntent = new Intent(this,InviteFriendsActivityNew.class);	
+	    	 inviteIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+	   		 startActivity(inviteIntent);
+        	break;	
+        	
         case R.id.main_menu_settings:
         	HopinTracker.sendEvent("MainMenu","MenuClick","mainmenu:click:settings",1L);
         	Intent i = new Intent(this,SettingsActivity.class);
@@ -421,7 +425,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
             ft.commit(); 
             isMapShowing = false; 
         }
-    } 
+    }     
+  
     
     public void showLiveFeed(boolean show)
     {        

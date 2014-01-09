@@ -22,6 +22,7 @@ import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.R;
+import in.co.hopin.Util.Contact;
 import in.co.hopin.Util.Logger;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;

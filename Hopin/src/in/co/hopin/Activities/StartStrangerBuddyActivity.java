@@ -13,7 +13,9 @@ import in.co.hopin.HelperClasses.SBConnectivity;
 import in.co.hopin.HelperClasses.ThisAppConfig;
 import in.co.hopin.HelperClasses.ThisAppInstallation;
 import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.HelperClasses.ToastTracker;
 import in.co.hopin.HttpClient.SBHttpClient;
+import in.co.hopin.HttpClient.SaveReferrerRequest;
 import in.co.hopin.HttpClient.UploadContactsRequest;
 import in.co.hopin.LocationHelpers.SBLocationManager;
 import in.co.hopin.Platform.Platform;
@@ -32,6 +34,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,7 +88,22 @@ public class StartStrangerBuddyActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);     
+        setContentView(R.layout.main);  
+        //referral
+        Intent intent = this.getIntent();
+        Uri uri = intent.getData();
+        
+        if (uri != null) {
+        	String referrerString = uri.getPath();
+            if(uri.getQueryParameter("utm_source") != null) {    // Use campaign parameters if avaialble.
+              EasyTracker.getTracker().setCampaign(referrerString); 
+            } else if (uri.getQueryParameter("referrer") != null) {    // Otherwise, try to find a referrer parameter.
+              EasyTracker.getTracker().setReferrer(uri.getQueryParameter("referrer"));
+            }            
+            ThisAppConfig.getInstance().putString(ThisAppConfig.REFERRER_STRING, referrerString);
+            SaveReferrerRequest saveReferrerRequest = new SaveReferrerRequest(null);
+            SBHttpClient.getInstance().executeRequest(saveReferrerRequest);
+          }
         
     }
 	

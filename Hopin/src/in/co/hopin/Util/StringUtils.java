@@ -170,6 +170,12 @@ public class StringUtils {
     	return imageurl;
     }
     
+    public static String getGooglePlayReferrerString(String id)
+    {
+    	String imageurl = "https://play.google.com/store/apps/details?id=in.co.hopin&referrer=" + id;
+    	return imageurl;
+    }
+    
     public static boolean isEmailValid(String email) {
         boolean isValid = false;
 

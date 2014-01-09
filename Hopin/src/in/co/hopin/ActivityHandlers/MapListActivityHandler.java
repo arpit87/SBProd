@@ -4,10 +4,15 @@ import in.co.hopin.R;
 import in.co.hopin.Activities.InviteFriendsActivityNew;
 import in.co.hopin.Activities.MapListViewTabActivity;
 import in.co.hopin.Adapter.NearbyUsersListViewAdapter;
+import in.co.hopin.ChatClient.ChatWindow;
+import in.co.hopin.ChatClient.SBChatMessage;
+import in.co.hopin.ChatService.Message;
 import in.co.hopin.CustomViewsAndListeners.SBMapView;
 import in.co.hopin.Fragments.SBListFragment;
 import in.co.hopin.Fragments.SBMapFragment;
+import in.co.hopin.HelperClasses.ActiveChat;
 import in.co.hopin.HelperClasses.BroadCastConstants;
+import in.co.hopin.HelperClasses.ChatHistory;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ProgressHandler;
 import in.co.hopin.HelperClasses.SBImageLoader;
@@ -21,6 +26,7 @@ import in.co.hopin.MapHelpers.GourpedNearbyUsersIteamizedOverlay;
 import in.co.hopin.MapHelpers.NearbyUsersItemizedOverlay;
 import in.co.hopin.MapHelpers.ThisUserItemizedOverlay;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Users.CurrentNearbyUsers;
 import in.co.hopin.Users.NearbyUser;
 import in.co.hopin.Users.NearbyUserGroup;
@@ -41,6 +47,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,6 +57,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Point;
 import android.location.Location;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -85,10 +96,10 @@ public class MapListActivityHandler  {
 	ListView mListView = null;
 	ViewGroup mListViewFooter = null;
 	private ViewGroup mMapViewContainer;	
-	private ImageButton selfLocationButton = null;
-	private NearbyUserUpdatedListener mUserUpdatedListener = null;	
+	private ImageButton selfLocationButton = null;		
 	ProgressBar liveFeedProgress = null;
 	ViewGroup liveFeedLayout = null;
+	ViewGroup mGameMsgLayout = null;
 	TextView mLiveFeedButton = null;	
 	int searchInThisSession = 0;
 			
@@ -648,12 +659,11 @@ public void updateSrcDstTimeInListView() {
     }
     
     public NearbyUserUpdatedListener getNearbyUserUpdatedListener()
-	{
-		if(mUserUpdatedListener == null)
-			mUserUpdatedListener = instance.new NearbyUserUpdatedListener();
-		return mUserUpdatedListener;
+	{	
+		return new NearbyUserUpdatedListener();		
 	}
     
+       
     class NearbyUserUpdatedListener extends SBHttpResponseListener
 	{
 
@@ -671,5 +681,7 @@ public void updateSrcDstTimeInListView() {
 		}
 		
 	}
+     
+    
 
 }

@@ -57,7 +57,7 @@ public Message[] newArray(int size) {
 
 private int mType = (int)Message.MSG_TYPE_CHAT;
 private String mBody = "";
-private String mSubject="";
+private String mSubject=""; //we are sending participant name in subject
 private String mTo ="";
 private String mFrom ="";
 private String mThread = "";

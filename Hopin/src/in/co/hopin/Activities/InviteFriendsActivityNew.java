@@ -5,7 +5,9 @@ import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.HelperClasses.CommunicationHelper;
 import in.co.hopin.HelperClasses.ThisUserConfig;
 import in.co.hopin.HelperClasses.ToastTracker;
+import in.co.hopin.Users.ThisUserNew;
 import in.co.hopin.Util.HopinTracker;
+import in.co.hopin.Util.StringUtils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,9 +37,13 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 	    protected void onCreate(Bundle savedInstanceState){
 		 super.onCreate(null);
 		 setContentView(R.layout.invitefriendsnew_layout);	
+		 String referrerid = ThisUserNew.getInstance().getUserID();
+		 String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID); // this may be empty		 
+		 if(!StringUtils.isEmpty(fbid))
+			 referrerid = fbid;
 		 
 		 Button wtsapp = (Button) findViewById(R.id.invitefriendsnew_wtsapp);
-		 	final String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
+		 	final String text = "Take a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid);
 		 	
 		 	wtsapp.setOnClickListener(new OnClickListener() {		
 		 		@Override

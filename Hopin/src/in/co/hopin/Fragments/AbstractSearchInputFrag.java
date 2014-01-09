@@ -1,6 +1,5 @@
 package in.co.hopin.Fragments;
 
-import android.telephony.TelephonyManager;
 import in.co.hopin.R;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.Adapter.HistoryAdapter;
@@ -25,7 +24,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -43,6 +41,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -117,6 +116,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	public abstract String getTime();
 	public abstract int getDailyInstaType(); //required to decide which api to call, daily Vs (today,tomorrow,in 15min, enter date) 
 	public abstract int getPlanInstaTabType(); // means sent from plan tab,insta tab and is used to store history
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState){
@@ -222,7 +222,6 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 		showSourceList.execute(source.getText().toString());
 	}	
 	
-	
 	public void findUsers()
 	{ 
 		if(source_progressbar!=null)
@@ -257,7 +256,8 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 			MapListActivityHandler.getInstance().updateSrcDstTimeInListView();
 			
 			getActivity().finish();
-			if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "user destination set... querying server");
+			if (Platform.getInstance().isLoggingEnabled()) Log.i(TAG, "user destination set... querying server");			
+			
 			ProgressHandler.showInfiniteProgressDialoge(MapListActivityHandler.getInstance().getUnderlyingActivity(), "Fetching users", "Please wait..",MapListActivityHandler.getInstance().getNearbyUserUpdatedListener());
 			SBHttpRequest addThisUserSrcDstRequest;
 			if(getDailyInstaType() == 0)        		
@@ -267,6 +267,7 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	         
 	        SBHttpClient.getInstance().executeRequest(addThisUserSrcDstRequest);
 	        saveSearch();
+				
 	        
 	        //log
 	        

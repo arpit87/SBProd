@@ -4,6 +4,8 @@ import in.co.hopin.R;
 import in.co.hopin.Activities.OtherUserProfileActivityNew;
 import in.co.hopin.ActivityHandlers.MapListActivityHandler;
 import in.co.hopin.ChatClient.ChatWindow;
+import in.co.hopin.ChatClient.SBChatMessage;
+import in.co.hopin.ChatService.Message;
 import in.co.hopin.FacebookHelpers.FacebookConnector;
 import in.co.hopin.Fragments.FBLoginDialogFragment;
 import in.co.hopin.HttpClient.ChatServiceCreateUser;
@@ -11,13 +13,19 @@ import in.co.hopin.HttpClient.SBHttpClient;
 import in.co.hopin.HttpClient.SBHttpRequest;
 import in.co.hopin.HttpClient.SaveFBInfoRequest;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Users.UserFBInfo;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -136,6 +144,39 @@ public class CommunicationHelper {
 		else
 			ToastTracker.showToast("Not available, user not FB logged in");
 	}
+	
+	public void sendChatNotification(int id,String fb_id,String participant_name,String chatMessage) {
+
+	   	 NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+			 Intent chatIntent = new Intent(context,ChatWindow.class);
+			 	chatIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+			   chatIntent.putExtra(ChatWindow.PARTICIPANT, fb_id);
+			   chatIntent.putExtra(ChatWindow.PARTICIPANT_NAME, participant_name);		 
+			  	
+			 Logger.i(TAG, "Sending notification") ;
+			 PendingIntent pintent = PendingIntent.getActivity(context, id, chatIntent, PendingIntent.FLAG_ONE_SHOT);
+			 Uri sound_uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			 
+			 Notification notif = new Notification(R.drawable.launchernew,"New message from "+participant_name,System.currentTimeMillis());
+			 notif.flags |= Notification.FLAG_AUTO_CANCEL;
+			 notif.setLatestEventInfo(context, participant_name, chatMessage, pintent);
+					
+			 Message welcome_message = new Message("", ServerConstants.AppendServerIPToFBID(fb_id), chatMessage, StringUtils.gettodayDateInFormat("hh:mm")
+					 								,Message.MSG_TYPE_CHAT, SBChatMessage.RECEIVED,System.currentTimeMillis(),participant_name);
+			 
+			 ChatHistory.addtoChatHistory(welcome_message);
+			 ActiveChat.addChat(fb_id, participant_name, chatMessage);
+			 
+				notif.ledARGB = 0xff0000ff; // Blue color
+				notif.ledOnMS = 1000;
+				notif.ledOffMS = 1000;
+				notif.defaults |= Notification.DEFAULT_LIGHTS;	
+				notif.sound = sound_uri;
+	     
+				notificationManager.notify(id, notif);
+				Logger.i(TAG, "notification sent") ;			
+				
+			    }
 	
 	public void FBLoginDialog_show(final FragmentActivity underlyingActivity)
 	{		

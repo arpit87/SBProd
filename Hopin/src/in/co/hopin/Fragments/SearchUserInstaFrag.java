@@ -143,4 +143,5 @@ public class SearchUserInstaFrag extends AbstractSearchInputFrag{
 			parentViewGroup.removeView( mInstaViewContainer );
 		}	
     }
+
 }

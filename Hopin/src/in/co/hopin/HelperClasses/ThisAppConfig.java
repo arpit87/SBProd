@@ -18,6 +18,7 @@ public class ThisAppConfig extends ConfigBase{
     public static final String SWIPETUTORIALSHOWN = "swipe_tutorial_shown";
     public static final String MAPTUTORIALSHOWN = "map_tutorial_shown";
     public static final String DEVICEID = "device_id";
+    public static final String REFERRER_STRING = "referrer_string";
 	
 	
 	

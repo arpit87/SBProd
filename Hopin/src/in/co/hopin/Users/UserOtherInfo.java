@@ -13,7 +13,6 @@ public class UserOtherInfo {
 	private String userid = "";
 	private String is_available = "0";
 	
-	
 		
 	public UserOtherInfo(JSONObject jsonObject) {
 		allInfo = jsonObject;
@@ -36,7 +35,8 @@ public class UserOtherInfo {
 		
 		try {
 			is_available = allInfo.getString(UserAttributes.ISAVAILABLE);			
-		} catch (JSONException e) {	}
+		} catch (JSONException e) {	}		
+		
 				
 	}
 	

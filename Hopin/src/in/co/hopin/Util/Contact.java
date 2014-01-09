@@ -1,4 +1,4 @@
-package in.co.hopin.Fragments;
+package in.co.hopin.Util;
 
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.packet.Presence;
