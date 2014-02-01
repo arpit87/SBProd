@@ -31,7 +31,7 @@ public class SaveReferralResponse extends ServerResponseBase{
 		} catch (JSONException e) {
 			logServererror();
 			ProgressHandler.dismissDialoge();
-			ToastTracker.showToast("Some error occured in saving referral request");
+			//ToastTracker.showToast("Some error occured in saving referral request");
 			e.printStackTrace();
 		}
 	}

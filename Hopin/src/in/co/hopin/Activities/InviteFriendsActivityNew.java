@@ -43,7 +43,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 			 referrerid = fbid;
 		 
 		 Button wtsapp = (Button) findViewById(R.id.invitefriendsnew_wtsapp);
-		 	final String text = "Take a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid);
+		 	final String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid);
 		 	
 		 	wtsapp.setOnClickListener(new OnClickListener() {		
 		 		@Override
@@ -136,7 +136,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 					Intent i = new Intent(Intent.ACTION_SEND);
 					i.setType("message/rfc822");					
 					i.putExtra(Intent.EXTRA_SUBJECT, "Check out this android carpool application");
-					String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
+					//String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
 					i.putExtra(Intent.EXTRA_TEXT, text);					
 					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(i);					

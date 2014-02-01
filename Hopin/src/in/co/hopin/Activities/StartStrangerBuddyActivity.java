@@ -96,10 +96,12 @@ public class StartStrangerBuddyActivity extends Activity {
         if (uri != null) {
         	String referrerString = uri.getPath();
             if(uri.getQueryParameter("utm_source") != null) {    // Use campaign parameters if avaialble.
-              EasyTracker.getTracker().setCampaign(referrerString); 
+              EasyTracker.getTracker().setCampaign(referrerString);              
             } else if (uri.getQueryParameter("referrer") != null) {    // Otherwise, try to find a referrer parameter.
               EasyTracker.getTracker().setReferrer(uri.getQueryParameter("referrer"));
+              HopinTracker.sendEvent("Referral", "was_referred_by", uri.getQueryParameter("referrer"), 1l);
             }            
+            
             ThisAppConfig.getInstance().putString(ThisAppConfig.REFERRER_STRING, referrerString);
             SaveReferrerRequest saveReferrerRequest = new SaveReferrerRequest(null);
             SBHttpClient.getInstance().executeRequest(saveReferrerRequest);
