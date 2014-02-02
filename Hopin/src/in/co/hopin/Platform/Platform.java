@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 
 public class Platform {
 	
@@ -50,8 +51,9 @@ public class Platform {
 		SBHttpClient.getInstance();
 		handler = new Handler();		
 		CurrentNearbyUsers.getInstance().clearAllData();
-		ThisUserNew.getInstance();	
-		EasyTracker.getInstance().setContext(context);	
+		ThisUserNew.getInstance();
+		EasyTracker tracker = EasyTracker.getInstance(context);
+		GoogleAnalytics.getInstance(context).setDefaultTracker(tracker);
 		ENABLE_LOGGING = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 	}
 	

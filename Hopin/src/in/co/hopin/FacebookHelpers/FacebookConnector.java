@@ -60,8 +60,7 @@ public class FacebookConnector {
     }
     
     public static FacebookConnector getInstance(Activity underlying_activity)
-    {    	 	
-        EasyTracker.getInstance().setContext(Platform.getInstance().getContext());
+    {  
     	if(fbconnect == null)
     		fbconnect = new FacebookConnector();
     	fbconnect.setActivity(underlying_activity);   

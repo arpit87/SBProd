@@ -35,8 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -55,6 +53,10 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Settings.Secure;
 import android.util.Log;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class StartStrangerBuddyActivity extends Activity {
 	
@@ -88,24 +90,7 @@ public class StartStrangerBuddyActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);  
-        //referral
-        Intent intent = this.getIntent();
-        Uri uri = intent.getData();
-        
-        if (uri != null) {
-        	String referrerString = uri.getPath();
-            if(uri.getQueryParameter("utm_source") != null) {    // Use campaign parameters if avaialble.
-              EasyTracker.getTracker().setCampaign(referrerString);              
-            } else if (uri.getQueryParameter("referrer") != null) {    // Otherwise, try to find a referrer parameter.
-              EasyTracker.getTracker().setReferrer(uri.getQueryParameter("referrer"));
-              HopinTracker.sendEvent("Referral", "was_referred_by", uri.getQueryParameter("referrer"), 1l);
-            }            
-            
-            ThisAppConfig.getInstance().putString(ThisAppConfig.REFERRER_STRING, referrerString);
-            SaveReferrerRequest saveReferrerRequest = new SaveReferrerRequest(null);
-            SBHttpClient.getInstance().executeRequest(saveReferrerRequest);
-          }
+        setContentView(R.layout.main);         
         
     }
 	
@@ -121,8 +106,9 @@ public class StartStrangerBuddyActivity extends Activity {
 	@Override
 	public void onStop()
     {
-	  super.onStop();	
+	  super.onStop();	  
       mInitialized.set(false);
+      EasyTracker.getInstance(getApplicationContext()).activityStop(this);
     }
 	    
     
@@ -357,9 +343,10 @@ public class StartStrangerBuddyActivity extends Activity {
     @Override
     public void onStart(){
         super.onStart();
-        HopinTracker.sendView("LogoScreen");
-        //EasyTracker.getInstance().activityStart(this);
-    } 
+        HopinTracker.sendView("LogoScreen");         
+        EasyTracker.getInstance(getApplicationContext()).activityStart(this);
+    }    
+   
     
    /* private class GetNetworkLocationFixTask extends TimerTask
     { 

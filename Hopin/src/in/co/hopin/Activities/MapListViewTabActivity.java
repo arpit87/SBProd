@@ -38,6 +38,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GAServiceManager;
 
 
 public class MapListViewTabActivity extends SherlockFragmentActivity {
@@ -113,7 +114,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     @Override
     public void onStart(){
         super.onStart();
-        EasyTracker.getTracker().setStartSession(true);
+        EasyTracker.getInstance(getApplicationContext()).activityStart(this);
         //EasyTracker.getInstance().activityStart(this);
     }
 
@@ -187,7 +188,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
     @Override
     public void onStop(){
         super.onStop();       
-        //EasyTracker.getInstance().activityStop(this);       
+        EasyTracker.getInstance(getApplicationContext()).activityStop(this);
+        GAServiceManager.getInstance().dispatchLocalHits();
     }
     
     @Override
@@ -244,9 +246,8 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
  			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     	
  			i.putExtra("showprompt", true);
  			Platform.getInstance().getContext().startActivity(i);     		
-     	}   
-     	
-     	EasyTracker.getTracker().setStartSession(false);     	
+     	}        	
+     	    	
     }
        
 

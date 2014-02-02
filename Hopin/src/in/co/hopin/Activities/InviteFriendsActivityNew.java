@@ -37,13 +37,12 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 	    protected void onCreate(Bundle savedInstanceState){
 		 super.onCreate(null);
 		 setContentView(R.layout.invitefriendsnew_layout);	
-		 String referrerid = ThisUserNew.getInstance().getUserID();
+		 String tempid = ThisUserNew.getInstance().getUserID();
 		 String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID); // this may be empty		 
 		 if(!StringUtils.isEmpty(fbid))
-			 referrerid = fbid;
-		 
-		 Button wtsapp = (Button) findViewById(R.id.invitefriendsnew_wtsapp);
-		 	final String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid);
+			 tempid = fbid;
+		 final String referrerid = tempid;
+		 Button wtsapp = (Button) findViewById(R.id.invitefriendsnew_wtsapp);		 	
 		 	
 		 	wtsapp.setOnClickListener(new OnClickListener() {		
 		 		@Override
@@ -52,6 +51,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 		 		 	shareIntent.setType("text/plain");
 		 			shareIntent.setPackage("com.whatsapp");
 				    if (shareIntent != null) {
+				    	String text = "I found this carpool application very useful , have a look: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid,"whatsapp");
 				    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 				        startActivity(Intent.createChooser(shareIntent, "Share with"));
 				    } else {
@@ -69,6 +69,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 		 		 	shareIntent.setType("text/plain");
 		 			shareIntent.setPackage("com.tencent.mm");
 				    if (shareIntent != null) {
+				    	String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid,"wechat");
 				    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 				        startActivity(Intent.createChooser(shareIntent, "Share with"));
 				    } else {
@@ -87,6 +88,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 		 		 	shareIntent.setType("text/plain");
 		 			shareIntent.setPackage("jp.naver.line.android");
 				    if (shareIntent != null) {
+				    	String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid,"line");
 				    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 				        startActivity(Intent.createChooser(shareIntent, "Share with"));
 				    } else {
@@ -105,6 +107,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 		 		 	shareIntent.setType("text/plain");
 		 			shareIntent.setPackage("com.viber.voip");
 				    if (shareIntent != null) {
+				    	String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid,"viber");
 				    	shareIntent.putExtra(Intent.EXTRA_TEXT, text);//
 				        startActivity(Intent.createChooser(shareIntent, "Share with"));
 				    } else {
@@ -136,7 +139,7 @@ public class InviteFriendsActivityNew extends FragmentActivity {
 					Intent i = new Intent(Intent.ACTION_SEND);
 					i.setType("message/rfc822");					
 					i.putExtra(Intent.EXTRA_SUBJECT, "Check out this android carpool application");
-					//String text = "Looks useful, take a look: " + '\n' + getResources().getString(R.string.http_app_link);
+					String text = "Have a look at this application: " + '\n' + StringUtils.getGooglePlayReferrerString(referrerid,"email");
 					i.putExtra(Intent.EXTRA_TEXT, text);					
 					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(i);					

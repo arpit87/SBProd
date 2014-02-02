@@ -170,10 +170,10 @@ public class StringUtils {
     	return imageurl;
     }
     
-    public static String getGooglePlayReferrerString(String id)
-    {
-    	String imageurl = "https://play.google.com/store/apps/details?id=in.co.hopin&referrer=" + id;
-    	return imageurl;
+    public static String getGooglePlayReferrerString(String id,String medium)
+    {    	
+    	String url = "https://play.google.com/store/apps/details?id=in.co.hopin&referrer=utm_source%3Dandroid_app%26utm_medium%3D" + medium+"%26utm_term%3D"+id;
+    	return url;
     }
     
     public static boolean isEmailValid(String email) {

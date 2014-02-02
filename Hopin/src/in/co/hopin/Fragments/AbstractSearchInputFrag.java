@@ -292,13 +292,13 @@ public abstract class AbstractSearchInputFrag extends Fragment{
 	    @Override
 	    public void onStart(){
 	        super.onStart();
-	        EasyTracker.getInstance().activityStart(getActivity());
+	        
 	    }
 
 	    @Override
 	    public void onStop(){
 	        super.onStop();
-	        EasyTracker.getInstance().activityStop(getActivity());
+	        
 	    }
 	
 	public void hideSoftKeyboard() {

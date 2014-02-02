@@ -20,6 +20,10 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.Tracker;
 
 public class HopinTracker {
 	
@@ -57,10 +61,15 @@ public class HopinTracker {
 	public static String NUMMATCHES = "num_match";
 	public static String FBUSERNAME = "fb_username";
 	
+	//default tracker
+	static Tracker defaultTracker = GoogleAnalytics.getInstance(Platform.getInstance().getContext()).getDefaultTracker();
+	
 	
 	public static void sendEvent(String category, String action, String label, Long value, Map<String,Object> args)
-	{
-		EasyTracker.getTracker().sendEvent(category, action, label, value);
+	{	
+		//to GA
+		sendEvent(category, action, label, value);
+		//send to our logger
 		args.put("event", label);
 		String jsonString = createInstantaneousInfoJSON(args).toString();
 		Event.addEvent(jsonString);
@@ -68,17 +77,19 @@ public class HopinTracker {
 	
 	public static void sendEvent(String category, String action, String label, Long value)
 	{
-		Logger.i(TAG, "get event:"+label);
-		EasyTracker.getTracker().sendEvent(category, action, label, value);
+		Logger.i(TAG, "get event:"+label);		
 		Map<String,Object> args = new HashMap<String, Object>();
 		args.put("event", label);
 		String jsonString = createInstantaneousInfoJSON(args).toString();
-		Event.addEvent(jsonString);
+		Event.addEvent(jsonString);		
+		defaultTracker.send(MapBuilder.createEvent(category,action,label,value).build());
 	}
 	
 	public static void sendView(String viewString)
 	{
-		EasyTracker.getTracker().sendView(viewString);
+		HashMap<String, String> hitParameters = new HashMap<String, String>();
+		hitParameters.put(Fields.SCREEN_NAME, viewString);
+		defaultTracker.send(hitParameters);
 	}
 	
 	public static JSONObject createCommonInfoJSON()

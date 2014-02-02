@@ -104,6 +104,6 @@ public class UserAttributes {
 	public static String LIVEFEEDLONG = "longitude";	
 	
 	//referral
-	public static String REFERRALSTRING = "referralstr";
+	public static String REFERRALSTRING = "referrer";
 
 }
