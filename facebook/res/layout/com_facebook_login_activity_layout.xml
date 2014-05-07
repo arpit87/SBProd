@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"            
         android:text="Establish you authenticity"
         android:textSize="20dip"/>
-             
+                   
         </TableRow>
 
         <TableRow android:paddingBottom="5dp" >
@@ -89,7 +89,7 @@
         android:textColor="@color/fb_blue"
         android:layout_width="80dip"
         android:layout_height="wrap_content"            
-        android:text="Chat with users heading to same destination"
+        android:text="Chat with users"
         android:textSize="20dip" />
         </TableRow>
 
