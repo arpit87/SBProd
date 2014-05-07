@@ -62,8 +62,10 @@ public class InstaResponse extends ServerResponseBase{
 		//call this after usershavechanged() as that is where we update orig list to new list.
 		MapListActivityHandler.getInstance().updateSearchNumberInThisSessionAndShowDialogIfReq();
 		//dismiss dialog if any..safe to call even if no dialog showing
-		logSuccessWithArg(HopinTracker.NUMMATCHES, Integer.toString(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
 		ProgressHandler.dismissDialoge();
+		logSuccessWithArg(HopinTracker.NUMMATCHES, Integer.toString(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
+		HopinTracker.sendEvent("ServerResponse",getRESTAPI(),"ServerResponse:"+getRESTAPI()+":matches",new Long(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
+		
 	}
 	
 		

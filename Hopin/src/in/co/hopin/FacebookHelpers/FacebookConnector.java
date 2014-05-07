@@ -201,8 +201,7 @@ public class FacebookConnector {
 	  
 	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBACCESSTOKEN, "");
 	  ThisUserConfig.getInstance().putLong(ThisUserConfig.FBACCESSEXPIRES,-1);
-	  ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN,false);			  
-	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, "");
+	  ThisUserConfig.getInstance().putBool(ThisUserConfig.FBLOGGEDIN,false);
 	  ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, "");
 	  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, "");
 	  ThisUserConfig.getInstance().putString(ThisUserConfig.FB_LASTNAME, "");
@@ -250,10 +249,8 @@ public class FacebookConnector {
 		     	            first_name  =user.getFirstName();//jsonObject.getString("first_name");
 		     	            last_name = user.getLastName();// jsonObject.getString("last_name");
 		     	            gender = (String) user.getProperty("gender");
-		     	            email = (String) user.getProperty("email");
-		     	            picurl = "http://graph.facebook.com/" + id + "/picture?type=small";
-		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID,id );
-		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBPICURL, picurl);
+		     	            email = (String) user.getProperty("email");		     	           
+		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUID,id );		     	            
 		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FBUSERNAME, username);
 		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.GENDER, gender);
 		     	            ThisUserConfig.getInstance().putString(ThisUserConfig.FB_FIRSTNAME, first_name);

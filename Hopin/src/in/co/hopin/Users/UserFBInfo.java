@@ -1,6 +1,7 @@
 package in.co.hopin.Users;
 
 import in.co.hopin.HelperClasses.JSONHandler;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,7 +172,7 @@ public class UserFBInfo {
     }
 
     public String getImageURL() {
-        return imageURL;
+        return StringUtils.getFBPicURLFromFBID(fbid);
     }
 
 

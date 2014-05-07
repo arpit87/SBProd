@@ -3,6 +3,7 @@ package in.co.hopin.ChatClient;
 import in.co.hopin.R;
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.HelperClasses.ThisUserConfig;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +27,8 @@ public class SBChatListViewAdapter extends BaseAdapter {
 	HashMap<Long,SBChatMessage> mHashMapSentNotDeliveredMsgs = new HashMap<Long,SBChatMessage>();
 	String participantFBURL = "";
 	String selfFBId = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
-	String selfFirstName = ThisUserConfig.getInstance().getString(ThisUserConfig.FB_FIRSTNAME);
-	String selfImageURL = ThisUserConfig.getInstance().getString(ThisUserConfig.FBPICURL);
+	String selfFirstName = ThisUserConfig.getInstance().getString(ThisUserConfig.FB_FIRSTNAME);	
+	String selfImageURL = StringUtils.getFBPicURLFromFBID(selfFBId);	
 	int chatMsgStatus = SBChatMessage.UNKNOWN ;
     private Activity activity;
 

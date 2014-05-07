@@ -63,9 +63,9 @@ public class SBImageLoader {
 		  		return;
 	    	if (session.isOpened()) {
 	    		Logger.d(TAG, "sesion is open");
-	    		String graphPath = StringUtils.getFBCoverPicGraphPathFromFBID(fbid);
+	    		String graphPath = "/"+fbid;
 	    		Logger.d(TAG, "graphpath:"+graphPath);
-	    		//Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+	    		//Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);	
 	    		Bundle params = new Bundle();
 	    		params.putString("fields", "cover");
 	    		Request req = new Request(session, graphPath, params, HttpMethod.GET,new Request.Callback() {

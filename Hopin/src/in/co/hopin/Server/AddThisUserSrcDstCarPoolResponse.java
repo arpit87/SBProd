@@ -46,7 +46,7 @@ public class AddThisUserSrcDstCarPoolResponse extends ServerResponseBase{
 		} catch (JSONException e) {
 			logServererror();
 			if (Platform.getInstance().isLoggingEnabled()) Log.e(TAG, "Error returned by server on user add scr dst");
-			ToastTracker.showToast("Network error,try again");
+			ToastTracker.showToast("Error in adding request, please report to Hopin co-ordinator");
 			ProgressHandler.dismissDialoge();
 			
 		}

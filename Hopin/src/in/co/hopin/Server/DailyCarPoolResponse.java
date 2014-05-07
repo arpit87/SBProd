@@ -12,7 +12,6 @@ import in.co.hopin.Util.HopinTracker;
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
 
-import android.content.Intent;
 import android.util.Log;
 
 public class DailyCarPoolResponse extends ServerResponseBase{
@@ -63,6 +62,7 @@ public class DailyCarPoolResponse extends ServerResponseBase{
 		MapListActivityHandler.getInstance().updateSearchNumberInThisSessionAndShowDialogIfReq();
 		
 		logSuccessWithArg(HopinTracker.NUMMATCHES, Integer.toString(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
+		HopinTracker.sendEvent("ServerResponse",getRESTAPI(),"ServerResponse:"+getRESTAPI()+":matches",new Long(CurrentNearbyUsers.getInstance().getAllNearbyUsers().size()));
 		ProgressHandler.dismissDialoge();
 		
 	}

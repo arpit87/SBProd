@@ -97,8 +97,8 @@ class ChatAdapter extends IChatAdapter.Stub {
 				mSentNotDeliveredMsgsMap.put(thisMessage.getUniqueMsgIdentifier(), thisMessage);
 			}
 		}		
-		mImageURL = ThisUserConfig.getInstance().getString(
-				ThisUserConfig.FBPICURL);			
+		String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+		mImageURL = StringUtils.getFBPicURLFromFBID(fbid);					
 		mSenderThread = new SenderThread();
 		mSenderThread.start();
 		

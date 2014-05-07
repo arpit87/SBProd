@@ -35,15 +35,15 @@
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="italic" />
-    <!--  <TextView
+     <TextView
         android:id="@+id/main_sloganline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"       
         android:layout_below="@+id/main_sloganline2"
-        android:text="Globally"
-        android:textColor="@color/black"
-        android:textSize="30sp" 
-        android:textStyle="italic"/> -->
+        android:text="www.hopin.co.in"
+        android:textColor="@color/frame_blue"
+        android:textSize="20sp"       
+        android:layout_marginTop="20dip"/> 
     
 </RelativeLayout>

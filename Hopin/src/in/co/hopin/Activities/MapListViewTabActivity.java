@@ -230,7 +230,13 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
         HopinTracker.sendEvent("Map","AppClose","map:closed:sessionsearchcount",(long)mapListActivityHandler.getSearchInThisSession(),trackArgMap);
         count = count+1;
      	ThisAppConfig.getInstance().putInt(ThisAppConfig.APPOPENCOUNT,count);
-     	if(count == 10)
+     	if(count == 2 || count == 8)
+     	{     		
+     		Intent i = new Intent(Platform.getInstance().getContext(),VisitWebsiteActivity.class);
+ 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+ 			Platform.getInstance().getContext().startActivity(i); 
+     	}
+     	if(count == 12)
      	{
      		HopinTracker.sendEvent("Map","ScreenOpen","map:open:likeratehopinprompt",1L);
      		Intent i = new Intent(Platform.getInstance().getContext(),LikeUsRateUsActivity.class);
@@ -311,14 +317,7 @@ public class MapListViewTabActivity extends SherlockFragmentActivity {
 			FacebookConnector fbconnect = FacebookConnector.getInstance(MapListViewTabActivity.this);
         	fbconnect.logoutFromFB();
         	break;*/
-        case R.id.main_menu_invite:
-        	//onSearchRequested();        	
-        	HopinTracker.sendEvent("InviteFriends","MenuClick","mainmenu:click:invitefriends",1L);
-	    	 Intent inviteIntent = new Intent(this,InviteFriendsActivityNew.class);	
-	    	 inviteIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-	   		 startActivity(inviteIntent);
-        	break;	
-        	
+             	
         case R.id.main_menu_settings:
         	HopinTracker.sendEvent("MainMenu","MenuClick","mainmenu:click:settings",1L);
         	Intent i = new Intent(this,SettingsActivity.class);

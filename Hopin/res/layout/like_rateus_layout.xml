@@ -48,7 +48,7 @@
         android:id="@+id/likeusrateus_playtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"        
-        android:text="Mind giving us 5 star?"
+        android:text="Do we deserve 5 star?"
       	 android:textColor="@color/gray"
         android:textSize="20dp" 
         android:gravity="center_horizontal" />

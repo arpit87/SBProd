@@ -260,6 +260,17 @@
                  android:text="-Women visible only to women"
                  android:textSize="15dip"
                  android:textColor="@color/very_dark_gray" />
+                 <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_marginLeft="30dip"
+                 android:layout_marginRight="30dip"
+                 android:layout_height="wrap_content"
+                 android:paddingTop="5dip"
+                 android:layout_gravity="left"      
+                 android:gravity="left"          
+                 android:text="-Chat allowed only after facebook login"
+                 android:textSize="15dip"
+                 android:textColor="@color/very_dark_gray" />
                <TextView
                  android:layout_width="match_parent"
                  android:layout_marginLeft="30dip"
@@ -360,9 +371,16 @@
              android:drawablePadding="3dip"
              android:layout_marginBottom="40dip"
              /> 
-             
-         </LinearLayout>
-       
+       	<TextView
+           android:layout_width="match_parent"
+           android:layout_gravity="center_horizontal"               
+           android:layout_height="wrap_content"                              
+           android:gravity="center"          
+           android:text="*By logging you agree to Terms of Use( http://hopin.co.in/terms )"
+           android:textSize="10dip"
+           android:textColor="@color/black"
+           android:autoLink="web" />  
+         </LinearLayout>       
 
     </ScrollView>
 

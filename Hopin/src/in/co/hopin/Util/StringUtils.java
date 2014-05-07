@@ -166,7 +166,8 @@ public class StringUtils {
     
     public static String getFBCoverPicGraphPathFromFBID(String fbid)
     {
-    	String imageurl = "https://graph.facebook.com/" + fbid + "?fields=cover";
+    	String imageurl = "https://graph.facebook.com/" + fbid;// + "?fields=cover";
+    	//String imageurl = fbid + "?fields=cover";
     	return imageurl;
     }
     

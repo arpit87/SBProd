@@ -78,7 +78,7 @@ public class LikeUsRateUsActivity extends FragmentActivity {
     
     private void buildRateAlertMessage() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Did you like Hopin? Can you spare a moment to rate us please.")
+        builder.setMessage("Can you spare a moment to rate us please.")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {

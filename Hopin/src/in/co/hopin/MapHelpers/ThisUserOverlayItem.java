@@ -10,6 +10,7 @@ import in.co.hopin.LocationHelpers.SBGeoPoint;
 import in.co.hopin.Platform.Platform;
 import in.co.hopin.Util.HopinTracker;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,8 +59,9 @@ public class ThisUserOverlayItem extends BaseOverlayItem{
 		{
 			mInflater = (LayoutInflater) Platform.getInstance().getContext().getSystemService(Platform.getInstance().getContext().LAYOUT_INFLATER_SERVICE);
 			viewOnMarker = mInflater.inflate(R.layout.map_frame_layout_red, null);
-			picView = (ImageView)viewOnMarker.findViewById(R.id.userpic);	
-			fbPicURL = ThisUserConfig.getInstance().getString(ThisUserConfig.FBPICURL);
+			picView = (ImageView)viewOnMarker.findViewById(R.id.userpic);
+			String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+			fbPicURL = StringUtils.getFBPicURLFromFBID(fbid);
 			if(fbPicURL != "")
 			{
 				SBImageLoader.getInstance().displayImageElseStub(fbPicURL, picView, R.drawable.userpicicon);

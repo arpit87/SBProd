@@ -5,10 +5,10 @@
     
     <ImageView
             android:id="@+id/grid_imageview_pic"
-            android:padding="5dip"
+            android:padding="2dip"
             android:layout_width="60.0dip"
             android:layout_height="60.0dip"            
-            android:scaleType="centerCrop" 
+            android:scaleType="fitXY" 
             android:src="@drawable/userpicicon"/>
     
 </RelativeLayout>

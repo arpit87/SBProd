@@ -10,6 +10,7 @@ import in.co.hopin.R;
 
 import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class GridViewImageAdapter extends BaseAdapter{
 	        else
 	        	thisUserView.forceLayout();
 	        ImageView userPicImageView = (ImageView)thisUserView.findViewById(R.id.grid_imageview_pic);
-            String imageUrl = "http://graph.facebook.com/" + fbids.get(position) + "/picture";
+            String imageUrl = StringUtils.getFBPicURLFromFBID(fbids.get(position)) ;
 	        SBImageLoader.getInstance().displayImageElseStub(imageUrl, userPicImageView, R.drawable.userpicicon);
 		return thisUserView;
 	}

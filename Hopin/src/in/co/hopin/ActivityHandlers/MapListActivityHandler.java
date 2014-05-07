@@ -574,7 +574,8 @@ public void showLiveFeedButton(boolean show)
 
 public void updateUserPicInListView() {
     if (mListImageView != null) {
-        String fbPicURL = ThisUserConfig.getInstance().getString(ThisUserConfig.FBPICURL);
+    	String fbid = ThisUserConfig.getInstance().getString(ThisUserConfig.FBUID);
+    	String fbPicURL = StringUtils.getFBPicURLFromFBID(fbid);
         if (fbPicURL != "") {
             SBImageLoader.getInstance().displayImageElseStub(fbPicURL, mListImageView, R.drawable.userpicicon);
         } else {
