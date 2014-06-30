@@ -3,6 +3,7 @@ package in.co.hopin.Adapter;
 import in.co.hopin.R;
 import in.co.hopin.HelperClasses.BlockedUser;
 import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class BlockedUsersAdapter extends BaseAdapter {
         ImageView blockedUserImage = (ImageView) blockedUserView.findViewById(R.id.blocked_user_image);
         TextView blockedUserName = (TextView) blockedUserView.findViewById(R.id.blocked_user_name);
 
-        String imageUrl = "http://graph.facebook.com/" + blockedUser.getFbId() + "/picture?type=small";
+        String imageUrl = StringUtils.getFBPicURLFromFBID(blockedUser.getFbId());
         SBImageLoader.getInstance().displayImageElseStub(imageUrl, blockedUserImage, R.drawable.userpicicon);
         blockedUserName.setText(blockedUser.getName());
 

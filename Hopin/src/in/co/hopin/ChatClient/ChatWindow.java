@@ -134,7 +134,7 @@ public void onResume() {
 	mParticipantName = getIntent().getStringExtra(PARTICIPANT_NAME);
 	ab.setTitle(mParticipantName);
 	//mContactNameTextView.setText(mParticipantName);
-	mParticipantImageURL = "http://graph.facebook.com/" + mParticipantFBID + "/picture?type=small";
+	mParticipantImageURL = StringUtils.getFBPicURLFromFBID(mParticipantFBID);
 	mMessagesListAdapter.clearList();
 	mMessagesListAdapter.setParticipantFBURL(mParticipantImageURL);	
 	//mContactNameTextView.setText(mReceiver);

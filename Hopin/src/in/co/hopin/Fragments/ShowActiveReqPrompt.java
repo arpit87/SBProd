@@ -23,6 +23,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -187,6 +189,13 @@ public class ShowActiveReqPrompt extends DialogFragment{
 				
 			}
 		});
+        
+        final Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(70); //You can manage the time of the blink with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(20);
+        chat_button.startAnimation(anim); 
 	       
 		return dialogView;
 	}

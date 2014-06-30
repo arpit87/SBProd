@@ -44,7 +44,7 @@ public class SBChatService extends Service {
 
     private static String TAG = "in.co.hopin.ChatService.SBChatService";
     private static final int POLL_FREQ = 2  * 60 * 1000;
-    private static final int UPLOAD_FREQUENCY = 60  * 60 * 1000;
+    private static final int UPLOAD_FREQUENCY = 10 * 1000;
     private XMPPConnection mXMPPConnection = null;
     NotificationManager mNotificationManager = null;
     private ConnectionConfiguration mConnectionConfiguration = null;

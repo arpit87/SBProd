@@ -2,6 +2,7 @@ package in.co.hopin.Adapter;
 
 import in.co.hopin.HelperClasses.ActiveChat;
 import in.co.hopin.HelperClasses.SBImageLoader;
+import in.co.hopin.Util.StringUtils;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class ChatListAdapter  extends BaseAdapter{
         String fbid = mchatUsers.get(position).getUserId();
         String name = mchatUsers.get(position).getName();
         String lastChat = mchatUsers.get(position).getLastMessage();
-        String imageurl = "http://graph.facebook.com/" + fbid + "/picture?type=small"; 
+        String imageurl = StringUtils.getFBPicURLFromFBID(fbid); 
 
         SBImageLoader.getInstance().displayImageElseStub(imageurl, userImageView, R.drawable.userpicicon);
         userName.setText(name);

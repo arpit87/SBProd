@@ -9,8 +9,10 @@ public class ServerConstants {
 	public static String USERDETAILSSERVICE="/UserDetailsService";
 	public static String REQUESTSERVICE="/RequestService";
 	public static String CHATSERVICE= "/ChatService";
+	public static String LOGGERSERVICE ="/LoggerService";
 	public static String CHATSERVERIP= "hopin.co.in";
-	public static String CHATADMINACKFROM= "hopin_server_ack";
+	public static String CHATADMINACKFROM = "hopin_server_ack";
+	
 	
 	public static String AppendServerIPToFBID(String fbid)
 	{

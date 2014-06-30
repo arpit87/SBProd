@@ -12,6 +12,7 @@ import in.co.hopin.HelperClasses.SBImageLoader;
 import in.co.hopin.Users.Friend;
 import in.co.hopin.Util.Contact;
 import in.co.hopin.Util.Logger;
+import in.co.hopin.Util.StringUtils;
 import in.co.hopin.R;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.packet.Presence;
@@ -67,7 +68,7 @@ public class ContactsListAdapter extends BaseAdapter {
         String fbId = user.split("@")[0];
 
         userName.setText(name);
-        String imageurl = "http://graph.facebook.com/" + fbId + "/picture?type=small";
+        String imageurl = StringUtils.getFBPicURLFromFBID(fbId);
         SBImageLoader.getInstance().displayImageElseStub(imageurl, imageView, R.drawable.userpicicon);
         Presence p = contacts.get(i).getPresence();
         Logger.d(TAG, "Presence of:"+p.getFrom()+" is "+ p.getType());

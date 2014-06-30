@@ -23,9 +23,9 @@ public class UploadTimerTask extends TimerTask {
         Platform.getInstance().getHandler().post((new Runnable(){
 			public void run() {	
 				Logger.d(TAG, "I am in upload TimerTask");
-		        if (!SBConnectivity.isConnected()) {
-		            return;
-		        }
+		       // if (!SBConnectivity.isConnected()) {
+		       //     return;
+		       // }
 
 		        List<Event> events = Event.getEvents();
 		        if (events.isEmpty()) {

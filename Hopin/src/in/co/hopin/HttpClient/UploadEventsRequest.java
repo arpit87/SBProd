@@ -1,6 +1,7 @@
 package in.co.hopin.HttpClient;
 
 import in.co.hopin.Platform.Platform;
+import in.co.hopin.Server.ServerConstants;
 import in.co.hopin.Server.ServerResponseBase;
 import in.co.hopin.Server.UploadEventsResponse;
 import in.co.hopin.Util.HopinTracker;
@@ -19,8 +20,9 @@ import java.util.List;
 public class UploadEventsRequest extends SBHttpRequest {
     private static final String TAG = "in.co.hopin.HttpClient.UploadEventsRequest";
 
-    private static String RESTAPI = "UploadEvents";    
-    public static final String URLProd = "http://hopin.co.in/miscapi/loggerv4.php"; //prod
+    private static String RESTAPI="logjson";
+	public static final String URL = ServerConstants.SERVER_ADDRESS + ServerConstants.LOGGERSERVICE + "/"+RESTAPI+"/";   
+    
     public static final String URLDebug = "http://hopin.co.in/mayank/testapi/loggerv4_testonly.php"; //debug 
     
     private final HttpPost httpQuery;
@@ -28,13 +30,13 @@ public class UploadEventsRequest extends SBHttpRequest {
     private long lastTimeStamp;
 
     public UploadEventsRequest(String logsJson, long lastTimeStamp) {
-    	super(URLProd,RESTAPI);
+    	super(URL,RESTAPI);
         this.lastTimeStamp = lastTimeStamp;
         queryMethod = QueryMethod.Post;
         if(Platform.getInstance().isLoggingEnabled())
-        	httpQuery =  new HttpPost(URLDebug);
+        	httpQuery =  new HttpPost(URL);
         else
-        	httpQuery =  new HttpPost(URLProd);       
+        	httpQuery =  new HttpPost(URL);       
 
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);

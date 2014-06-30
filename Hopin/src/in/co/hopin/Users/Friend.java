@@ -1,5 +1,7 @@
 package in.co.hopin.Users;
 
+import in.co.hopin.Util.StringUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +56,7 @@ public class Friend {
 	}
 	
 	public String getImageURL() {
-		String picurl = "http://graph.facebook.com/" + fb_id + "/picture?type=small";
+		String picurl = StringUtils.getFBPicURLFromFBID(fb_id);
 		return picurl;
 	}
 	
